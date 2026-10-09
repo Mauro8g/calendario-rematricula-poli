@@ -1,0 +1,740 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>POLI · Calendarios de rematrícula y trámites académicos</title>
+<style>
+:root{--navy:#10385a;--blue:#007cba;--ink:#142e49;--muted:#53657a;--line:#dce4ed;--green:#00734c;--paper:#f2f6fa;--white:#fff}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.5 'Segoe UI',Arial,sans-serif}button,input,select{font:inherit}button,select{cursor:pointer}button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid #009ee3;outline-offset:3px}header{background:var(--navy);color:white;padding:23px max(24px,calc((100vw - 1360px)/2));display:flex;align-items:center;justify-content:space-between;gap:24px}.brand{font-size:32px;font-weight:800;letter-spacing:1px;border-left:6px solid #009de0;padding-left:14px;line-height:1}.brand small{display:block;font-size:12px;font-weight:500;letter-spacing:1.3px;margin-top:8px}.tag{font-size:14px;color:#d4e7fa}main{max-width:1408px;margin:auto;padding:32px 24px}h1{font-size:32px;line-height:1.2;letter-spacing:-1px;margin:0 0 8px}h2{font-size:25px;line-height:1.3;margin:0 0 8px}p{margin:6px 0 16px}.muted{color:var(--muted)}.intro{display:flex;justify-content:space-between;align-items:start;gap:20px;margin-bottom:23px}.edition{white-space:nowrap;font-size:14px;padding:7px 12px;border:1px solid var(--line);border-radius:6px;background:white}.filters{background:white;border:1px solid var(--line);border-radius:12px;padding:20px;display:grid;grid-template-columns:1fr 1fr 1fr 2fr auto;gap:15px;align-items:end}label{display:block;font-size:14px;font-weight:600}input,select{display:block;width:100%;min-height:44px;border:1px solid #acbdce;border-radius:6px;padding:9px 11px;color:var(--ink);background:white;margin-top:6px}button{border:1px solid #bdccda;background:white;color:var(--navy);border-radius:6px;padding:10px 16px;min-height:44px;font-weight:600}button:hover{background:#eaf3fa}.primary{background:var(--navy);color:white;border-color:var(--navy)}.primary:hover{background:#123e70}.toolbar{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;margin:24px 0 16px}.switch{display:flex;gap:4px;background:#e2eaf2;padding:4px;border-radius:8px}.switch button{border:0;background:transparent;padding:9px 18px}.switch button[aria-pressed=true]{background:white;box-shadow:0 1px 5px #1232}.workspace{display:grid;grid-template-columns:300px minmax(0,1fr);gap:22px}.groups{border:1px solid var(--line);background:white;border-radius:12px;overflow:hidden;align-self:start}.groups-heading{padding:16px 18px;border-bottom:1px solid var(--line);font-weight:600;font-size:14px}.group-list{max-height:550px;overflow-y:auto}.group{display:block;width:100%;border:0;border-radius:0;border-bottom:1px solid #e6edf4;padding:15px 18px;text-align:left;font-weight:400;border-left:4px solid transparent}.group[aria-pressed=true]{background:#eaf5fc;border-left-color:var(--blue)}.group strong{display:block;font-size:15px}.group span{display:block;font-size:14px;margin:2px 0}.group small{font-size:12px;color:var(--muted)}.detail{background:white;border:1px solid var(--line);border-radius:12px;padding:26px;min-width:0}.eyebrow{font-size:13px;color:var(--blue);font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}.meta{font-size:14px;color:var(--muted)}.detail-top{border-bottom:1px solid var(--line);padding-bottom:20px}.notice{margin:22px 0 24px;display:flex;align-items:center;gap:12px;background:#edf6fc;padding:14px 16px;border-radius:7px;color:#15486d}.notice-dot{width:9px;height:9px;border-radius:50%;background:var(--blue);flex-shrink:0}.notice small{display:block;color:var(--muted);font-size:13px}.timeline{display:grid;grid-template-columns:repeat(var(--events,6),minmax(0,1fr));margin:30px 0 26px;padding:0;list-style:none}.event{position:relative;padding:0 9px}.event:before{content:'';height:2px;background:#c9d6e2;position:absolute;left:0;right:0;top:25px}.event:first-child:before{left:50%}.event:last-child:before{right:50%}.event-icon{position:relative;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;width:52px;height:52px;border:2px solid var(--event-color);border-radius:50%;color:var(--event-color);background:white;font-size:22px;font-weight:600}.event-label{font-size:14px;font-weight:600;text-align:center;min-height:63px;line-height:1.4}.event-date{text-align:center;color:var(--event-color);font-size:17px;font-weight:700;line-height:1.3;margin-top:10px}.event-date small{display:block;font-size:13px;font-weight:400;margin-top:3px}.timeline-note{font-size:13px;color:var(--muted);margin-bottom:24px}.actions{display:flex;flex-wrap:wrap;gap:10px;border-top:1px solid var(--line);padding-top:20px}.table-panel{background:white;border:1px solid var(--line);border-radius:12px;overflow:hidden}.table-scroll{overflow:auto}table{border-collapse:collapse;width:100%;font-size:14px}th{background:#edf2f7;text-align:left;padding:14px 12px;color:#3b5066;font-weight:600}td{padding:15px 12px;border-top:1px solid var(--line);vertical-align:top;white-space:nowrap}td:first-child{white-space:normal;min-width:210px}td small{display:block;color:var(--muted);font-size:12px}tbody tr:hover{background:#f6faff}.row-link{border:0;background:none;padding:0;min-height:30px;color:var(--blue);font-size:14px;text-align:left}.empty{padding:50px 25px;text-align:center;background:white;border:1px solid var(--line);border-radius:12px}.foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin-top:24px}.feedback{min-height:24px;font-size:14px;color:var(--green);margin-top:10px}dialog{border:1px solid var(--line);border-radius:12px;padding:24px;max-width:600px;width:90%;color:var(--ink)}dialog::backdrop{background:#08234c77}textarea{width:100%;height:220px;font:15px/1.5 'Segoe UI',sans-serif;padding:12px;margin:12px 0} [hidden]{display:none!important}@media(min-width:1500px){.detail{padding:32px}.event{padding:0 12px}}@media(max-width:1100px){.filters{grid-template-columns:1fr 1fr 1fr}.search-field{grid-column:span 2}.workspace{grid-template-columns:250px minmax(0,1fr)}.timeline{grid-template-columns:1fr;margin-top:20px}.event{display:grid;grid-template-columns:48px 1fr 115px;gap:14px;align-items:center;padding:0 0 20px}.event:before,.event:first-child:before,.event:last-child:before{width:2px;height:auto;left:23px;right:auto;top:24px;bottom:0}.event:last-child:before{display:none}.event-icon{width:46px;height:46px;margin:0;font-size:20px}.event-label{min-height:0;text-align:left}.event-date{text-align:right;margin:0;font-size:16px}}@media(max-width:700px){header{padding:20px}.brand{font-size:27px}.tag{max-width:110px;text-align:right;font-size:12px}main{padding:24px 16px}h1{font-size:27px}.intro{display:block}.edition{display:inline-block;margin-top:6px}.filters{grid-template-columns:1fr 1fr;padding:16px;gap:12px}.search-field{grid-column:1/-1}.filters>button{grid-column:1/-1}.workspace{grid-template-columns:1fr}.group-list{max-height:200px}.detail{padding:20px 16px}h2{font-size:22px}.toolbar{gap:12px}.switch{width:100%}.switch button{flex:1}.event{grid-template-columns:46px 1fr 92px;gap:9px}.event-date{font-size:15px}.event-label{font-size:14px}.actions button{flex:1}.foot{display:block}.foot span{display:block;margin-bottom:6px}}@media print{@page{size:landscape;margin:12mm}body{background:white;font-size:11pt}header{padding:10px 0;background:white;color:var(--navy);border-bottom:2px solid var(--navy)}.tag{color:var(--navy)}main{padding:18px 0}.intro,.filters,.toolbar,.groups,.actions,.feedback,.notice,.foot,.timeline-note{display:none!important}.workspace{display:block}.detail{border:0;padding:15px 0}.timeline{display:grid;grid-template-columns:repeat(var(--events,6),1fr);margin-top:35px}.event{display:block;padding:0 10px}.event:before,.event:first-child:before,.event:last-child:before{display:block;left:0;right:0;top:25px;width:auto;height:2px;bottom:auto}.event:first-child:before{left:50%}.event:last-child:before{right:50%}.event-icon{width:52px;height:52px;margin:0 auto 18px}.event-label{text-align:center;min-height:56px}.event-date{text-align:center;margin-top:12px}.table-scroll{overflow:visible}table{font-size:8pt}th,td{padding:8px 5px}td:first-child{min-width:0}td{white-space:normal}.row-link{display:none}.detail-top{break-after:avoid}.timeline{break-inside:avoid}}
+.poli-logo{display:block;width:240px;max-width:55%;height:auto;object-fit:contain}.choose-cohort{min-height:360px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:30px 16px}.choose-cohort p{max-width:420px}.choose-cohort h2{margin-bottom:12px}@media(max-width:700px){.choose-cohort{min-height:240px}}
+
+header{display:grid;grid-template-columns:240px minmax(0,1fr);gap:20px;align-items:center}
+header .poli-logo{max-width:100%;width:240px;border-right:1px solid #ffffff26;padding-right:16px}
+.header-content{min-width:0}
+.header-content h1{font-size:clamp(1.75rem,3.2vw,2.75rem);line-height:1.15;letter-spacing:-.5px;margin:0 0 18px}
+.header-areas{display:flex;align-items:baseline;justify-content:space-between;gap:24px}
+.header-areas p{margin:0;font-weight:600}
+.header-management{font-size:1.375rem}
+.header-direction{font-size:1.125rem;max-width:165px}
+main{padding-top:22px}.intro{margin-bottom:18px}.intro p{margin:0}
+@media(max-width:900px){header{grid-template-columns:180px minmax(0,1fr)}header .poli-logo{width:180px}.header-areas{display:block}.header-direction{max-width:none;margin-top:8px!important}.header-management{font-size:1.125rem}}
+@media(max-width:700px){header{grid-template-columns:1fr;gap:16px}header .poli-logo{width:190px;max-width:100%;border-right:0;padding-right:0}.header-content h1{font-size:1.75rem;margin-bottom:12px}.header-direction{font-size:1rem}main{padding-top:18px}}
+@media print{header{grid-template-columns:150px minmax(0,1fr)}header .poli-logo{width:150px}.header-content h1{font-size:24px;margin-bottom:8px}.header-management,.header-direction{font-size:14px}.header-areas{display:flex}.header-direction{max-width:none}}
+
+@media(min-width:901px){
+ .header-content{display:grid;grid-template-columns:minmax(0,1fr) 165px;grid-template-rows:auto auto;column-gap:24px;align-items:center}
+ .header-content h1{grid-column:1;grid-row:1}
+ .header-areas{display:contents}
+ .header-management{grid-column:1;grid-row:2}
+ .header-direction{grid-column:2;grid-row:1 / 3;align-self:center;justify-self:center;text-align:center;font-size:1rem;line-height:1.45;max-width:150px}
+}
+
+/* Diferenciacion visual de cohortes por modalidad; no afecta la linea de tiempo. */
+.group[data-modalidad="Virtual"]{background:#E5F7FF;border-left:7px solid #009EE3;box-shadow:inset 0 0 0 1px #009EE3;color:#005A85}
+.group[data-modalidad="Virtual"] strong,.group[data-modalidad="Virtual"] span,.group[data-modalidad="Virtual"] small{color:#005A85}
+.group[data-modalidad="Presencial"]{background:#DCE7F5;border-left:7px solid #06213D;box-shadow:inset 0 0 0 1px #06213D;color:#06213D}
+.group[data-modalidad="Presencial"] strong,.group[data-modalidad="Presencial"] span,.group[data-modalidad="Presencial"] small{color:#06213D}
+.group[data-modalidad="Virtual"]:hover{background:#D2F0FF}
+.group[data-modalidad="Presencial"]:hover{background:#C8D9ED}
+.group[data-modalidad][aria-pressed="true"]{position:relative;z-index:1;box-shadow:inset 0 0 0 3px currentColor;font-weight:600}
+.group[data-modalidad]:focus-visible{position:relative;z-index:2}
+
+/* Adaptacion exclusiva para NOVUS: contenedor fluido, sin dimensiones fijas 16:9.
+   No se modifican las reglas de .timeline, .event ni sus elementos internos. */
+html{min-width:0}
+body{width:100%;min-width:0;overflow-x:hidden}
+.novus-heading{display:flex;grid-template-columns:none;align-items:center;justify-content:space-between;gap:12px 28px;background:transparent;color:var(--navy);padding:15px clamp(14px,2vw,28px) 9px;border-bottom:1px solid var(--line);min-width:0}
+.novus-heading h1{font-size:clamp(21px,1.65vw,28px);letter-spacing:-.45px;line-height:1.2;margin:0;min-width:0}
+.novus-heading-meta{display:flex;align-items:center;justify-content:flex-end;gap:8px 18px;flex-wrap:wrap;text-align:right;color:var(--muted);font-size:clamp(11px,.9vw,13px);line-height:1.35}
+.novus-heading-meta span+span{font-weight:600;color:var(--navy)}
+main{width:100%;max-width:none;margin:0;padding:12px clamp(14px,2vw,28px) 20px;min-width:0}
+.intro{margin-bottom:10px}.intro p{font-size:14px}
+.filters{padding:14px 16px;gap:12px;grid-template-columns:minmax(125px,1fr) minmax(125px,1fr) minmax(135px,1fr) minmax(185px,2fr) auto;min-width:0}
+.filters label{min-width:0}.filters select,.filters input{min-width:0}
+.toolbar{margin:14px 0 12px;gap:12px}
+.workspace{grid-template-columns:clamp(240px,21vw,310px) minmax(0,1fr);gap:14px;min-width:0}
+.groups{min-width:0}.group-list{max-height:min(550px,calc(100dvh - 315px));min-height:150px;overflow-y:auto;overscroll-behavior:contain}
+.detail{min-width:0;padding:clamp(16px,1.7vw,26px)}
+.table-panel{min-width:0}.table-scroll{max-width:100%;overflow-x:auto}
+.foot{margin-top:12px}.feedback{margin-top:6px}
+@media(max-width:1100px){
+ .filters{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .search-field{grid-column:span 2}
+ .workspace{grid-template-columns:250px minmax(0,1fr)}
+}
+@media(max-width:760px){
+ .novus-heading{align-items:flex-start;flex-direction:column;gap:5px}
+ .novus-heading-meta{text-align:left;justify-content:flex-start}
+ .filters{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .search-field{grid-column:1/-1}
+ .filters>button{grid-column:1/-1}
+ .workspace{grid-template-columns:1fr}
+ .group-list{max-height:220px;min-height:0}
+ .detail{padding:18px 15px}
+}
+@media(max-width:420px){.filters{grid-template-columns:1fr}.filters label,.search-field,.filters>button{grid-column:1/-1}.novus-heading-meta{display:block}.novus-heading-meta span{display:block}}
+@media print{
+ body{overflow:visible}
+ .novus-heading{display:flex;background:white;color:var(--navy);padding:8px 0;border-bottom:2px solid var(--navy)}
+ .novus-heading h1{font-size:23px}
+ .novus-heading-meta{font-size:11px}
+ main{padding:14px 0}
+ .workspace{display:block}
+ .detail{padding:15px 0}
+}
+
+/* Barra introductoria compacta */
+.intro {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.intro p {
+  margin: 0;
+}
+
+.intro .switch {
+  flex-shrink: 0;
+  padding: 3px;
+}
+
+.intro .switch button {
+  min-height: 32px;
+  padding: 5px 11px;
+  font-size: 12px;
+}
+
+/* Adaptación a pantallas estrechas */
+@media (max-width: 700px) {
+  .intro {
+    flex-wrap: wrap;
+  }
+
+  .intro .switch {
+    width: auto;
+  }
+
+  .intro .switch button {
+    flex: initial;
+  }
+}
+
+/* Navegacion y calendario de tramites academicos */
+.app-home{max-width:1050px;margin:42px auto 65px;text-align:center}
+.app-home h2{font-size:clamp(26px,3vw,37px);color:#06213D;margin-bottom:10px}
+.app-home>p{color:var(--muted);margin-bottom:30px}
+.calendar-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+.calendar-choice{min-height:250px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:13px;text-align:center;border:1px solid #cddbe8;border-top:6px solid #06213D;border-radius:15px;background:white;padding:30px;box-shadow:0 5px 18px #10385a0d;transition:transform .15s,box-shadow .15s}
+.calendar-choice:hover{transform:translateY(-3px);box-shadow:0 9px 25px #10385a20;background:#f7fbff}
+.calendar-choice.academic{border-top-color:#009EE3}
+.choice-icon{display:grid;place-items:center;width:64px;height:64px;border-radius:16px;background:#e9f1fa;color:#06213D;font-size:32px}
+.calendar-choice.academic .choice-icon{background:#e5f7ff;color:#007cba}
+.choice-title{font-size:23px;font-weight:800;color:#06213D}
+.choice-desc{font-size:14px;color:var(--muted);max-width:310px;font-weight:400}
+.choice-link{color:#007cba;font-size:14px;font-weight:700}
+.section-nav{display:flex;align-items:center;gap:15px;margin:0 0 14px;flex-wrap:wrap}
+.section-nav h2{font-size:22px;margin:0;color:#06213D}
+.back-home{min-height:36px;padding:6px 12px;font-size:13px}
+.academic-container{max-width:1150px;margin:0 auto}
+.academic-filter{background:white;border:1px solid var(--line);border-radius:12px;padding:20px;margin:16px 0;max-width:430px}
+.academic-filter label{font-size:15px}
+.academic-table th{background:#06213D;color:white;font-size:14px}
+.academic-table td{white-space:normal;font-size:14px}
+.academic-table td:first-child{font-weight:600;min-width:90px}.academic-table td:nth-child(3){min-width:270px}
+.academic-table td:nth-child(2){font-weight:600;color:#007cba}
+.academic-table tbody tr:nth-child(even){background:#f3f8fc}
+.academic-placeholder{background:white;border:1px dashed #b5c8da;border-radius:12px;padding:50px 20px;text-align:center;color:var(--muted)}
+.academic-count{font-size:13px;color:var(--muted);margin:10px 0}
+@media(max-width:700px){.app-home{margin:22px auto}.calendar-choices{grid-template-columns:1fr;gap:14px}.calendar-choice{min-height:185px;padding:22px}.section-nav h2{font-size:19px}.academic-table td:nth-child(3){min-width:220px}}
+@media print{#homeView,#academicView,.section-nav{display:none!important}#rematriculaView{display:block!important}}
+
+/* Rediseño exclusivo del Home. Los calendarios y la impresión conservan sus estilos. */
+@media screen {
+ body:has(#homeView:not([hidden])) {
+  min-height:100dvh;color:#fff;background:#06213D;
+  background-image:radial-gradient(ellipse at 12% 5%,#12629580 0,transparent 52%),radial-gradient(ellipse at 92% 92%,#009ee330 0,transparent 50%),linear-gradient(145deg,#0c365c 0%,#06213D 58%,#04192f 100%);
+ }
+ body:has(#homeView:not([hidden])) .novus-heading {
+  color:#fff;border-bottom:1px solid #ffffff1f;padding:20px clamp(20px,4vw,64px);gap:12px 24px;
+ }
+ body:has(#homeView:not([hidden])) .novus-heading h1 {font-size:clamp(15px,1.35vw,19px);font-weight:600;letter-spacing:0;line-height:1.4}
+ body:has(#homeView:not([hidden])) .novus-heading-meta,
+ body:has(#homeView:not([hidden])) .novus-heading-meta span+span {color:#d3e6f5}
+ body:has(#homeView:not([hidden])) main {padding:34px clamp(20px,4vw,64px) 48px}
+ #homeView.app-home {max-width:1000px;margin:0 auto;text-align:center}
+ #homeView .home-logo {display:block;width:230px;max-width:62vw;height:auto;margin:0 auto 24px}
+ #homeView h2 {color:#fff;font-size:clamp(30px,3.5vw,44px);line-height:1.18;letter-spacing:-.8px;margin:0 0 13px}
+ #homeView>p {color:#d3e6f5;font-size:17px;line-height:1.5;margin:0 0 36px}
+ #homeView .calendar-choices {gap:24px}
+ #homeView .calendar-choice {
+  min-height:280px;padding:32px 26px;gap:16px;border:1px solid #73cfff80;border-top:4px solid #62ceff;
+  border-radius:20px;background:linear-gradient(140deg,#007cba,#00598e);color:#fff;
+  box-shadow:0 16px 36px #00000024;transition:transform .18s ease,background .18s ease,box-shadow .18s ease;
+ }
+ #homeView .calendar-choice.academic {background:linear-gradient(140deg,#0873ae,#064f84);border-top-color:#62ceff}
+ #homeView .calendar-choice:hover {transform:translateY(-4px);background:linear-gradient(140deg,#0788c8,#00629b);box-shadow:0 22px 42px #00000038}
+ #homeView .calendar-choice:focus-visible {outline:3px solid #fff;outline-offset:5px}
+ #homeView .choice-icon {width:60px;height:60px;border-radius:16px;border:1px solid #ffffff45;background:#ffffff17;color:#fff;font-size:32px}
+ #homeView .choice-title {color:#fff;font-size:26px;font-weight:700;line-height:1.25}
+ #homeView .choice-desc {color:#fff;max-width:330px;font-size:15px;line-height:1.5}
+ #homeView .choice-link {color:#fff;font-size:14px;font-weight:700;border-top:1px solid #ffffff40;padding-top:14px;margin-top:4px}
+ @media(max-width:700px) {
+  body:has(#homeView:not([hidden])) .novus-heading {align-items:flex-start;flex-direction:column;padding:16px 20px}
+  body:has(#homeView:not([hidden])) .novus-heading-meta {justify-content:flex-start;text-align:left;font-size:11px;gap:6px 14px}
+  body:has(#homeView:not([hidden])) main {padding:26px 20px 32px}
+  #homeView .home-logo {width:185px;margin-bottom:22px}
+  #homeView h2 {font-size:31px}
+  #homeView>p {font-size:15px;margin-bottom:26px}
+  #homeView .calendar-choices {grid-template-columns:1fr;gap:18px}
+  #homeView .calendar-choice {min-height:225px;padding:24px 20px;gap:12px}
+  #homeView .choice-title {font-size:24px}
+  #homeView .choice-icon {width:52px;height:52px;font-size:28px}
+ }
+ @media(prefers-reduced-motion:reduce) {#homeView .calendar-choice {transition:none}#homeView .calendar-choice:hover {transform:none}}
+}
+/* Ajuste del Home al ancho y alto disponibles; en móvil se conserva el scroll. */
+@media screen and (min-width:701px) {
+ body:has(#homeView:not([hidden])) {display:grid;grid-template-rows:auto 1fr}
+ body:has(#homeView:not([hidden])) .novus-heading {padding-block:clamp(10px,2dvh,20px)}
+ body:has(#homeView:not([hidden])) main {display:grid;align-items:center;padding-block:clamp(10px,2dvh,32px)}
+ #homeView.app-home {width:100%;max-width:1000px}
+ #homeView .home-logo {width:clamp(110px,22dvh,230px);margin-bottom:clamp(12px,2.5dvh,24px)}
+ #homeView h2 {font-size:clamp(26px,min(3.5vw,6dvh),44px);margin-bottom:clamp(6px,1.3dvh,13px)}
+ #homeView>p {font-size:clamp(15px,2.6dvh,17px);margin-bottom:clamp(14px,3dvh,30px)}
+ #homeView .calendar-choices {gap:clamp(16px,2vw,24px)}
+ #homeView .calendar-choice {min-height:clamp(200px,34dvh,280px);padding:clamp(16px,3dvh,32px) clamp(18px,2vw,26px);gap:clamp(8px,1.6dvh,16px)}
+ #homeView .choice-icon {width:clamp(36px,7dvh,60px);height:clamp(36px,7dvh,60px);font-size:clamp(24px,4dvh,32px);border-radius:12px}
+ #homeView .choice-title {font-size:clamp(22px,3.8dvh,26px)}
+ #homeView .choice-desc {font-size:clamp(14px,2.4dvh,15px)}
+ #homeView .choice-link {padding-top:clamp(8px,1.8dvh,14px);margin-top:0}
+}
+/* Barra compacta común a los dos calendarios. */
+@media screen {
+ .calendar-nav {display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:12px 20px;margin:0 0 14px}
+ .calendar-nav .back-home {white-space:nowrap;min-height:40px}
+ .calendar-nav p {margin:0;font-size:14px;min-width:0}
+ .calendar-nav .switch {justify-self:end}
+ .academic-nav {grid-template-columns:auto minmax(0,1fr)}
+ @media(max-width:700px) {
+  .calendar-nav,.academic-nav {grid-template-columns:1fr;gap:12px;margin-bottom:16px}
+  .calendar-nav .back-home {justify-self:start}
+  .calendar-nav .switch {width:100%;justify-self:stretch}
+ }
+}
+/* Vistas internas compactas. Estas reglas no intervienen en la impresión. */
+@media screen and (min-width:901px) and (min-height:480px) {
+ body:has(#rematriculaView:not([hidden])),body:has(#academicView:not([hidden])) {height:100dvh;display:grid;grid-template-rows:auto minmax(0,1fr)}
+ body:has(#rematriculaView:not([hidden])) .novus-heading,body:has(#academicView:not([hidden])) .novus-heading {padding-block:10px 8px}
+ body:has(#rematriculaView:not([hidden])) main,body:has(#academicView:not([hidden])) main {min-height:0;padding-block:8px 12px}
+ #rematriculaView {height:100%;min-height:0;display:grid;grid-template-rows:auto auto minmax(0,1fr) auto;gap:10px}
+ #rematriculaView .calendar-nav {grid-row:1;margin:0;gap:10px 16px}
+ #rematriculaView .filters {grid-row:2;padding:10px 12px;gap:10px;grid-template-columns:minmax(100px,1fr) minmax(110px,1fr) minmax(115px,1fr) minmax(170px,1.8fr) auto}
+ #rematriculaView .filters label {font-size:13px}
+ #rematriculaView .filters input,#rematriculaView .filters select {min-height:36px;padding:6px 8px;font-size:14px;margin-top:4px}
+ #rematriculaView .filters>button {min-height:36px;padding:6px 12px;font-size:14px}
+ #rematriculaView .search-field {grid-column:auto}
+ #timelineView,#tableView,#empty {grid-row:3;min-height:0}
+ #timelineView {grid-template-columns:clamp(230px,21vw,285px) minmax(0,1fr);gap:12px}
+ #timelineView .groups {display:flex;flex-direction:column;align-self:stretch;min-height:0}
+ #timelineView .groups-heading {padding:10px 12px;font-size:13px}
+ #timelineView .group-list {flex:1;min-height:0;max-height:none}
+ #timelineView .group {padding:10px 12px}
+ #timelineView .group strong {font-size:14px}
+ #timelineView .group span {font-size:13px;line-height:1.4;margin:1px 0}
+ #timelineView .detail {container-type:inline-size;display:grid;grid-template-rows:auto auto minmax(60px,1fr) auto auto;gap:6px;padding:12px;min-height:0}
+ #timelineView .detail:has(.choose-cohort) {display:flex;align-items:center;justify-content:center}
+ #timelineView .choose-cohort {min-height:0;padding:20px 10px}
+ #timelineView .detail-top {padding-bottom:8px}
+ #timelineView .eyebrow {font-size:12px;margin-bottom:4px}
+ #timelineView h2 {font-size:22px;margin-bottom:4px}
+ #timelineView .meta {font-size:13px;line-height:1.4}
+ #timelineView .notice {margin:0;padding:8px 10px;gap:8px;font-size:14px;line-height:1.35}
+ #timelineView .notice small {font-size:12px}
+ #timelineView .timeline {min-height:0;margin:0;overflow:auto;align-content:start;padding:4px 2px}
+ #timelineView .timeline-note {font-size:12px;line-height:1.35;margin:0}
+ #timelineView .actions {margin:0;padding-top:8px;gap:8px;background:white}
+ #timelineView .actions button {min-height:36px;padding:6px 12px;font-size:14px}
+ #feedback {grid-row:4;min-height:0;margin:0;font-size:13px}
+ #feedback:empty {display:none}
+ #tableView .table-scroll {height:100%;overflow:auto}
+ #tableView th {position:sticky;top:0;z-index:1}
+ #tableView th,#tableView td {padding:10px 8px;font-size:13px}
+ #academicView {height:100%;min-height:0;display:grid;grid-template-rows:auto auto auto minmax(0,1fr);gap:10px}
+ #academicView .calendar-nav {grid-row:1;margin:0}
+ #academicView .academic-filter {grid-row:2;margin:0;padding:10px 12px}
+ #academicView .academic-filter label {font-size:13px}
+ #academicView .academic-filter select {min-height:36px;padding:6px 8px;font-size:14px;margin-top:4px}
+ #academicPlaceholder {grid-row:3 / 5;align-self:start;padding:28px 20px}
+ #academicResults {grid-row:3 / 5;min-height:0;display:grid;grid-template-rows:auto minmax(0,1fr);gap:8px}
+ #academicView .academic-count {margin:0;font-size:13px}
+ #academicResults .table-panel {min-height:0}
+ #academicResults .table-scroll {height:100%;overflow:auto}
+ #academicView th {position:sticky;top:0;z-index:1}
+ #academicView th,#academicView td {padding:10px 10px;font-size:13px}
+ @container(min-width:620px) {
+  #timelineView .timeline {grid-template-columns:repeat(var(--events,6),minmax(0,1fr));align-content:safe center}
+  #timelineView .event {display:block;padding:0 5px}
+  #timelineView .event:before,#timelineView .event:first-child:before,#timelineView .event:last-child:before {display:block;width:auto;height:2px;left:0;right:0;top:17px;bottom:auto}
+  #timelineView .event:first-child:before {left:50%}
+  #timelineView .event:last-child:before {right:50%}
+  #timelineView .event-icon {width:36px;height:36px;font-size:18px;margin:0 auto 6px}
+  #timelineView .event-label {font-size:13px;line-height:1.35;min-height:38px;text-align:center}
+  #timelineView .event-date {font-size:15px;line-height:1.3;margin-top:6px;text-align:center}
+  #timelineView .event-date small {font-size:12px;margin-top:2px}
+ }
+}
+/* Encabezado del calendario sin alerta temporal y con etiqueta a la derecha. */
+@media screen {
+ #timelineView .notice {display:none}
+ #timelineView .detail-top {display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:4px 14px}
+ #timelineView .detail-top h2 {grid-column:1;grid-row:1;margin:0}
+ #timelineView .detail-top .eyebrow {grid-column:2;grid-row:1;justify-self:end;margin:0;font-size:12px;text-align:right}
+ #timelineView .detail-top .meta {grid-column:1 / -1}
+ @media(min-width:901px) and (min-height:480px) {
+  #timelineView .detail {grid-template-rows:auto minmax(60px,1fr) auto auto}
+ }
+ @media(max-width:700px) {
+  #timelineView .detail-top {grid-template-columns:1fr}
+  #timelineView .detail-top .eyebrow {grid-column:1;grid-row:2;justify-self:start;text-align:left;font-size:11px}
+ }
+}
+</style>
+</head>
+<body>
+<header class="novus-heading" aria-label="Encabezado del calendario"><h1 id="appHeading">Calendarios de rematrícula y trámites académicos</h1><div class="novus-heading-meta"><span>Gerencia de Servicio y Permanencia</span><span>Dirección de Rematrícula</span></div></header>
+<main>
+<section id="homeView" class="app-home" aria-label="Seleccionar calendario">
+  <!-- Logo auténtico del sitio oficial POLI: https://www.poli.edu.co/themes/custom/ptecnico2023/logo-politecnico-grancolombiano-white.svg -->
+  <img class="home-logo" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTMwIiBoZWlnaHQ9IjcwIiB2aWV3Qm94PSIwIDAgMTMwIDcwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBkPSJNMzYuMTYwMiA0Ni42NTdDMzYuMTYwMiA0Ni41NzE4IDM2LjIyODEgNDYuNTAzNyAzNi4zMTMgNDYuNTAzN0gzOC4yNDg0QzM5LjIzMzEgNDYuNTAzNyA0MC4wNDggNDcuMzEzIDQwLjA0OCA0OC4yODQyQzQwLjA0OCA0OS4yODA5IDM5LjIzMzEgNTAuMDk4OCAzOC4yNTY5IDUwLjA5ODhIMzcuNDE2NVY1MS45OTAxQzM3LjQxNjUgNTIuMDY2NyAzNy4zNDAxIDUyLjE0MzQgMzcuMjYzNyA1Mi4xNDM0SDM2LjMxM0MzNi4yMjgxIDUyLjE0MzQgMzYuMTYwMiA1Mi4wNjY3IDM2LjE2MDIgNTEuOTkwMVY0Ni42NTdaTTM4LjE4MDUgNDguOTIzMUMzOC41Mjg1IDQ4LjkyMzEgMzguODE3MiA0OC42NTA1IDM4LjgxNzIgNDguMjg0MkMzOC44MTcyIDQ3Ljk0MzQgMzguNTI4NSA0Ny42ODc4IDM4LjE4MDUgNDcuNjg3OEgzNy40MTY1VjQ4LjkyMzFIMzguMTgwNVoiIGZpbGw9IiNGRkZGRkYiLz4KPHBhdGggZD0iTTQ0LjQxMzUgNDYuNDI2OEM0Ni4wMTc5IDQ2LjQyNjggNDcuMzA4MiA0Ny43MjE3IDQ3LjMwODIgNDkuMzQwM0M0Ny4zMDgyIDUwLjk1MDUgNDYuMDI2NCA1Mi4yMzY5IDQ0LjQxMzUgNTIuMjM2OUM0Mi44MDkyIDUyLjIzNjkgNDEuNTI3MyA1MC45NTA1IDQxLjUyNzMgNDkuMzQwM0M0MS41MzU4IDQ3LjcyMTcgNDIuODA5MiA0Ni40MjY4IDQ0LjQxMzUgNDYuNDI2OFpNNDQuNDEzNSA1MC45MzM0QzQ1LjI5NjQgNTAuOTMzNCA0Ni4wMTc5IDUwLjIwOTMgNDYuMDE3OSA0OS4zMzE4QzQ2LjAxNzkgNDguNDQ1OCA0NS4yOTY0IDQ3LjcxMzIgNDQuNDEzNSA0Ny43MTMyQzQzLjUzOTIgNDcuNzEzMiA0Mi44MTc2IDQ4LjQ0NTggNDIuODE3NiA0OS4zMzE4QzQyLjgxNzYgNTAuMjA5MyA0My41MzkyIDUwLjkzMzQgNDQuNDEzNSA1MC45MzM0WiIgZmlsbD0iI0ZGRkZGRiIvPgo8cGF0aCBkPSJNNDkuMTQ4NCA0Ni42NTdDNDkuMTQ4NCA0Ni41NzE4IDQ5LjIxNjMgNDYuNTAzNyA0OS4zMDEyIDQ2LjUwMzdINTAuMjYwNUM1MC4zNDU0IDQ2LjUwMzcgNTAuNDEzMyA0Ni41ODAzIDUwLjQxMzMgNDYuNjU3VjUwLjk1OTJINTIuMzIzM0M1Mi40MDgxIDUwLjk1OTIgNTIuNDc2MSA1MS4wMzU5IDUyLjQ3NjEgNTEuMTEyNlY1MS45OTAxQzUyLjQ3NjEgNTIuMDY2NyA1Mi40MDgxIDUyLjE0MzQgNTIuMzIzMyA1Mi4xNDM0SDQ5LjMwMTJDNDkuMjE2MyA1Mi4xNDM0IDQ5LjE0ODQgNTIuMDY2NyA0OS4xNDg0IDUxLjk5MDFWNDYuNjU3WiIgZmlsbD0iI0ZGRkZGRiIvPgo8cGF0aCBkPSJNNTQuNTc0MiA0Ni42NTdDNTQuNTc0MiA0Ni41NzE4IDU0LjY0MjEgNDYuNTAzNyA1NC43MjcgNDYuNTAzN0g1NS42ODYzQzU1Ljc2MjcgNDYuNTAzNyA1NS44MzkxIDQ2LjU4MDMgNTUuODM5MSA0Ni42NTdWNTEuOTkwMUM1NS44MzkxIDUyLjA2NjcgNTUuNzYyNyA1Mi4xNDM0IDU1LjY4NjMgNTIuMTQzNEg1NC43MjdDNTQuNjQyMSA1Mi4xNDM0IDU0LjU3NDIgNTIuMDY2NyA1NC41NzQyIDUxLjk5MDFWNDYuNjU3WiIgZmlsbD0iI0ZGRkZGRiIvPgo8cGF0aCBkPSJNNTkuMjY3NSA0Ny42ODc4SDU4LjEyMTVDNTguMDM2NyA0Ny42ODc4IDU3Ljk2ODggNDcuNjExMiA1Ny45Njg4IDQ3LjUzNDVWNDYuNjU3QzU3Ljk2ODggNDYuNTcxOCA1OC4wMzY3IDQ2LjUwMzcgNTguMTIxNSA0Ni41MDM3SDYxLjY4NjlDNjEuNzcxOCA0Ni41MDM3IDYxLjgzOTcgNDYuNTgwMyA2MS44Mzk3IDQ2LjY1N1Y0Ny41MzQ1QzYxLjgzOTcgNDcuNjE5NyA2MS43ODAyIDQ3LjY4NzggNjEuNjg2OSA0Ny42ODc4SDYwLjU0MDlWNTEuOTkwMUM2MC41NDA5IDUyLjA2NjcgNjAuNDY0NSA1Mi4xNDM0IDYwLjM4ODEgNTIuMTQzNEg1OS40MjAzQzU5LjM0MzkgNTIuMTQzNCA1OS4yNjc1IDUyLjA2NjcgNTkuMjY3NSA1MS45OTAxVjQ3LjY4NzhaIiBmaWxsPSIjRkZGRkZGIi8+CjxwYXRoIGQ9Ik02My45MjE5IDQ2LjY1NjlDNjMuOTIxOSA0Ni41NzE3IDYzLjk4MTMgNDYuNTAzNSA2NC4wNzQ3IDQ2LjUwMzVINjcuNDAyM0M2Ny40ODcyIDQ2LjUwMzUgNjcuNTU1MSA0Ni41ODAyIDY3LjU1NTEgNDYuNjU2OVY0Ny41MzQ0QzY3LjU1NTEgNDcuNjExIDY3LjQ4NzIgNDcuNjg3NyA2Ny40MDIzIDQ3LjY4NzdINjUuMTc4MlY0OC42ODQ1SDY3LjAxMThDNjcuMDg4MiA0OC42ODQ1IDY3LjE2NDYgNDguNzYxMSA2Ny4xNjQ2IDQ4LjgzNzhWNDkuNzE1M0M2Ny4xNjQ2IDQ5LjgwMDUgNjcuMDk2NyA0OS44Njg2IDY3LjAxMTggNDkuODY4Nkg2NS4xNzgyVjUwLjk1OTFINjcuNDAyM0M2Ny40ODcyIDUwLjk1OTEgNjcuNTU1MSA1MS4wMjczIDY3LjU1NTEgNTEuMTEyNVY1MS45ODk5QzY3LjU1NTEgNTIuMDY2NiA2Ny40ODcyIDUyLjE0MzMgNjcuNDAyMyA1Mi4xNDMzSDY0LjA3NDdDNjMuOTg5OCA1Mi4xNDMzIDYzLjkyMTkgNTIuMDc1MSA2My45MjE5IDUxLjk4OTlWNDYuNjU2OVpNNjQuOTkxNSA0NS45MzI3TDY0LjgyMTcgNDUuNTkyQzY0Ljc4NzcgNDUuNTIzOCA2NC44MzAyIDQ1LjQ3MjcgNjQuODcyNiA0NS40Mzg2TDY2LjIzOTMgNDQuNTk1MkM2Ni4yOTAzIDQ0LjU2MTEgNjYuNDA5MSA0NC41NDQxIDY2LjQ1MTUgNDQuNjIwOEw2Ni43MjMyIDQ1LjA5NzlDNjYuNzgyNiA0NS4yMTcxIDY2Ljc0MDIgNDUuMjkzOCA2Ni42NzIzIDQ1LjMzNjRMNjUuMjEyMiA0NS45OTI0QzY1LjEwMTggNDYuMDY5MSA2NS4wMjU0IDQ2LjAxNzkgNjQuOTkxNSA0NS45MzI3WiIgZmlsbD0iI0ZGRkZGRiIvPgo8cGF0aCBkPSJNNzIuMjMgNDYuNDI2OEM3My4wMzY0IDQ2LjQyNjggNzMuNjMwNyA0Ni42NzM4IDc0LjE3MzkgNDcuMTc2NUM3NC4yNTAzIDQ3LjIzNjEgNzQuMjUwMyA0Ny4zMzgzIDc0LjE4MjQgNDcuMzk4TDczLjU1NDMgNDguMDUzOUM3My41MDMzIDQ4LjExMzYgNzMuNDA5OSA0OC4xMTM2IDczLjM1OSA0OC4wNTM5QzczLjA2MTkgNDcuNzg5OCA3Mi42NzE0IDQ3LjY0NSA3Mi4yNzI0IDQ3LjY0NUM3MS4zNjQxIDQ3LjY0NSA3MC43MDIgNDguNDAzMiA3MC43MDIgNDkuMzA2M0M3MC43MDIgNTAuMjAwOCA3MS4zNzI2IDUwLjk0MiA3Mi4yODA5IDUwLjk0MkM3Mi42NTQ0IDUwLjk0MiA3My4wNzA0IDUwLjgwNTcgNzMuMzU5IDUwLjU1ODZDNzMuNDE4NCA1MC41MDc1IDczLjUyMDMgNTAuNTA3NSA3My41NzEyIDUwLjU2NzFMNzQuMTk5NCA1MS4yNDAxQzc0LjI1ODggNTEuMjk5OCA3NC4yNTAzIDUxLjQwMiA3NC4xOTA5IDUxLjQ2MTZDNzMuNjQ3NiA1MS45ODk4IDcyLjk2IDUyLjI0NTQgNzIuMjM4NSA1Mi4yNDU0QzcwLjYzNDEgNTIuMjQ1NCA2OS4zNDM4IDUwLjk1OSA2OS4zNDM4IDQ5LjM0ODlDNjkuMzM1MyA0Ny43MjE3IDcwLjYyNTYgNDYuNDI2OCA3Mi4yMyA0Ni40MjY4WiIgZmlsbD0iI0ZGRkZGRiIvPgo8cGF0aCBkPSJNNzYuMjYxNyA0Ni41NzE2Qzc2LjI2MTcgNDYuNDk0OSA3Ni4zMzgxIDQ2LjQyNjggNzYuNDE0NSA0Ni40MjY4SDc2LjYxODJMNzkuODE4NSA0OS41MTkzSDc5LjgyN1Y0Ni42NTY4Qzc5LjgyNyA0Ni41NzE2IDc5Ljg5NDkgNDYuNTAzNCA3OS45Nzk4IDQ2LjUwMzRIODAuOTM5MUM4MS4wMjQgNDYuNTAzNCA4MS4wOTE5IDQ2LjU4MDEgODEuMDkxOSA0Ni42NTY4VjUyLjA4MzVDODEuMDkxOSA1Mi4xNjAyIDgxLjAxNTUgNTIuMjI4NCA4MC45MzkxIDUyLjIyODRIODAuODExN0M4MC43ODYzIDUyLjIyODQgODAuNzI2OCA1Mi4yMDI4IDgwLjcwOTkgNTIuMTg1OEw3Ny41MzUgNDguOTgyNUg3Ny41MjY2VjUxLjk4OThDNzcuNTI2NiA1Mi4wNjY1IDc3LjQ1ODYgNTIuMTQzMiA3Ny4zNzM4IDUyLjE0MzJINzYuNDE0NUM3Ni4zMzgxIDUyLjE0MzIgNzYuMjYxNyA1Mi4wNjY1IDc2LjI2MTcgNTEuOTg5OFY0Ni41NzE2WiIgZmlsbD0iI0ZGRkZGRiIvPgo8cGF0aCBkPSJNODMuNjA1NSA0Ni42NTdDODMuNjA1NSA0Ni41NzE4IDgzLjY4MTkgNDYuNTAzNyA4My43NTgzIDQ2LjUwMzdIODQuNzI2Qzg0LjgxMDkgNDYuNTAzNyA4NC44Nzg4IDQ2LjU4MDMgODQuODc4OCA0Ni42NTdWNTEuOTkwMUM4NC44Nzg4IDUyLjA2NjcgODQuODAyNCA1Mi4xNDM0IDg0LjcyNiA1Mi4xNDM0SDgzLjc1ODNDODMuNjgxOSA1Mi4xNDM0IDgzLjYwNTUgNTIuMDY2NyA4My42MDU1IDUxLjk5MDFWNDYuNjU3WiIgZmlsbD0iI0ZGRkZGRiIvPgo8cGF0aCBkPSJNODkuNzQyNCA0Ni40MjY4QzkwLjU0MDMgNDYuNDI2OCA5MS4xNDMxIDQ2LjY3MzggOTEuNjg2MyA0Ny4xNzY1QzkxLjc2MjcgNDcuMjM2MSA5MS43NjI3IDQ3LjMzODMgOTEuNjk0OCA0Ny4zOThMOTEuMDY2NiA0OC4wNTM5QzkxLjAwNzIgNDguMTEzNiA5MC45MjIzIDQ4LjExMzYgOTAuODYyOSA0OC4wNTM5QzkwLjU2NTggNDcuNzg5OCA5MC4xNzUzIDQ3LjY0NSA4OS43NzYzIDQ3LjY0NUM4OC44NjggNDcuNjQ1IDg4LjIwNTkgNDguNDAzMiA4OC4yMDU5IDQ5LjMwNjNDODguMjA1OSA1MC4yMDA4IDg4Ljg4NSA1MC45NDIgODkuNzkzMyA1MC45NDJDOTAuMTY2OCA1MC45NDIgOTAuNTgyOCA1MC44MDU3IDkwLjg3MTQgNTAuNTU4NkM5MC45MzA4IDUwLjUwNzUgOTEuMDMyNyA1MC41MDc1IDkxLjA4MzYgNTAuNTY3MUw5MS43MTE4IDUxLjI0MDFDOTEuNzcxMiA1MS4yOTk4IDkxLjc2MjcgNTEuNDAyIDkxLjcwMzMgNTEuNDYxNkM5MS4xNiA1MS45ODk4IDkwLjQ2MzkgNTIuMjQ1NCA4OS43NTA5IDUyLjI0NTRDODguMTQ2NSA1Mi4yNDU0IDg2Ljg0NzcgNTAuOTU5IDg2Ljg0NzcgNDkuMzQ4OUM4Ni44MzkyIDQ3LjcyMTcgODguMTI5NSA0Ni40MjY4IDg5Ljc0MjQgNDYuNDI2OFoiIGZpbGw9IiNGRkZGRkYiLz4KPHBhdGggZD0iTTk2LjA5MzIgNDYuNDI2OEM5Ny42OTc2IDQ2LjQyNjggOTguOTg3OSA0Ny43MjE3IDk4Ljk4NzkgNDkuMzQwM0M5OC45ODc5IDUwLjk1MDUgOTcuNzA2MSA1Mi4yMzY5IDk2LjA5MzIgNTIuMjM2OUM5NC40ODg4IDUyLjIzNjkgOTMuMjA3IDUwLjk1MDUgOTMuMjA3IDQ5LjM0MDNDOTMuMjE1NSA0Ny43MjE3IDk0LjQ4ODggNDYuNDI2OCA5Ni4wOTMyIDQ2LjQyNjhaTTk2LjA5MzIgNTAuOTMzNEM5Ni45NzYxIDUwLjkzMzQgOTcuNjk3NiA1MC4yMDkzIDk3LjY5NzYgNDkuMzMxOEM5Ny42OTc2IDQ4LjQ0NTggOTYuOTc2MSA0Ny43MTMyIDk2LjA5MzIgNDcuNzEzMkM5NS4yMTg5IDQ3LjcxMzIgOTQuNDk3MyA0OC40NDU4IDk0LjQ5NzMgNDkuMzMxOEM5NC40OTczIDUwLjIwOTMgOTUuMjI3NCA1MC45MzM0IDk2LjA5MzIgNTAuOTMzNFoiIGZpbGw9IiNGRkZGRkYiLz4KPHBhdGggZD0iTTM4LjY0ODYgNTUuNjk1OEMzOS4zMjc3IDU1LjY5NTggNDAuMDY2MiA1NS45NzY5IDQwLjYwOTUgNTYuNDU0QzQwLjY3NzQgNTYuNTA1MSA0MC42ODU5IDU2LjYwNzQgNDAuNjI2NSA1Ni42NzU1TDM5Ljk4OTggNTcuMzQ4NUMzOS45MzA0IDU3LjQwODIgMzkuODM3IDU3LjQwODIgMzkuNzc3NiA1Ny4zNTcxQzM5LjQ3MiA1Ny4wNzU5IDM5LjExNTUgNTYuOTczNyAzOC43MjUgNTYuOTczN0MzNy44NTA2IDU2Ljk3MzcgMzcuMTQ2MSA1Ny43MTQ5IDM3LjE0NjEgNTguNjAwOUMzNy4xNDYxIDU5LjQ3ODMgMzcuODU5MSA2MC4yMDI1IDM4LjczMzUgNjAuMjAyNUMzOC45NjI3IDYwLjIwMjUgMzkuMjA4OSA2MC4xNjg0IDM5LjQ0NjUgNjAuMDc0N1Y1OS41OTc2SDM4LjkzNzJDMzguODUyMyA1OS41OTc2IDM4Ljc4NDQgNTkuNTI5NSAzOC43ODQ0IDU5LjQ1MjhWNTguNjYwNUMzOC43ODQ0IDU4LjU3NTMgMzguODUyMyA1OC41MDcyIDM4LjkzNzIgNTguNTA3Mkg0MC41NTAxQzQwLjYzNSA1OC41MDcyIDQwLjY5NDQgNTguNTgzOCA0MC42OTQ0IDU4LjY2MDVMNDAuNzAyOSA2MC44MzI5QzQwLjcwMjkgNjAuODc1NSA0MC42Njg5IDYwLjkzNTEgNDAuNjM1IDYwLjk2MDdDNDAuNjM1IDYwLjk2MDcgMzkuODExNiA2MS40ODA0IDM4LjY0MDEgNjEuNDgwNEMzNy4wNDQyIDYxLjQ4MDQgMzUuNzUzOSA2MC4yMTEgMzUuNzUzOSA1OC42MDA5QzM1Ljc2MjQgNTYuOTgyMiAzNy4wNTI3IDU1LjY5NTggMzguNjQ4NiA1NS42OTU4WiIgZmlsbD0iI0ZGRkZGRiIvPgo8cGF0aCBkPSJNNDMuMzA5MyA1NS45MTczQzQzLjMwOTMgNTUuODMyMSA0My4zNzcyIDU1Ljc2MzkgNDMuNDYyMSA1NS43NjM5SDQ1Ljg2NDRDNDYuODIzNiA1NS43NjM5IDQ3LjYxMzEgNTYuNTQ3NyA0Ny42MTMxIDU3LjUwMThDNDcuNjEzMSA1OC4yNDMgNDcuMTI5MiA1OC44Mzk0IDQ2LjQyNDcgNTkuMTIwNUw0Ny41MTk3IDYxLjE2NTFDNDcuNTc5MiA2MS4yNjc0IDQ3LjUxOTcgNjEuMzk1MSA0Ny4zODM5IDYxLjM5NTFINDYuMzE0M0M0Ni4yNTQ5IDYxLjM5NTEgNDYuMjA0IDYxLjM2MTEgNDYuMTg3IDYxLjMxODVMNDUuMTE3NCA1OS4xODAxSDQ0LjU2NTZWNjEuMjMzM0M0NC41NjU2IDYxLjMxIDQ0LjQ4OTIgNjEuMzg2NiA0NC40MTI4IDYxLjM4NjZINDMuNDUzNkM0My4zNjg3IDYxLjM4NjYgNDMuMzAwOCA2MS4zMSA0My4zMDA4IDYxLjIzMzNWNTUuOTE3M0g0My4zMDkzWk00NS43NjI1IDU4LjE3NDlDNDYuMDkzNiA1OC4xNzQ5IDQ2LjM3MzcgNTcuODY4MiA0Ni4zNzM3IDU3LjUyNzRDNDYuMzczNyA1Ny4xODY2IDQ2LjA5MzYgNTYuOTE0IDQ1Ljc2MjUgNTYuOTE0SDQ0LjU3NDFWNTguMTc0OUg0NS43NjI1WiIgZmlsbD0iI0ZGRkZGRiIvPgo8cGF0aCBkPSJNNDkuMjM1OSA2MS4xOTkyTDUxLjc0ODYgNTUuNzcyNEM1MS43NzQgNTUuNzIxMyA1MS44MjUgNTUuNjg3MyA1MS44ODQ0IDU1LjY4NzNINTEuOTY5M0M1Mi4wMjg3IDU1LjY4NzMgNTIuMDc5NiA1NS43Mjk5IDUyLjEwNTEgNTUuNzcyNEw1NC42MTc4IDYxLjE5OTJDNTQuNjY4NyA2MS4zMDE0IDU0LjYwMDggNjEuNDEyMiA1NC40ODIgNjEuNDEyMkg1My41OTA2QzUzLjQ0NjMgNjEuNDEyMiA1My4zNzg0IDYxLjM2MTEgNTMuMzEwNSA2MS4yMDc3TDUzLjAyMTkgNjAuNTY4OEg1MC44NDAyTDUwLjU0MzEgNjEuMjE2M0M1MC41MDA3IDYxLjMxIDUwLjQxNTggNjEuNDEyMiA1MC4yNTQ1IDYxLjQxMjJINDkuMzcxN0M0OS4yNTI4IDYxLjQwMzcgNDkuMTg0OSA2MS4zMDE0IDQ5LjIzNTkgNjEuMTk5MlpNNTIuNTM4IDU5LjQ2OThMNTEuOTI2OCA1OC4xNDA4SDUxLjkxODNMNTEuMzE1NiA1OS40Njk4SDUyLjUzOFoiIGZpbGw9IiNGRkZGRkYiLz4KPHBhdGggZD0iTTU2LjM4MjggNTUuODMyMUM1Ni4zODI4IDU1Ljc1NTQgNTYuNDU5MiA1NS42ODczIDU2LjUzNTYgNTUuNjg3M0g1Ni43MzkzTDU5Ljk0ODEgNTguNzc5N0g1OS45NTY2VjU1LjkxNzNDNTkuOTU2NiA1NS44NDA2IDYwLjAxNiA1NS43NjM5IDYwLjEwOTQgNTUuNzYzOUg2MS4wNjg2QzYxLjE0NSA1NS43NjM5IDYxLjIyMTQgNTUuODQwNiA2MS4yMjE0IDU1LjkxNzNWNjEuMzQ0QzYxLjIyMTQgNjEuNDIwNyA2MS4xNTM1IDYxLjQ4ODkgNjEuMDY4NiA2MS40ODg5SDYwLjk0MTNDNjAuOTE1OCA2MS40ODg5IDYwLjg1NjQgNjEuNDYzMyA2MC44Mzk1IDYxLjQ0NjNMNTcuNjY0NiA1OC4yNDNINTcuNjU2MVY2MS4yNTAzQzU3LjY1NjEgNjEuMzI3IDU3LjU5NjcgNjEuNDAzNyA1Ny41MDMzIDYxLjQwMzdINTYuNTQ0MUM1Ni40Njc3IDYxLjQwMzcgNTYuMzkxMyA2MS4zMjcgNTYuMzkxMyA2MS4yNTAzTDU2LjM4MjggNTUuODMyMVoiIGZpbGw9IiNGRkZGRkYiLz4KPHBhdGggZD0iTTY2LjE2MDQgNTUuNjg3M0M2Ni45NjY4IDU1LjY4NzMgNjcuNTYxIDU1LjkzNDMgNjguMTA0MyA1Ni40MzY5QzY4LjE4MDcgNTYuNTA1MSA2OC4xODA3IDU2LjU5ODggNjguMTEyOCA1Ni42NTg1TDY3LjQ4NDYgNTcuMzE0NEM2Ny40MzM3IDU3LjM3NDEgNjcuMzQwMyA1Ny4zNzQxIDY3LjI4MDkgNTcuMzE0NEM2Ni45ODM4IDU3LjA1MDMgNjYuNTkzMyA1Ni45MDU1IDY2LjE5NDMgNTYuOTA1NUM2NS4yODYgNTYuOTA1NSA2NC42MjM5IDU3LjY2MzcgNjQuNjIzOSA1OC41NjY4QzY0LjYyMzkgNTkuNDYxMyA2NS4yOTQ1IDYwLjIwMjUgNjYuMjAyOCA2MC4yMDI1QzY2LjU4NDggNjAuMjAyNSA2Ni45OTIzIDYwLjA2NjIgNjcuMjgwOSA1OS44MTkxQzY3LjM0MDMgNTkuNzY4IDY3LjQ0MjIgNTkuNzY4IDY3LjQ5MzEgNTkuODI3Nkw2OC4xMjEzIDYwLjQ5MjFDNjguMTgwNyA2MC41NTE4IDY4LjE3MjIgNjAuNjU0IDY4LjExMjggNjAuNzEzNkM2Ny41Njk1IDYxLjI0MTggNjYuODczNCA2MS40OTc0IDY2LjE2MDQgNjEuNDk3NEM2NC41NTYgNjEuNDk3NCA2My4yNjU3IDYwLjIxMSA2My4yNjU3IDU4LjYwMDhDNjMuMjU3MiA1Ni45ODIyIDY0LjU0NzUgNTUuNjg3MyA2Ni4xNjA0IDU1LjY4NzNaIiBmaWxsPSIjRkZGRkZGIi8+CjxwYXRoIGQ9Ik03Mi41Njk4IDU1LjY4NzNDNzQuMTc0MiA1NS42ODczIDc1LjQ2NDUgNTYuOTgyMiA3NS40NjQ1IDU4LjU5MjNDNzUuNDY0NSA2MC4yMDI1IDc0LjE4MjcgNjEuNDg4OSA3Mi41Njk4IDYxLjQ4ODlDNzAuOTY1NCA2MS40ODg5IDY5LjY4MzYgNjAuMjExIDY5LjY4MzYgNTguNTkyM0M2OS42ODM2IDU2Ljk3MzcgNzAuOTY1NCA1NS42ODczIDcyLjU2OTggNTUuNjg3M1pNNzIuNTY5OCA2MC4xOTM5QzczLjQ1MjYgNjAuMTkzOSA3NC4xNzQyIDU5LjQ2OTggNzQuMTc0MiA1OC41OTIzQzc0LjE3NDIgNTcuNzA2MyA3My40NTI2IDU2Ljk3MzcgNzIuNTY5OCA1Ni45NzM3QzcxLjY5NTQgNTYuOTczNyA3MC45NzM5IDU3LjcwNjMgNzAuOTczOSA1OC41OTIzQzcwLjk3MzkgNTkuNDY5OCA3MS42OTU0IDYwLjE5MzkgNzIuNTY5OCA2MC4xOTM5WiIgZmlsbD0iI0ZGRkZGRiIvPgo8cGF0aCBkPSJNNzcuMzgyOCA1NS45MTczQzc3LjM4MjggNTUuODMyMSA3Ny40NTA3IDU1Ljc2MzkgNzcuNTM1NiA1NS43NjM5SDc4LjQ4NjRDNzguNTYyOCA1NS43NjM5IDc4LjYzOTIgNTUuODQwNiA3OC42MzkyIDU1LjkxNzNWNjAuMjE5NUg4MC41NDkxQzgwLjYzNCA2MC4yMTk1IDgwLjcwMTkgNjAuMjk2MiA4MC43MDE5IDYwLjM3MjhWNjEuMjUwM0M4MC43MDE5IDYxLjMyNyA4MC42MzQgNjEuNDAzNyA4MC41NDkxIDYxLjQwMzdINzcuNTM1NkM3Ny40NDIyIDYxLjQwMzcgNzcuMzgyOCA2MS4zMzU1IDc3LjM4MjggNjEuMjUwM1Y1NS45MTczWiIgZmlsbD0iI0ZGRkZGRiIvPgo8cGF0aCBkPSJNODQuOTY0MyA1NS42ODczQzg2LjU2ODcgNTUuNjg3MyA4Ny44NTkgNTYuOTgyMiA4Ny44NTkgNTguNTkyM0M4Ny44NTkgNjAuMjAyNSA4Ni41NzcyIDYxLjQ4ODkgODQuOTY0MyA2MS40ODg5QzgzLjM1OTkgNjEuNDg4OSA4Mi4wNzgxIDYwLjIxMSA4Mi4wNzgxIDU4LjU5MjNDODIuMDc4MSA1Ni45NzM3IDgzLjM1MTUgNTUuNjg3MyA4NC45NjQzIDU1LjY4NzNaTTg0Ljk2NDMgNjAuMTkzOUM4NS44NDcyIDYwLjE5MzkgODYuNTY4NyA1OS40Njk4IDg2LjU2ODcgNTguNTkyM0M4Ni41Njg3IDU3LjcwNjMgODUuODQ3MiA1Ni45NzM3IDg0Ljk2NDMgNTYuOTczN0M4NC4wOSA1Ni45NzM3IDgzLjM2ODQgNTcuNzA2MyA4My4zNjg0IDU4LjU5MjNDODMuMzY4NCA1OS40Njk4IDg0LjA5IDYwLjE5MzkgODQuOTY0MyA2MC4xOTM5WiIgZmlsbD0iI0ZGRkZGRiIvPgo8cGF0aCBkPSJNOTAuMzg4NiA1NS44MTVDOTAuMzk3MSA1NS43NDY5IDkwLjQ3MzUgNTUuNjg3MyA5MC41MzI5IDU1LjY4NzNIOTAuNjYwMkM5MC43MDI3IDU1LjY4NzMgOTAuNzcwNiA1NS43MjEzIDkwLjc5NjEgNTUuNzYzOUw5Mi42NTUxIDU5LjI0ODNIOTIuNjcyMUw5NC41Mzk2IDU1Ljc2MzlDOTQuNTY1MSA1NS43MTI4IDk0LjYzMyA1NS42ODczIDk0LjY3NTUgNTUuNjg3M0g5NC44MDI4Qzk0Ljg3MDcgNTUuNjg3MyA5NC45Mzg2IDU1Ljc0NjkgOTQuOTQ3MSA1NS44MTVMOTUuODU1NCA2MS4yMzMzQzk1Ljg3MjQgNjEuMzM1NSA5NS43OTYgNjEuNDEyMiA5NS43MDI2IDYxLjQxMjJIOTQuNzUxOUM5NC42NzU1IDYxLjQxMjIgOTQuNjA3NSA2MS4zNDQgOTQuNTk5MSA2MS4yODQ0TDk0LjIzNCA1OC43OTY4SDk0LjIxNzFMOTIuODY3MyA2MS40MDM3QzkyLjg0MTkgNjEuNDU0OCA5Mi43NzQgNjEuNDg4OSA5Mi43MzE1IDYxLjQ4ODlIOTIuNTg3MkM5Mi41MzYzIDYxLjQ4ODkgOTIuNDc2OSA2MS40NDYzIDkyLjQ1MTQgNjEuNDAzN0w5MS4wOTMyIDU4Ljc5NjhIOTEuMDc2Mkw5MC43MTk3IDYxLjI4NDRDOTAuNzExMiA2MS4zNDQgOTAuNjUxOCA2MS40MTIyIDkwLjU2NjkgNjEuNDEyMkg4OS42MTYxQzg5LjUyMjcgNjEuNDEyMiA4OS40NDYzIDYxLjMzNTUgODkuNDYzMyA2MS4yMzMzTDkwLjM4ODYgNTUuODE1WiIgZmlsbD0iI0ZGRkZGRiIvPgo8cGF0aCBkPSJNOTguMzA4NiA1NS45MTczQzk4LjMwODYgNTUuODMyMSA5OC4zNjggNTUuNzYzOSA5OC40NjE0IDU1Ljc2MzlIMTAwLjMzN0MxMDEuMjg4IDU1Ljc2MzkgMTAyLjA2MSA1Ni40MTk5IDEwMi4wNjEgNTcuMjYzM0MxMDIuMDYxIDU3Ljg4NTIgMTAxLjUwOSA1OC4zMzY3IDEwMS4xMjcgNTguNTMyN0MxMDEuNTUxIDU4LjcxMTYgMTAyLjIwNSA1OS4xMDM1IDEwMi4yMDUgNTkuODQ0NkMxMDIuMjA1IDYwLjc0NzcgMTAxLjQwNyA2MS4zOTUxIDEwMC40NTYgNjEuMzk1MUg5OC40NjE0Qzk4LjM3NjUgNjEuMzk1MSA5OC4zMDg2IDYxLjMxODUgOTguMzA4NiA2MS4yNDE4VjU1LjkxNzNaTTEwMC4xOTMgNTguMDU1NkMxMDAuNDk5IDU4LjA1NTYgMTAwLjc1MyA1Ny44IDEwMC43NTMgNTcuNDc2M0MxMDAuNzUzIDU3LjE1MjYgMTAwLjQ5OSA1Ni45MzExIDEwMC4xOTMgNTYuOTMxMUg5OS41NjVWNTguMDU1NkgxMDAuMTkzWk0xMDAuMjk1IDYwLjI1MzZDMTAwLjYwOSA2MC4yNTM2IDEwMC44NzIgNTkuOTk4IDEwMC44NzIgNTkuNjY1N0MxMDAuODcyIDU5LjM0MiAxMDAuNTI0IDU5LjEwMzUgMTAwLjIxIDU5LjEwMzVIOTkuNTU2NVY2MC4yNTM2SDEwMC4yOTVaIiBmaWxsPSIjRkZGRkZGIi8+CjxwYXRoIGQ9Ik0xMDQuMzQ0IDU1LjkxNzNDMTA0LjM0NCA1NS44MzIxIDEwNC40MiA1NS43NjM5IDEwNC40OTcgNTUuNzYzOUgxMDUuNDU2QzEwNS41NDEgNTUuNzYzOSAxMDUuNjA5IDU1Ljg0MDYgMTA1LjYwOSA1NS45MTczVjYxLjI1MDNDMTA1LjYwOSA2MS4zMjcgMTA1LjU0MSA2MS40MDM3IDEwNS40NTYgNjEuNDAzN0gxMDQuNDk3QzEwNC40MTIgNjEuNDAzNyAxMDQuMzQ0IDYxLjMzNTUgMTA0LjM0NCA2MS4yNTAzVjU1LjkxNzNaIiBmaWxsPSIjRkZGRkZGIi8+CjxwYXRoIGQ9Ik0xMDcuNCA2MS4xOTkyTDEwOS45MTMgNTUuNzcyNEMxMDkuOTM4IDU1LjcyMTMgMTA5Ljk4OSA1NS42ODczIDExMC4wNDggNTUuNjg3M0gxMTAuMTMzQzExMC4xOTMgNTUuNjg3MyAxMTAuMjQ0IDU1LjcyOTkgMTEwLjI2OSA1NS43NzI0TDExMi43ODIgNjEuMTk5MkMxMTIuODMzIDYxLjMwMTQgMTEyLjc2NSA2MS40MTIyIDExMi42NDYgNjEuNDEyMkgxMTEuNzU1QzExMS42MSA2MS40MTIyIDExMS41NDIgNjEuMzYxMSAxMTEuNDc0IDYxLjIwNzdMMTExLjE4NiA2MC41Njg4SDEwOS4wMDRMMTA4LjcxNiA2MS4yMTYzQzEwOC42NzMgNjEuMzEgMTA4LjU4OCA2MS40MTIyIDEwOC40MjcgNjEuNDEyMkgxMDcuNTQ0QzEwNy40MTcgNjEuNDAzNyAxMDcuMzQ5IDYxLjMwMTQgMTA3LjQgNjEuMTk5MlpNMTEwLjcwMiA1OS40Njk4TDExMC4wOTEgNTguMTQwOEgxMTAuMDgyTDEwOS40OCA1OS40Njk4SDExMC43MDJaIiBmaWxsPSIjRkZGRkZGIi8+CjxwYXRoIGQ9Ik0xMTQuNTQ3IDU1LjgzMjFDMTE0LjU0NyA1NS43NTU0IDExNC42MjMgNTUuNjg3MyAxMTQuNyA1NS42ODczSDExNC45MDNMMTE4LjEwNCA1OC43Nzk3SDExOC4xMTJWNTUuOTE3M0MxMTguMTEyIDU1Ljg0MDYgMTE4LjE4IDU1Ljc2MzkgMTE4LjI2NSA1NS43NjM5SDExOS4yMjRDMTE5LjMwMSA1NS43NjM5IDExOS4zNzcgNTUuODQwNiAxMTkuMzc3IDU1LjkxNzNWNjEuMzQ0QzExOS4zNzcgNjEuNDIwNyAxMTkuMzAxIDYxLjQ4ODkgMTE5LjIyNCA2MS40ODg5SDExOS4wOTdDMTE5LjA3MSA2MS40ODg5IDExOS4wMTIgNjEuNDYzMyAxMTguOTk1IDYxLjQ0NjNMMTE1LjgyIDU4LjI0M0gxMTUuODEyVjYxLjI1MDNDMTE1LjgxMiA2MS4zMjcgMTE1Ljc0NCA2MS40MDM3IDExNS42NTkgNjEuNDAzN0gxMTQuN0MxMTQuNjIzIDYxLjQwMzcgMTE0LjU0NyA2MS4zMjcgMTE0LjU0NyA2MS4yNTAzVjU1LjgzMjFaIiBmaWxsPSIjRkZGRkZGIi8+CjxwYXRoIGQ9Ik0xMjQuMDgyIDU1LjY4NzNDMTI1LjY4NiA1NS42ODczIDEyNi45NzYgNTYuOTgyMiAxMjYuOTc2IDU4LjU5MjNDMTI2Ljk3NiA2MC4yMDI1IDEyNS42OTQgNjEuNDg4OSAxMjQuMDgyIDYxLjQ4ODlDMTIyLjQ3NyA2MS40ODg5IDEyMS4xOTUgNjAuMjExIDEyMS4xOTUgNTguNTkyM0MxMjEuMTk1IDU2Ljk3MzcgMTIyLjQ3NyA1NS42ODczIDEyNC4wODIgNTUuNjg3M1pNMTI0LjA4MiA2MC4xOTM5QzEyNC45NjQgNjAuMTkzOSAxMjUuNjg2IDU5LjQ2OTggMTI1LjY4NiA1OC41OTIzQzEyNS42ODYgNTcuNzA2MyAxMjQuOTY0IDU2Ljk3MzcgMTI0LjA4MiA1Ni45NzM3QzEyMy4yMDcgNTYuOTczNyAxMjIuNDg2IDU3LjcwNjMgMTIyLjQ4NiA1OC41OTIzQzEyMi40ODYgNTkuNDY5OCAxMjMuMjA3IDYwLjE5MzkgMTI0LjA4MiA2MC4xOTM5WiIgZmlsbD0iI0ZGRkZGRiIvPgo8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTc0Ljk3ODYgNi43NzAxOUM4Mi45ODM2IDUuNTM0OSA4OS4zMjQ3IDkuOTM5MzYgOTEuNjkzMSAxMy44MjQxQzkzLjI3MjEgMTYuNDE0IDkzLjY0NTYgMTguMzA1MyA5My44NTc4IDE5LjkxNTRDOTcuMDc1MSA0NS4xMzI0IDU5LjkyNzkgNDUuMDk4NCA2MS43MTkgMjEuMTUwN0M2Mi4wNzU2IDE2LjM4ODQgNjMuNjYzIDE0LjAyMDEgNjUuMDcyMSAxMi4yMDU1QzY3LjA3NTUgOS41OTg1OSA3MC41NTU5IDcuNDYwMjUgNzQuOTc4NiA2Ljc3MDE5Wk02OC44NzUxIDI2LjgzMzFDNjkuNTYyNyAyOC45Mjg4IDcxLjY5MzQgMzEuNTI3MiA3My44NzUxIDMyLjQ0NzJDNzkuNjA1IDM0Ljg1ODIgODUuMDEyNCAzMS40OTMxIDg2LjYyNTMgMjcuMjMzNUM4OS41MTE1IDE5LjYwMDIgODQuMTIxMSAxMS44NDc3IDc2LjkwNTYgMTIuNjY1NUM3MC40NDU2IDEzLjM4MTEgNjYuNTQ5MiAxOS44MDQ3IDY4Ljg3NTEgMjYuODMzMVoiIGZpbGw9IiNGRkZGRkYiLz4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xMjYuNjc2IDM4LjYyMzdIMTE5Ljk2MVY3LjAwMDI0QzEyMi4wOTIgNy4wMDAyNCAxMjYuNjkzIDcuMDAwMjQgMTI2LjY5MyAxMC40NzYxQzEyNi42OTMgMTMuMDc0NSAxMjYuNjc2IDM4LjYyMzcgMTI2LjY3NiAzOC42MjM3WiIgZmlsbD0iI0ZGRkZGRiIvPgo8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTExMy42NTUgMzIuNzYyNUgxMTMuNDUxQzExMy40MjUgMzIuNzYyNSAxMTMuNCAzMi43NjI1IDExMy4zNzQgMzIuNzYyNUgxMDUuMDM4TDEwNS4wMyAxMy4wNzQ1VjEwLjQ1OTFDMTA1LjAzIDcuMDAwMjQgMTAwLjQwMyA3LjAwMDI0IDk4LjI4MTIgNy4wMDAyNFY3Ljg2MDY5VjcuMzE1NDZWMzguNjIzN0gxMTYuNjM0QzExNi42MzQgMzYuNzc1MSAxMTYuNjM0IDMyLjc2MjUgMTEzLjY1NSAzMi43NjI1WiIgZmlsbD0iI0ZGRkZGRiIvPgo8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTU3LjYzNjkgMTMuMjk1OEM1NS4wOTg3IDcuNDAwNTEgNDguNTk2MyA2LjM4NjcyIDQzLjEwNCA2LjM4NjcyQzQzLjA5NTUgNi4zODY3MiA0My4wODcgNi4zODY3MiA0My4wNzAxIDYuMzg2NzJDNDAuOTM5NCA2LjM4NjcyIDM2LjE2ODYgNy4wNTEyMiAzNi4xNjg2IDcuMDUxMjJMMzYuMTYwMiAzOC42MTUxQzM4LjI5MDkgMzguNjE1MSA0My4wNjE2IDM4LjYxNTEgNDMuMDYxNiAzNS4xMzkyVjM1LjA3OTZWMzAuMDQ0N0M1NC41ODk0IDMxLjc1NzEgNjEuNzI4NSAyMi43Nzc4IDU3LjYzNjkgMTMuMjk1OFpNNDcuOTA4NyAyNC40NjQ2QzQ1LjMyODEgMjQuNzM3MiA0My4wNDQ2IDI0LjM5NjQgNDMuMDQ0NiAyNC4zOTY0VjEyLjY5OTVDNDMuMDQ0NiAxMi42OTk1IDQ1LjExNTkgMTIuNTYzMiA0Ny44MDY4IDEyLjc0MjFDNTAuNDk3OCAxMi45MTI1IDUyLjM3MzggMTUuNTM2NCA1Mi4zNzM4IDE4LjczMTFDNTIuMzgyMyAyMS45MjU5IDUwLjQ4OTMgMjQuMTkyIDQ3LjkwODcgMjQuNDY0NloiIGZpbGw9IiNGRkZGRkYiLz4KPHBhdGggZD0iTTI3LjEyODUgMy4zODc3MUMxNi42NDQ4IDE3LjQ4NzEgMTAuNzg3NSA0NC40NTA2IDI0LjQ4ODUgNjUuMzMxM0MyNi42MTA3IDY4LjM4OTcgMjguMjE1MSA2OS45MTQ2IDI4LjIxNTEgNjkuOTE0NkMxMi44NDE4IDQ2Ljk5NzggMjMuOTExMyAxNi45NzU5IDM1LjM1NDIgMS41OTAxNUwyNS4wOTEyIDAuMjY5NjY1QzI1LjA5MTIgMC4yNjk2NjUgMjAuMzEyIC0xLjA3NjM4IDE4LjMwMDIgMi4yNDYxM0wyNy4xMjg1IDMuMzg3NzFaIiBmaWxsPSIjRkZGRkZGIi8+CjxwYXRoIGQ9Ik0yNy4zMTY5IDY5LjkzMTdDOS40NDc5MiA1MC41OTMgMTEuNDU5OCAxOS45MzIyIDIyLjIzMjEgNS40NTc5NUMyMi4yMzIxIDUuNDU3OTUgMTQuMTkzMiA0LjQ5NTI4IDEyLjYzMTIgNC4zMzM0MUMxMC42NzAzIDQuMTI4OTUgNi41NzAyIDMuMjQyOTUgNS42NTM0MSA3LjgwOTI3Qy0zLjM0NDc2IDUyLjQ4NDMgMjcuMzE2OSA2OS45MzE3IDI3LjMxNjkgNjkuOTMxN1oiIGZpbGw9IiMzREIyREUiLz4KPHBhdGggZD0iTTM2LjIwNyA2Ni4yNTE2QzM2LjIwNyA2Ni4yMDA1IDM2LjI1OCA2Ni4xNDk0IDM2LjMwODkgNjYuMTQ5NEgzNi41MjExQzM2LjU3MjEgNjYuMTQ5NCAzNi42MjMgNjYuMjAwNSAzNi42MjMgNjYuMjUxNlY2OS44MzgzQzM2LjYyMyA2OS44ODk0IDM2LjU3MjEgNjkuOTQwNSAzNi41MjExIDY5Ljk0MDVIMzYuMzA4OUMzNi4yNTggNjkuOTQwNSAzNi4yMDcgNjkuODg5NCAzNi4yMDcgNjkuODM4M1Y2Ni4yNTE2WiIgZmlsbD0iI0ZGRkZGRiIvPgo8cGF0aCBkPSJNMzguNDgwNSA2Ni4xOTE5QzM4LjQ4MDUgNjYuMTQwNyAzOC41MzE0IDY2LjA5ODEgMzguNTgyMyA2Ni4wOTgxSDM4LjcxODJMNDEuMTU0NSA2OS4xMzk1SDQxLjE2MjlWNjYuMjUxNUM0MS4xNjI5IDY2LjIwMDQgNDEuMjA1NCA2Ni4xNDkzIDQxLjI2NDggNjYuMTQ5M0g0MS40NTE2QzQxLjUwMjUgNjYuMTQ5MyA0MS41NTM0IDY2LjIwMDQgNDEuNTUzNCA2Ni4yNTE1VjY5Ljg5NzdDNDEuNTUzNCA2OS45NDg4IDQxLjUwMjUgNjkuOTkxNCA0MS40NTE2IDY5Ljk5MTRINDEuMzU4MkwzOC44Nzk0IDY2Ljg5MDRIMzguODcxVjY5LjgzODFDMzguODcxIDY5Ljg4OTIgMzguODI4NSA2OS45NDAzIDM4Ljc2OTEgNjkuOTQwM0gzOC41ODIzQzM4LjUzMTQgNjkuOTQwMyAzOC40ODA1IDY5Ljg4OTIgMzguNDgwNSA2OS44MzgxVjY2LjE5MTlaIiBmaWxsPSIjRkZGRkZGIi8+CjxwYXRoIGQ9Ik00My4xNzU1IDY5LjM3ODFDNDMuMjAxIDY5LjM0NCA0My4yMjY0IDY5LjMwOTkgNDMuMjYwNCA2OS4yNzU4QzQzLjMxMTMgNjkuMjA3NyA0My4zNzA3IDY5LjE2NTEgNDMuNDQ3MSA2OS4yMjQ3QzQzLjQ4MTEgNjkuMjU4OCA0My44ODAxIDY5LjYzMzYgNDQuMzU1NCA2OS42MzM2QzQ0Ljc4ODQgNjkuNjMzNiA0NS4wNzcgNjkuMzYxIDQ1LjA3NyA2OS4wMzczQzQ1LjA3NyA2OC42NjI0IDQ0Ljc1NDQgNjguNDQwOSA0NC4xMzQ3IDY4LjE4NTRDNDMuNTQwNSA2Ny45MjEzIDQzLjE4NCA2Ny42ODI3IDQzLjE4NCA2Ny4wNjA4QzQzLjE4NCA2Ni42OTQ1IDQzLjQ3MjYgNjYuMDk4MSA0NC4zMyA2Ni4wOTgxQzQ0Ljg1NjMgNjYuMDk4MSA0NS4yNTUzIDY2LjM3MDggNDUuMjU1MyA2Ni4zNzA4QzQ1LjI4OTIgNjYuMzg3OCA0NS4zNDg2IDY2LjQ1NiA0NS4yODkyIDY2LjU1ODJDNDUuMjYzNyA2Ni41OTIzIDQ1LjI0NjggNjYuNjI2MyA0NS4yMjEzIDY2LjY2MDRDNDUuMTcwNCA2Ni43MzcxIDQ1LjExOTQgNjYuNzU0MSA0NS4wMzQ1IDY2LjcxMTVDNDUuMDAwNiA2Ni42ODYgNDQuNjUyNSA2Ni40NjQ1IDQ0LjMzIDY2LjQ2NDVDNDMuNzYxMiA2Ni40NjQ1IDQzLjU4MyA2Ni44MzA4IDQzLjU4MyA2Ny4wNjA4QzQzLjU4MyA2Ny40MjcxIDQzLjg1NDYgNjcuNjMxNiA0NC4zMTMgNjcuODI3NkM0NS4wNDMgNjguMTI1NyA0NS41MDk5IDY4LjM5ODMgNDUuNTA5OSA2OS4wMjg4QzQ1LjUwOTkgNjkuNTkxIDQ0Ljk3NTEgNzAgNDQuMzQ2OSA3MEM0My43MTAzIDcwIDQzLjI3NzQgNjkuNjI1MSA0My4yMDk0IDY5LjU2NTVDNDMuMTY3IDY5LjUyMjkgNDMuMTE2MSA2OS40ODAzIDQzLjE3NTUgNjkuMzc4MVoiIGZpbGw9IiNGRkZGRkYiLz4KPHBhdGggZD0iTTQ3LjU5MSA2Ni41MTU1SDQ2LjY0ODdDNDYuNTg5MyA2Ni41MTU1IDQ2LjU0NjkgNjYuNDY0NCA0Ni41NDY5IDY2LjQxMzNWNjYuMjU5OUM0Ni41NDY5IDY2LjIwODggNDYuNTg5MyA2Ni4xNTc3IDQ2LjY0ODcgNjYuMTU3N0g0OC45NDA3QzQ5LjAwMDEgNjYuMTU3NyA0OS4wNDI2IDY2LjIwODggNDkuMDQyNiA2Ni4yNTk5VjY2LjQxMzNDNDkuMDQyNiA2Ni40NjQ0IDQ5LjAwMDEgNjYuNTE1NSA0OC45NDA3IDY2LjUxNTVINDcuOTk4NVY2OS44MzhDNDcuOTk4NSA2OS44ODkyIDQ3Ljk0NzUgNjkuOTQwMyA0Ny44OTY2IDY5Ljk0MDNINDcuNjkyOUM0Ny42NDE5IDY5Ljk0MDMgNDcuNTkxIDY5Ljg4OTIgNDcuNTkxIDY5LjgzOFY2Ni41MTU1WiIgZmlsbD0iI0ZGRkZGRiIvPgo8cGF0aCBkPSJNNTAuMzkwNiA2Ni4yNTE2QzUwLjM5MDYgNjYuMjAwNSA1MC40NDE2IDY2LjE0OTQgNTAuNDkyNSA2Ni4xNDk0SDUwLjcwNDdDNTAuNzU1NiA2Ni4xNDk0IDUwLjgwNjYgNjYuMjAwNSA1MC44MDY2IDY2LjI1MTZWNjkuODM4M0M1MC44MDY2IDY5Ljg4OTQgNTAuNzU1NiA2OS45NDA1IDUwLjcwNDcgNjkuOTQwNUg1MC40OTI1QzUwLjQ0MTYgNjkuOTQwNSA1MC4zOTA2IDY5Ljg4OTQgNTAuMzkwNiA2OS44MzgzVjY2LjI1MTZaIiBmaWxsPSIjRkZGRkZGIi8+CjxwYXRoIGQ9Ik01My4yMDA0IDY2LjUxNTVINTIuMjU4MUM1Mi4xOTg3IDY2LjUxNTUgNTIuMTU2MiA2Ni40NjQ0IDUyLjE1NjIgNjYuNDEzM1Y2Ni4yNTk5QzUyLjE1NjIgNjYuMjA4OCA1Mi4xOTg3IDY2LjE1NzcgNTIuMjU4MSA2Ni4xNTc3SDU0LjU1MDFDNTQuNjA5NSA2Ni4xNTc3IDU0LjY1MiA2Ni4yMDg4IDU0LjY1MiA2Ni4yNTk5VjY2LjQxMzNDNTQuNjUyIDY2LjQ2NDQgNTQuNjA5NSA2Ni41MTU1IDU0LjU1MDEgNjYuNTE1NUg1My42MDc4VjY5LjgzOEM1My42MDc4IDY5Ljg4OTIgNTMuNTU2OSA2OS45NDAzIDUzLjUwNiA2OS45NDAzSDUzLjMwMjJDNTMuMjUxMyA2OS45NDAzIDUzLjIwMDQgNjkuODg5MiA1My4yMDA0IDY5LjgzOFY2Ni41MTU1WiIgZmlsbD0iI0ZGRkZGRiIvPgo8cGF0aCBkPSJNNTUuOTYwOSA2Ni4yNTE2QzU1Ljk2MDkgNjYuMjAwNSA1Ni4wMTE5IDY2LjE0OTQgNTYuMDYyOCA2Ni4xNDk0SDU2LjI2NjVDNTYuMzI2IDY2LjE0OTQgNTYuMzY4NCA2Ni4yMDA1IDU2LjM2ODQgNjYuMjUxNlY2OC41MDkzQzU2LjM2ODQgNjkuMTIyNiA1Ni43NTA0IDY5LjYwODIgNTcuMzg3MSA2OS42MDgyQzU4LjAyMzcgNjkuNjA4MiA1OC40MTQyIDY5LjEzOTcgNTguNDE0MiA2OC41MTc4VjY2LjI1MTZDNTguNDE0MiA2Ni4yMDA1IDU4LjQ1NjcgNjYuMTQ5NCA1OC41MTYxIDY2LjE0OTRINTguNzE5OEM1OC43NzA3IDY2LjE0OTQgNTguODIxNyA2Ni4yMDA1IDU4LjgyMTcgNjYuMjUxNlY2OC41NDMzQzU4LjgyMTcgNjkuMzY5NyA1OC4yMzU5IDY5Ljk5MTYgNTcuMzg3MSA2OS45OTE2QzU2LjUzODIgNjkuOTkxNiA1NS45NjA5IDY5LjM2MTIgNTUuOTYwOSA2OC41NDMzVjY2LjI1MTZaIiBmaWxsPSIjRkZGRkZGIi8+CjxwYXRoIGQ9Ik02Mi4zMDA4IDY2LjA5ODFDNjIuODQ0IDY2LjA5ODEgNjMuMjQzIDY2LjI4NTYgNjMuNjA4IDY2LjYwMDhDNjMuNjUwNSA2Ni42NDM0IDYzLjY1OSA2Ni43MTE1IDYzLjYxNjUgNjYuNzU0MUw2My40NzIyIDY2Ljg5OUM2My40Mjk4IDY2Ljk1MDEgNjMuMzg3MyA2Ni45NTAxIDYzLjMyNzkgNjYuODkwNEM2My4wNDc4IDY2LjY0MzQgNjIuNjY1OCA2Ni40ODE1IDYyLjMwMDggNjYuNDgxNUM2MS40NTE5IDY2LjQ4MTUgNjAuNzk4MiA2Ny4yMDU2IDYwLjc5ODIgNjguMDQwNUM2MC43OTgyIDY4Ljg3NTQgNjEuNDUxOSA2OS41OTEgNjIuMzAwOCA2OS41OTFDNjIuNzY3NiA2OS41OTEgNjMuMDQ3OCA2OS40MDM2IDYzLjMyNzkgNjkuMTgyMUM2My4zNzg4IDY5LjEzOTUgNjMuNDIxMyA2OS4xNDggNjMuNDU1MiA2OS4xNjUxTDYzLjYxNjUgNjkuMzI2OUM2My42NTkgNjkuMzYxIDYzLjY1MDUgNjkuNDM3NyA2My42MDggNjkuNDcxOEM2My4yNDMgNjkuODI5NiA2Mi43NzYxIDcwIDYyLjI5MjMgNzBDNjEuMjE0MiA3MCA2MC4zMzk4IDY5LjEzOTUgNjAuMzM5OCA2OC4wNTc2QzYwLjM0ODMgNjYuOTY3MSA2MS4yMjI3IDY2LjA5ODEgNjIuMzAwOCA2Ni4wOTgxWiIgZmlsbD0iI0ZGRkZGRiIvPgo8cGF0aCBkPSJNNjUuMjAzMSA2Ni4yNTE2QzY1LjIwMzEgNjYuMjAwNSA2NS4yNTQxIDY2LjE0OTQgNjUuMzA1IDY2LjE0OTRINjUuNTE3MkM2NS41NjgxIDY2LjE0OTQgNjUuNjE5MSA2Ni4yMDA1IDY1LjYxOTEgNjYuMjUxNlY2OS44MzgzQzY1LjYxOTEgNjkuODg5NCA2NS41NjgxIDY5Ljk0MDUgNjUuNTE3MiA2OS45NDA1SDY1LjMwNUM2NS4yNTQxIDY5Ljk0MDUgNjUuMjAzMSA2OS44ODk0IDY1LjIwMzEgNjkuODM4M1Y2Ni4yNTE2WiIgZmlsbD0iI0ZGRkZGRiIvPgo8cGF0aCBkPSJNNjkuMTQyNSA2Ni4wOTgyQzcwLjIyMDYgNjYuMDk4MiA3MS4wODY0IDY2Ljk2NzEgNzEuMDg2NCA2OC4wNTc2QzcxLjA4NjQgNjkuMTM5NiA3MC4yMjA2IDcwIDY5LjE0MjUgNzBDNjguMDY0NCA3MCA2Ny4yMDcgNjkuMTM5NiA2Ny4yMDcgNjguMDU3NkM2Ny4yMDcgNjYuOTY3MSA2OC4wNjQ0IDY2LjA5ODIgNjkuMTQyNSA2Ni4wOTgyWk02OS4xNDI1IDY5LjYxNjZDNjkuOTk5OSA2OS42MTY2IDcwLjcwNDQgNjguOTA5NSA3MC43MDQ0IDY4LjA0OTFDNzAuNzA0NCA2Ny4xODg2IDY5Ljk5OTkgNjYuNDczIDY5LjE0MjUgNjYuNDczQzY4LjI4NTEgNjYuNDczIDY3LjU4MDUgNjcuMTg4NiA2Ny41ODA1IDY4LjA0OTFDNjcuNTgwNSA2OC45MTggNjguMjg1MSA2OS42MTY2IDY5LjE0MjUgNjkuNjE2NlpNNjguNjU4NiA2NS41ODdDNjguNjMzMiA2NS41NDQ0IDY4LjY1ODYgNjUuNTAxOCA2OC42OTI2IDY1LjQ4NDhMNjkuNDk5IDY1LjAzMzNDNjkuNTMzIDY1LjAwNzcgNjkuNjA5NCA2NC45OTkyIDY5LjY0MzMgNjUuMDUwM0w2OS43MzY3IDY1LjI0NjJDNjkuNzYyMiA2NS4yODg4IDY5Ljc0NTIgNjUuMzQgNjkuNzAyNyA2NS4zNTdMNjguODM2OSA2NS43MjMzQzY4Ljc2MDUgNjUuNzU3NCA2OC43MzUgNjUuNzU3NCA2OC43MDk2IDY1LjcxNDhMNjguNjU4NiA2NS41ODdaIiBmaWxsPSIjRkZGRkZGIi8+CjxwYXRoIGQ9Ik03Mi42NjggNjYuMTkxOUM3Mi42NjggNjYuMTQwNyA3Mi43MTg5IDY2LjA5ODEgNzIuNzY5OCA2Ni4wOTgxSDcyLjkwNTdMNzUuMzQxOSA2OS4xMzk1Qzc1LjM1MDQgNjkuMTM5NSA3NS4zNTA0IDY5LjEzOTUgNzUuMzUwNCA2OS4xMzk1VjY2LjI1MTVDNzUuMzUwNCA2Ni4yMDA0IDc1LjM5MjkgNjYuMTQ5MyA3NS40NTIzIDY2LjE0OTNINzUuNjM5MUM3NS42OSA2Ni4xNDkzIDc1Ljc0MDkgNjYuMjAwNCA3NS43NDA5IDY2LjI1MTVWNjkuODk3N0M3NS43NDA5IDY5Ljk0ODggNzUuNjkgNjkuOTkxNCA3NS42MzkxIDY5Ljk5MTRINzUuNTQ1N0w3My4wNjY5IDY2Ljg5MDRINzMuMDU4NVY2OS44MzgxQzczLjA1ODUgNjkuODg5MiA3My4wMTYgNjkuOTQwMyA3Mi45NTY2IDY5Ljk0MDNINzIuNzY5OEM3Mi43MTg5IDY5Ljk0MDMgNzIuNjY4IDY5Ljg4OTIgNzIuNjY4IDY5LjgzODFWNjYuMTkxOVoiIGZpbGw9IiNGRkZGRkYiLz4KPHBhdGggZD0iTTc5LjUwNzggNjYuMjUxNkM3OS41MDc4IDY2LjIwMDUgNzkuNTU4NyA2Ni4xNDk0IDc5LjYwOTcgNjYuMTQ5NEg3OS44MTM0Qzc5Ljg3MjggNjYuMTQ5NCA3OS45MTUzIDY2LjIwMDUgNzkuOTE1MyA2Ni4yNTE2VjY4LjUwOTNDNzkuOTE1MyA2OS4xMjI2IDgwLjI5NzMgNjkuNjA4MiA4MC45MzM5IDY5LjYwODJDODEuNTcwNiA2OS42MDgyIDgxLjk2MTEgNjkuMTM5NyA4MS45NjExIDY4LjUxNzhWNjYuMjUxNkM4MS45NjExIDY2LjIwMDUgODIuMDAzNSA2Ni4xNDk0IDgyLjA2MyA2Ni4xNDk0SDgyLjI2NjdDODIuMzE3NiA2Ni4xNDk0IDgyLjM2ODUgNjYuMjAwNSA4Mi4zNjg1IDY2LjI1MTZWNjguNTQzM0M4Mi4zNjg1IDY5LjM2OTcgODEuNzgyOCA2OS45OTE2IDgwLjkzMzkgNjkuOTkxNkM4MC4wODUxIDY5Ljk5MTYgNzkuNTA3OCA2OS4zNjEyIDc5LjUwNzggNjguNTQzM1Y2Ni4yNTE2WiIgZmlsbD0iI0ZGRkZGRiIvPgo8cGF0aCBkPSJNODQuMTc1OCA2Ni4xOTE5Qzg0LjE3NTggNjYuMTQwNyA4NC4yMjY3IDY2LjA5ODEgODQuMjc3NiA2Ni4wOTgxSDg0LjQxMzVMODYuODQ5OCA2OS4xMzk1Qzg2Ljg1ODMgNjkuMTM5NSA4Ni44NTgyIDY5LjEzOTUgODYuODU4MiA2OS4xMzk1TDg2Ljg2NjcgNjYuMjUxNUM4Ni44NjY3IDY2LjIwMDQgODYuOTA5MiA2Ni4xNDkzIDg2Ljk2ODYgNjYuMTQ5M0g4Ny4xNTU0Qzg3LjIwNjMgNjYuMTQ5MyA4Ny4yNTcyIDY2LjIwMDQgODcuMjU3MiA2Ni4yNTE1VjY5Ljg5NzdDODcuMjU3MiA2OS45NDg4IDg3LjIwNjMgNjkuOTkxNCA4Ny4xNTU0IDY5Ljk5MTRIODcuMDYyTDg0LjU4MzIgNjYuODkwNEg4NC41NzQ4VjY5LjgzODFDODQuNTc0OCA2OS44ODkyIDg0LjUzMjMgNjkuOTQwMyA4NC40NzI5IDY5Ljk0MDNIODQuMjg2MUM4NC4yMzUyIDY5Ljk0MDMgODQuMTg0MyA2OS44ODkyIDg0LjE4NDMgNjkuODM4MVY2Ni4xOTE5SDg0LjE3NThaIiBmaWxsPSIjRkZGRkZGIi8+CjxwYXRoIGQ9Ik04OS4xMTcyIDY2LjI1MTZDODkuMTE3MiA2Ni4yMDA1IDg5LjE2ODEgNjYuMTQ5NCA4OS4yMTkxIDY2LjE0OTRIODkuNDMxM0M4OS40ODIyIDY2LjE0OTQgODkuNTMzMSA2Ni4yMDA1IDg5LjUzMzEgNjYuMjUxNlY2OS44MzgzQzg5LjUzMzEgNjkuODg5NCA4OS40ODIyIDY5Ljk0MDUgODkuNDMxMyA2OS45NDA1SDg5LjIxOTFDODkuMTY4MSA2OS45NDA1IDg5LjExNzIgNjkuODg5NCA4OS4xMTcyIDY5LjgzODNWNjYuMjUxNloiIGZpbGw9IiNGRkZGRkYiLz4KPHBhdGggZD0iTTkwLjg4MjggNjYuMjk0MkM5MC44NDg5IDY2LjIyNjEgOTAuODkxMyA2Ni4xNDk0IDkwLjk3NjIgNjYuMTQ5NEg5MS4xODg0QzkxLjIzOTMgNjYuMTQ5NCA5MS4yNzMzIDY2LjE4MzUgOTEuMjgxOCA2Ni4yMDlMOTIuNjIzIDY5LjI0MTlIOTIuNjQ4NUw5My45ODk3IDY2LjIwOUM5My45OTgyIDY2LjE4MzUgOTQuMDQwNyA2Ni4xNDk0IDk0LjA4MzEgNjYuMTQ5NEg5NC4yOTUzQzk0LjM4MDIgNjYuMTQ5NCA5NC40MjI3IDY2LjIxNzYgOTQuMzg4NyA2Ni4yOTQyTDkyLjc1MDQgNjkuOTQwNUM5Mi43MzM0IDY5Ljk3NDYgOTIuNjk5NCA3MC4wMDAxIDkyLjY1NyA3MC4wMDAxSDkyLjYwNkM5Mi41NzIxIDcwLjAwMDEgOTIuNTI5NiA2OS45NzQ2IDkyLjUxMjcgNjkuOTQwNUw5MC44ODI4IDY2LjI5NDJaIiBmaWxsPSIjRkZGRkZGIi8+CjxwYXRoIGQ9Ik05NS43MzA1IDY2LjI1MTZDOTUuNzMwNSA2Ni4yMDA1IDk1Ljc3MjkgNjYuMTQ5NCA5NS44MzIzIDY2LjE0OTRIOTcuOTYzQzk4LjAyMjUgNjYuMTQ5NCA5OC4wNjQ5IDY2LjIwMDUgOTguMDY0OSA2Ni4yNTE2VjY2LjQwNUM5OC4wNjQ5IDY2LjQ1NjEgOTguMDIyNSA2Ni41MDcyIDk3Ljk2MyA2Ni41MDcySDk2LjE0NjRWNjcuODI3N0g5Ny42OTE0Qzk3Ljc0MjMgNjcuODI3NyA5Ny43OTMyIDY3Ljg3ODggOTcuNzkzMiA2Ny45Mjk5VjY4LjA4MzNDOTcuNzkzMiA2OC4xNDI5IDk3Ljc0MjMgNjguMTg1NSA5Ny42OTE0IDY4LjE4NTVIOTYuMTQ2NFY2OS41NjU2SDk3Ljk2M0M5OC4wMjI1IDY5LjU2NTYgOTguMDY0OSA2OS42MTY4IDk4LjA2NDkgNjkuNjY3OVY2OS44MjEyQzk4LjA2NDkgNjkuODcyMyA5OC4wMjI1IDY5LjkyMzQgOTcuOTYzIDY5LjkyMzRIOTUuODMyM0M5NS43NzI5IDY5LjkyMzQgOTUuNzMwNSA2OS44NzIzIDk1LjczMDUgNjkuODIxMlY2Ni4yNTE2WiIgZmlsbD0iI0ZGRkZGRiIvPgo8cGF0aCBkPSJNOTkuNjg3NSA2Ni4yNTE2Qzk5LjY4NzUgNjYuMjAwNSA5OS43Mjk5IDY2LjE0OTQgOTkuNzg5NCA2Ni4xNDk0SDEwMS4xOUMxMDEuODM1IDY2LjE0OTQgMTAyLjM3IDY2LjY2MDYgMTAyLjM3IDY3LjI5OTVDMTAyLjM3IDY3LjgwMjEgMTAyLjAzOSA2OC4yMTExIDEwMS41NzIgNjguNDA3TDEwMi4zMTEgNjkuNzg3MUMxMDIuMzQ1IDY5Ljg1NTMgMTAyLjMxMSA2OS45NDA1IDEwMi4yMTcgNjkuOTQwNUgxMDEuOTQ2QzEwMS44OTUgNjkuOTQwNSAxMDEuODY5IDY5LjkxNDkgMTAxLjg2MSA2OS44ODk0TDEwMS4xMzkgNjguNDU4MUgxMDAuMTEyVjY5LjgzODNDMTAwLjExMiA2OS44ODk0IDEwMC4wNjEgNjkuOTQwNSAxMDAuMDEgNjkuOTQwNUg5OS43OTc4Qzk5LjczODQgNjkuOTQwNSA5OS42OTYgNjkuODg5NCA5OS42OTYgNjkuODM4M1Y2Ni4yNTE2SDk5LjY4NzVaTTEwMS4xNjUgNjguMTAwM0MxMDEuNTgxIDY4LjEwMDMgMTAxLjk0NiA2Ny43NTEgMTAxLjk0NiA2Ny4zMDhDMTAxLjk0NiA2Ni44OTkxIDEwMS41ODEgNjYuNTQxMyAxMDEuMTY1IDY2LjU0MTNIMTAwLjEyVjY4LjA5MThIMTAxLjE2NVY2OC4xMDAzWiIgZmlsbD0iI0ZGRkZGRiIvPgo8cGF0aCBkPSJNMTAzLjc2OSA2OS4zNzgxQzEwMy43OTUgNjkuMzQ0IDEwMy44MiA2OS4zMDk5IDEwMy44NTQgNjkuMjc1OEMxMDMuOTA1IDY5LjIwNzcgMTAzLjk2NCA2OS4xNjUxIDEwNC4wNDEgNjkuMjI0N0MxMDQuMDc1IDY5LjI1ODggMTA0LjQ3NCA2OS42MzM2IDEwNC45NDkgNjkuNjMzNkMxMDUuMzgyIDY5LjYzMzYgMTA1LjY3MSA2OS4zNjEgMTA1LjY3MSA2OS4wMzczQzEwNS42NzEgNjguNjYyNCAxMDUuMzQ4IDY4LjQ0MDkgMTA0LjcyOCA2OC4xODU0QzEwNC4xMzQgNjcuOTIxMyAxMDMuNzc4IDY3LjY4MjcgMTAzLjc3OCA2Ny4wNjA4QzEwMy43NzggNjYuNjk0NSAxMDQuMDY2IDY2LjA5ODEgMTA0LjkyNCA2Ni4wOTgxQzEwNS40NSA2Ni4wOTgxIDEwNS44NDkgNjYuMzcwOCAxMDUuODQ5IDY2LjM3MDhDMTA1Ljg4MyA2Ni4zODc4IDEwNS45NDIgNjYuNDU2IDEwNS44ODMgNjYuNTU4MkMxMDUuODU3IDY2LjU5MjMgMTA1Ljg0IDY2LjYyNjMgMTA1LjgxNSA2Ni42NjA0QzEwNS43NjQgNjYuNzM3MSAxMDUuNzEzIDY2Ljc1NDEgMTA1LjYyOCA2Ni43MTE1QzEwNS41OTQgNjYuNjg2IDEwNS4yNDYgNjYuNDY0NSAxMDQuOTI0IDY2LjQ2NDVDMTA0LjM1NSA2Ni40NjQ1IDEwNC4xNzcgNjYuODMwOCAxMDQuMTc3IDY3LjA2MDhDMTA0LjE3NyA2Ny40MjcxIDEwNC40NDggNjcuNjMxNiAxMDQuOTA3IDY3LjgyNzZDMTA1LjYzNyA2OC4xMjU3IDEwNi4xMDQgNjguMzk4MyAxMDYuMTA0IDY5LjAyODhDMTA2LjEwNCA2OS41OTEgMTA1LjU2OSA3MCAxMDQuOTQxIDcwQzEwNC4zMDQgNzAgMTAzLjg3MSA2OS42MjUxIDEwMy44MDMgNjkuNTY1NUMxMDMuNzYxIDY5LjUyMjkgMTAzLjcwMSA2OS40ODAzIDEwMy43NjkgNjkuMzc4MVoiIGZpbGw9IiNGRkZGRkYiLz4KPHBhdGggZD0iTTEwNy42NDEgNjYuMjUxNkMxMDcuNjQxIDY2LjIwMDUgMTA3LjY5MiA2Ni4xNDk0IDEwNy43NDIgNjYuMTQ5NEgxMDcuOTU1QzEwOC4wMDYgNjYuMTQ5NCAxMDguMDU3IDY2LjIwMDUgMTA4LjA1NyA2Ni4yNTE2VjY5LjgzODNDMTA4LjA1NyA2OS44ODk0IDEwOC4wMDYgNjkuOTQwNSAxMDcuOTU1IDY5Ljk0MDVIMTA3Ljc0MkMxMDcuNjkyIDY5Ljk0MDUgMTA3LjY0MSA2OS44ODk0IDEwNy42NDEgNjkuODM4M1Y2Ni4yNTE2WiIgZmlsbD0iI0ZGRkZGRiIvPgo8cGF0aCBkPSJNMTEwLjQ1OCA2Ni41MTU1SDEwOS41MTZDMTA5LjQ1NyA2Ni41MTU1IDEwOS40MTQgNjYuNDY0NCAxMDkuNDE0IDY2LjQxMzNWNjYuMjU5OUMxMDkuNDE0IDY2LjIwODggMTA5LjQ1NyA2Ni4xNTc3IDEwOS41MTYgNjYuMTU3N0gxMTEuODA4QzExMS44NjcgNjYuMTU3NyAxMTEuOTEgNjYuMjA4OCAxMTEuOTEgNjYuMjU5OVY2Ni40MTMzQzExMS45MSA2Ni40NjQ0IDExMS44NjcgNjYuNTE1NSAxMTEuODA4IDY2LjUxNTVIMTEwLjg2NlY2OS44MzhDMTEwLjg2NiA2OS44ODkyIDExMC44MTUgNjkuOTQwMyAxMTAuNzY0IDY5Ljk0MDNIMTEwLjU2QzExMC41MDkgNjkuOTQwMyAxMTAuNDU4IDY5Ljg4OTIgMTEwLjQ1OCA2OS44MzhWNjYuNTE1NVoiIGZpbGw9IiNGRkZGRkYiLz4KPHBhdGggZD0iTTExMi41MzkgNjkuODA0TDExNC4xNzcgNjYuMTU3OEMxMTQuMTk0IDY2LjEyMzcgMTE0LjIyIDY2LjA5ODEgMTE0LjI3MSA2Ni4wOTgxSDExNC4zMjJDMTE0LjM3MyA2Ni4wOTgxIDExNC4zOTggNjYuMTIzNyAxMTQuNDE1IDY2LjE1NzhMMTE2LjA0NSA2OS44MDRDMTE2LjA3OSA2OS44NzIyIDExNi4wMzYgNjkuOTQ4OCAxMTUuOTUyIDY5Ljk0ODhIMTE1LjczOUMxMTUuNjg4IDY5Ljk0ODggMTE1LjY1NCA2OS45MTQ4IDExNS42NDYgNjkuODg5MkwxMTUuMjQ3IDY4Ljk5NDdIMTEzLjMyOUwxMTIuOTM4IDY5Ljg4OTJDMTEyLjkzIDY5LjkxNDggMTEyLjg5NiA2OS45NDg4IDExMi44NDUgNjkuOTQ4OEgxMTIuNjMyQzExMi41NDggNjkuOTQwMyAxMTIuNTA1IDY5Ljg3MjIgMTEyLjUzOSA2OS44MDRaTTExNS4xMDMgNjguNjUzOUMxMTQuODQgNjguMDY2MSAxMTQuNTc2IDY3LjQ2OTcgMTE0LjMxMyA2Ni44NzM0SDExNC4yNzFMMTEzLjQ4MSA2OC42NTM5SDExNS4xMDNaIiBmaWxsPSIjRkZGRkZGIi8+CjxwYXRoIGQ9Ik0xMTcuMzk0IDY2LjI1MTZDMTE3LjM5NCA2Ni4yMDA1IDExNy40MzYgNjYuMTQ5NCAxMTcuNDk1IDY2LjE0OTRIMTE4Ljg5NkMxMTkuNTQxIDY2LjE0OTQgMTIwLjA3NiA2Ni42NjA2IDEyMC4wNzYgNjcuMjk5NUMxMjAuMDc2IDY3LjgwMjEgMTE5Ljc0NSA2OC4yMTExIDExOS4yNzggNjguNDA3TDEyMC4wMTcgNjkuNzg3MUMxMjAuMDUxIDY5Ljg1NTMgMTIwLjAxNyA2OS45NDA1IDExOS45MjMgNjkuOTQwNUgxMTkuNjQzQzExOS41OTIgNjkuOTQwNSAxMTkuNTY3IDY5LjkxNDkgMTE5LjU1OCA2OS44ODk0TDExOC44MzcgNjguNDU4MUgxMTcuODA5VjY5LjgzODNDMTE3LjgwOSA2OS44ODk0IDExNy43NTkgNjkuOTQwNSAxMTcuNzA4IDY5Ljk0MDVIMTE3LjQ5NUMxMTcuNDM2IDY5Ljk0MDUgMTE3LjM5NCA2OS44ODk0IDExNy4zOTQgNjkuODM4M1Y2Ni4yNTE2Wk0xMTguODYyIDY4LjEwMDNDMTE5LjI3OCA2OC4xMDAzIDExOS42NDMgNjcuNzUxIDExOS42NDMgNjcuMzA4QzExOS42NDMgNjYuODk5MSAxMTkuMjc4IDY2LjU0MTMgMTE4Ljg2MiA2Ni41NDEzSDExNy44MThWNjguMDkxOEgxMTguODYyVjY4LjEwMDNaIiBmaWxsPSIjRkZGRkZGIi8+CjxwYXRoIGQ9Ik0xMjEuNzE1IDY2LjI1MTZDMTIxLjcxNSA2Ni4yMDA1IDEyMS43NjYgNjYuMTQ5NCAxMjEuODE3IDY2LjE0OTRIMTIyLjAyOUMxMjIuMDggNjYuMTQ5NCAxMjIuMTMxIDY2LjIwMDUgMTIyLjEzMSA2Ni4yNTE2VjY5LjgzODNDMTIyLjEzMSA2OS44ODk0IDEyMi4wOCA2OS45NDA1IDEyMi4wMjkgNjkuOTQwNUgxMjEuODE3QzEyMS43NjYgNjkuOTQwNSAxMjEuNzE1IDY5Ljg4OTQgMTIxLjcxNSA2OS44MzgzVjY2LjI1MTZaIiBmaWxsPSIjRkZGRkZGIi8+CjxwYXRoIGQ9Ik0xMjMuNDcyIDY5LjgwNEwxMjUuMTExIDY2LjE1NzhDMTI1LjEyOCA2Ni4xMjM3IDEyNS4xNTMgNjYuMDk4MSAxMjUuMjA0IDY2LjA5ODFIMTI1LjI1NUMxMjUuMzA2IDY2LjA5ODEgMTI1LjMzMSA2Ni4xMjM3IDEyNS4zNDggNjYuMTU3OEwxMjYuOTc4IDY5LjgwNEMxMjcuMDEyIDY5Ljg3MjIgMTI2Ljk3IDY5Ljk0ODggMTI2Ljg4NSA2OS45NDg4SDEyNi42NzNDMTI2LjYyMiA2OS45NDg4IDEyNi41ODggNjkuOTE0OCAxMjYuNTc5IDY5Ljg4OTJMMTI2LjE4IDY4Ljk5NDdIMTI0LjI2MkwxMjMuODcxIDY5Ljg4OTJDMTIzLjg2MyA2OS45MTQ4IDEyMy44MjkgNjkuOTQ4OCAxMjMuNzc4IDY5Ljk0ODhIMTIzLjU2NkMxMjMuNDg5IDY5Ljk0MDMgMTIzLjQ0NyA2OS44NzIyIDEyMy40NzIgNjkuODA0Wk0xMjYuMDM2IDY4LjY1MzlDMTI1Ljc3MyA2OC4wNjYxIDEyNS41MSA2Ny40Njk3IDEyNS4yNDYgNjYuODczNEgxMjUuMjA0TDEyNC40MTUgNjguNjUzOUgxMjYuMDM2WiIgZmlsbD0iI0ZGRkZGRiIvPgo8L3N2Zz4K" alt="POLI · Politécnico Grancolombiano">
+  <h2>Consulta nuestros calendarios</h2>
+  <p>Selecciona el calendario que deseas consultar.</p>
+  <div class="calendar-choices">
+    <button class="calendar-choice" id="openRematricula" type="button"><span class="choice-icon" aria-hidden="true">▦</span><span class="choice-title">Rematrícula</span><span class="choice-desc">Consulta fechas de pago, cohortes e inicio de clases.</span><span class="choice-link">Consultar calendario →</span></button>
+    <button class="calendar-choice academic" id="openAcademic" type="button"><span class="choice-icon" aria-hidden="true">▤</span><span class="choice-title">Trámites académicos</span><span class="choice-desc">Consulta las fechas de apertura y cierre de solicitudes.</span><span class="choice-link">Consultar calendario →</span></button>
+  </div>
+</section>
+<section id="rematriculaView" hidden aria-label="Calendario de rematrícula">
+<div class="intro section-nav calendar-nav">
+  <button type="button" class="back-home" data-back-home>← Volver al inicio</button>
+  <p class="muted">
+    Encuentra un grupo y consulta sus fechas de pago y clases.
+  </p>
+  <div class="switch" role="group" aria-label="Vista del calendario">
+    <button id="timelineTab" aria-pressed="true" type="button">
+      Línea de tiempo
+    </button>
+    <button id="tableTab" aria-pressed="false" type="button">
+      Tabla comparativa
+    </button>
+  </div>
+</div>
+<section class="filters" aria-label="Filtros del calendario">
+<label>Modalidad<select id="mode"><option value="">Todas las modalidades</option></select></label>
+<label>Nivel<select id="level"><option value="">Todos los niveles</option></select></label>
+<label>Período<select id="period"><option value="">Todos los períodos</option></select></label>
+<label class="search-field">Buscar cohorte o descripción<input id="search" type="search" placeholder="Ej. PGV-2S-A-2 o maestría" autocomplete="off"></label>
+<button id="reset" type="button">Limpiar filtros</button>
+</section>
+<div id="empty" class="empty" hidden><h2>No hay calendarios con estos filtros</h2><p class="muted">Prueba otra cohorte o limpia los filtros.</p></div>
+<section id="timelineView" class="workspace" aria-label="Línea de tiempo">
+<aside class="groups"><div class="groups-heading">Selecciona un calendario</div><div id="groups" class="group-list"></div></aside>
+<article class="detail" id="detail" aria-live="polite"></article>
+</section>
+<section id="tableView" class="table-panel" hidden aria-label="Tabla comparativa"><div class="table-scroll"><table><thead><tr><th>Grupo / cohorte</th><th>Fin de clases anterior</th><th>Inicio de pago</th><th>Fin ordinario</th><th>Fin extraordinario</th><th>Fin extemporáneo</th><th>Inicio de clases</th><th>Fin de clases del semestre</th><th>Consultar</th></tr></thead><tbody id="rows"></tbody></table></div></section>
+<div class="feedback" id="feedback" role="status"></div>
+</section>
+<section id="academicView" class="academic-container" hidden aria-label="Calendario de trámites académicos">
+  <div class="section-nav calendar-nav academic-nav">
+    <button type="button" class="back-home" data-back-home>← Volver al inicio</button>
+    <p class="muted">Consulta las fechas de apertura y cierre de los trámites académicos según el período.</p>
+  </div>
+  <div class="academic-filter"><label for="academicPeriod">Período académico</label><select id="academicPeriod" required><option value="">Selecciona un período</option><option value="2026-2">2026-2</option><option value="2027-1">2027-1</option><option value="2027-2">2027-2</option></select></div>
+  <div id="academicPlaceholder" class="academic-placeholder">Selecciona un período para visualizar el calendario de trámites académicos.</div>
+  <div id="academicResults" hidden><p id="academicCount" class="academic-count"></p><div class="table-panel"><div class="table-scroll"><table class="academic-table"><thead><tr><th>Período</th><th>Código</th><th>Servicio</th><th>Modalidad</th><th>Inicio</th><th>Fin</th></tr></thead><tbody id="academicRows"></tbody></table></div></div></div>
+</section>
+</main>
+<dialog id="copyDialog"><h2>Resumen del calendario</h2><label for="copyText">Selecciona y copia este texto</label><textarea id="copyText" readonly></textarea><button id="closeDialog" type="button">Cerrar</button></dialog>
+<script>
+const data=[{"id": "1", "modalidad": "Presencial", "nivel": "Especialización", "grupo": "", "ciclo": "2026-1", "cohorte": "PGP-2S-A-1", "nombreCohorte": "POSGRADO PRESENCIAL SEGUNDO SEMESTRE - ANTIGUO PRIMER INGRESO", "periodo": "202630", "detalle": "POSGRADO PRESENCIAL ESPECIALIZACIÓN POSGRADO PRESENCIAL SEGUNDO SEMESTRE - ANTIGUO PRIMER INGRESO", "ingreso": "Primer ingreso", "semestre": "Segundo", "aviso": "", "fechas": ["2025-12-20", "2025-11-28", "2026-01-04", "2026-01-11", "2026-01-18", "2026-01-19"]}, {"id": "2", "modalidad": "Presencial", "nivel": "Especialización", "grupo": "", "ciclo": "2026-1", "cohorte": "PGP-2S-A-2", "nombreCohorte": "POSGRADO PRESENCIAL SEGUNDO SEMESTRE - ANTIGUO SEGUNDO INGRESO", "periodo": "202630", "detalle": "POSGRADO PRESENCIAL ESPECIALIZACIÓN POSGRADO PRESENCIAL SEGUNDO SEMESTRE - ANTIGUO SEGUNDO INGRESO", "ingreso": "Segundo ingreso", "semestre": "Segundo", "aviso": "", "fechas": ["2026-02-28", "2026-02-04", "2026-03-08", "2026-03-15", "2026-03-22", "2026-03-23"]}, {"id": "3", "modalidad": "Presencial", "nivel": "Maestría", "grupo": "", "ciclo": "2026-1", "cohorte": "PGP-2S-A-1", "nombreCohorte": "POSGRADO PRESENCIAL SEGUNDO SEMESTRE - ANTIGUO PRIMER INGRESO", "periodo": "202630", "detalle": "POSGRADO PRESENCIAL MAESTRIA POSGRADO PRESENCIAL SEGUNDO SEMESTRE - ANTIGUO PRIMER INGRESO", "ingreso": "Primer ingreso", "semestre": "Segundo", "aviso": "", "fechas": ["2025-12-13", "2025-11-28", "2026-02-15", "2026-02-22", "2026-03-01", "2026-03-02"]}, {"id": "4", "modalidad": "Presencial", "nivel": "Maestría", "grupo": "", "ciclo": "2026-1", "cohorte": "PGP-2S-A-2", "nombreCohorte": "POSGRADO PRESENCIAL SEGUNDO SEMESTRE - ANTIGUO SEGUNDO INGRESO", "periodo": "202630", "detalle": "POSGRADO PRESENCIAL MAESTRIA POSGRADO PRESENCIAL SEGUNDO SEMESTRE - ANTIGUO SEGUNDO INGRESO", "ingreso": "Segundo ingreso", "semestre": "Segundo", "aviso": "", "fechas": ["2025-12-13", "2025-11-28", "2026-02-15", "2026-02-22", "2026-03-01", "2026-03-02"]}, {"id": "5", "modalidad": "Presencial", "nivel": "Maestría", "grupo": "", "ciclo": "2026-1", "cohorte": "PGP-3S-A-1", "nombreCohorte": "POSGRADO PRESENCIAL TERCER SEMESTRE - ANTIGUO PRIMER INGRESO", "periodo": "202630", "detalle": "POSGRADO PRESENCIAL MAESTRIA POSGRADO PRESENCIAL TERCER SEMESTRE - ANTIGUO PRIMER INGRESO", "ingreso": "Primer ingreso", "semestre": "Tercero", "aviso": "", "fechas": ["2025-12-13", "2025-11-28", "2026-02-15", "2026-02-22", "2026-03-01", "2026-03-02"]}, {"id": "6", "modalidad": "Presencial", "nivel": "Maestría", "grupo": "", "ciclo": "2026-1", "cohorte": "PGP-3S-A-2", "nombreCohorte": "POSGRADO PRESENCIAL TERCER SEMESTRE - ANTIGUO SEGUNDO INGRESO", "periodo": "202630", "detalle": "POSGRADO PRESENCIAL MAESTRIA POSGRADO PRESENCIAL TERCER SEMESTRE - ANTIGUO SEGUNDO INGRESO", "ingreso": "Segundo ingreso", "semestre": "Tercero", "aviso": "", "fechas": ["2025-12-13", "2025-11-28", "2026-02-15", "2026-02-22", "2026-03-01", "2026-03-02"]}, {"id": "7", "modalidad": "Presencial", "nivel": "Maestría", "grupo": "", "ciclo": "2026-1", "cohorte": "PGP-4S-A-1", "nombreCohorte": "POSGRADO PRESENCIAL CUARTO SEMESTRE - ANTIGUO PRIMER INGRESO", "periodo": "202630", "detalle": "POSGRADO PRESENCIAL MAESTRIA POSGRADO PRESENCIAL CUARTO SEMESTRE - ANTIGUO PRIMER INGRESO", "ingreso": "Primer ingreso", "semestre": "Cuarto", "aviso": "", "fechas": ["2025-12-13", "2025-11-28", "2026-02-15", "2026-02-22", "2026-03-01", "2026-03-02"]}, {"id": "8", "modalidad": "Presencial", "nivel": "Maestría", "grupo": "", "ciclo": "2026-1", "cohorte": "PGP-4S-A-2", "nombreCohorte": "POSGRADO PRESENCIAL CUARTO SEMESTRE - ANTIGUO SEGUNDO INGRESO", "periodo": "202630", "detalle": "POSGRADO PRESENCIAL MAESTRIA POSGRADO PRESENCIAL CUARTO SEMESTRE - ANTIGUO SEGUNDO INGRESO", "ingreso": "Segundo ingreso", "semestre": "Cuarto", "aviso": "", "fechas": ["2025-12-13", "2025-11-28", "2026-02-15", "2026-02-22", "2026-03-01", "2026-03-02"]}, {"id": "9", "modalidad": "Virtual", "nivel": "Especialización", "grupo": "", "ciclo": "2026-1", "cohorte": "PGV-2S-A-1", "nombreCohorte": "POSGRADO VIRTUAL SEGUNDO SEMESTRE - ANTIGUO PRIMER INGRESO", "periodo": "202630", "detalle": "POSGRADO VIRTUAL ESPECIALIZACIÓN POSGRADO VIRTUAL SEGUNDO SEMESTRE - ANTIGUO PRIMER INGRESO", "ingreso": "Primer ingreso", "semestre": "Segundo", "aviso": "", "fechas": ["2025-10-21", "2025-10-01", "2025-11-02", "2025-11-09", "2025-11-16", "2025-11-19"]}, {"id": "10", "modalidad": "Virtual", "nivel": "Especialización", "grupo": "", "ciclo": "2026-1", "cohorte": "PGV-2S-A-2", "nombreCohorte": "POSGRADO VIRTUAL SEGUNDO SEMESTRE - ANTIGUO SEGUNDO INGRESO", "periodo": "202630", "detalle": "POSGRADO VIRTUAL ESPECIALIZACIÓN POSGRADO VIRTUAL SEGUNDO SEMESTRE - ANTIGUO SEGUNDO INGRESO", "ingreso": "Segundo ingreso", "semestre": "Segundo", "aviso": "", "fechas": ["2025-12-16", "2025-11-28", "2026-01-18", "2026-01-25", "2026-02-01", "2026-02-04"]}, {"id": "11", "modalidad": "Virtual", "nivel": "Especialización", "grupo": "", "ciclo": "2026-1", "cohorte": "PGV-2S-A-3", "nombreCohorte": "POSGRADO VIRTUAL SEGUNDO SEMESTRE - ANTIGUO TERCER INGRESO", "periodo": "202630", "detalle": "POSGRADO VIRTUAL ESPECIALIZACIÓN POSGRADO VIRTUAL SEGUNDO SEMESTRE - ANTIGUO TERCER INGRESO", "ingreso": "Tercer ingreso", "semestre": "Segundo", "aviso": "", "fechas": ["2026-03-03", "2026-02-18", "2026-03-22", "2026-03-29", "2026-04-05", "2026-04-08"]}, {"id": "12", "modalidad": "Virtual", "nivel": "Maestría", "grupo": "", "ciclo": "2026-1", "cohorte": "PGV-4S-A-3", "nombreCohorte": "POSGRADO VIRTUAL CUARTO SEMESTRE - ANTIGUO TERCER INGRESO", "periodo": "202630", "detalle": "POSGRADO VIRTUAL MAESTRIA POSGRADO VIRTUAL CUARTO SEMESTRE - ANTIGUO TERCER INGRESO", "ingreso": "Tercer ingreso", "semestre": "Cuarto", "aviso": "", "fechas": ["2025-12-16", "2025-11-28", "2026-01-18", "2026-01-25", "2026-02-01", "2026-02-04"]}, {"id": "13", "modalidad": "Virtual", "nivel": "Maestría", "grupo": "", "ciclo": "2026-1", "cohorte": "PGV-2S-A-2", "nombreCohorte": "POSGRADO VIRTUAL SEGUNDO SEMESTRE - ANTIGUO SEGUNDO INGRESO", "periodo": "202630", "detalle": "POSGRADO VIRTUAL MAESTRIA POSGRADO VIRTUAL SEGUNDO SEMESTRE - ANTIGUO SEGUNDO INGRESO", "ingreso": "Segundo ingreso", "semestre": "Segundo", "aviso": "", "fechas": ["2025-12-16", "2025-11-28", "2026-01-18", "2026-01-25", "2026-02-01", "2026-02-04"]}, {"id": "14", "modalidad": "Virtual", "nivel": "Maestría", "grupo": "", "ciclo": "2026-1", "cohorte": "PGV-3S-A-1", "nombreCohorte": "POSGRADO VIRTUAL TERCER SEMESTRE - ANTIGUO PRIMER INGRESO", "periodo": "202630", "detalle": "POSGRADO VIRTUAL MAESTRIA POSGRADO VIRTUAL TERCER SEMESTRE - ANTIGUO PRIMER INGRESO", "ingreso": "Primer ingreso", "semestre": "Tercero", "aviso": "", "fechas": ["2025-11-18", "2025-11-28", "2025-12-21", "2025-12-28", "2026-01-04", "2026-01-07"]}, {"id": "15", "modalidad": "Virtual", "nivel": "Maestría", "grupo": "", "ciclo": "2026-1", "cohorte": "PGV-3S-A-2", "nombreCohorte": "POSGRADO VIRTUAL TERCER SEMESTRE - ANTIGUO SEGUNDO INGRESO", "periodo": "202630", "detalle": "POSGRADO VIRTUAL MAESTRIA POSGRADO VIRTUAL TERCER SEMESTRE - ANTIGUO SEGUNDO INGRESO", "ingreso": "Segundo ingreso", "semestre": "Tercero", "aviso": "", "fechas": ["2026-02-03", "2026-01-14", "2026-02-15", "2026-02-22", "2026-03-01", "2026-03-04"]}, {"id": "16", "modalidad": "Virtual", "nivel": "Maestría", "grupo": "", "ciclo": "2026-1", "cohorte": "PGV-2S-A-1", "nombreCohorte": "POSGRADO VIRTUAL SEGUNDO SEMESTRE - ANTIGUO PRIMER INGRESO", "periodo": "202630", "detalle": "POSGRADO VIRTUAL MAESTRIA POSGRADO VIRTUAL SEGUNDO SEMESTRE - ANTIGUO PRIMER INGRESO", "ingreso": "Primer ingreso", "semestre": "Segundo", "aviso": "", "fechas": ["2025-10-21", "2025-10-01", "2025-11-02", "2025-11-09", "2025-11-16", "2025-11-19"]}, {"id": "17", "modalidad": "Virtual", "nivel": "Maestría", "grupo": "", "ciclo": "2026-1", "cohorte": "PGV-2S-A-3", "nombreCohorte": "POSGRADO VIRTUAL SEGUNDO SEMESTRE - ANTIGUO TERCER INGRESO", "periodo": "202630", "detalle": "POSGRADO VIRTUAL MAESTRIA POSGRADO VIRTUAL SEGUNDO SEMESTRE - ANTIGUO TERCER INGRESO", "ingreso": "Tercer ingreso", "semestre": "Segundo", "aviso": "", "fechas": ["2026-03-03", "2026-02-18", "2026-03-22", "2026-03-29", "2026-04-05", "2026-04-08"]}, {"id": "18", "modalidad": "Presencial", "nivel": "Pregrado", "grupo": "Bogotá–Medellín", "ciclo": "2026-1", "cohorte": "UGP-00-A-1", "nombreCohorte": "PREGRADO PRESENCIAL - ANTIGUO PRIMER INGRESO", "periodo": "202610", "detalle": "PREGRADO PRESENCIAL BOGOTÁ/MEDELLÍN PREGRADO PRESENCIAL - ANTIGUO PRIMER INGRESO", "ingreso": "Unico", "semestre": "Todos", "aviso": "", "fechas": ["2025-11-30", "2025-11-26", "2026-01-18", "2026-01-25", "2026-02-01", "2026-02-02"]}, {"id": "19", "modalidad": "Presencial", "nivel": "Pregrado", "grupo": "Policía sábados · 22 semanas", "ciclo": "2026-1", "cohorte": "UGP-00-A-1", "nombreCohorte": "PREGRADO PRESENCIAL - ANTIGUO PRIMER INGRESO", "periodo": "202610", "detalle": "PREGRADO PRESENCIAL POLICIA SABADOS (22 semanas)  PREGRADO PRESENCIAL - ANTIGUO PRIMER INGRESO", "ingreso": "Unico", "semestre": "Todos", "aviso": "", "fechas": ["2025-12-20", "2025-11-26", "2026-01-04", "2026-01-11", "2026-01-18", "2026-01-24"]}, {"id": "20", "modalidad": "Presencial", "nivel": "Pregrado", "grupo": "Policía martes · 22 semanas", "ciclo": "2026-1", "cohorte": "UGP-00-A-1", "nombreCohorte": "PREGRADO PRESENCIAL - ANTIGUO PRIMER INGRESO", "periodo": "202610", "detalle": "PREGRADO PRESENCIAL POLICIA MARTES(22 semanas) PREGRADO PRESENCIAL - ANTIGUO PRIMER INGRESO", "ingreso": "Unico", "semestre": "Todos", "aviso": "", "fechas": ["2025-12-16", "2025-11-26", "2026-01-11", "2026-01-18", "2026-01-25", "2026-01-27"]}, {"id": "21", "modalidad": "Virtual", "nivel": "Pregrado", "grupo": "Pregrado A", "ciclo": "2026-1", "cohorte": "UGV-00-A-B", "nombreCohorte": "PREGRADO VIRTUAL - ANTIGUO SEGUNDO INGRESO", "periodo": "202610", "detalle": "PREGRADO VIRTUAL PREGRADO A PREGRADO VIRTUAL - ANTIGUO SEGUNDO INGRESO", "ingreso": "Segundo ingreso", "semestre": "Todos", "aviso": "", "fechas": ["2025-10-21", "2025-11-27", "2026-02-15", "2026-02-22", "2026-03-01", "2026-03-03"]}, {"id": "22", "modalidad": "Virtual", "nivel": "Pregrado", "grupo": "Pregrado B", "ciclo": "2026-1", "cohorte": "UGV-00-A-B", "nombreCohorte": "PREGRADO VIRTUAL - ANTIGUO SEGUNDO INGRESO", "periodo": "202610", "detalle": "PREGRADO VIRTUAL PREGRADO B PREGRADO VIRTUAL - ANTIGUO SEGUNDO INGRESO", "ingreso": "Segundo ingreso", "semestre": "Todos", "aviso": "", "fechas": ["2025-12-09", "2025-11-27", "2026-02-15", "2026-02-22", "2026-03-01", "2026-03-03"]}, {"id": "23", "modalidad": "Virtual", "nivel": "Pregrado", "grupo": "Pregrado C", "ciclo": "2026-1", "cohorte": "UGV-00-A-B", "nombreCohorte": "PREGRADO VIRTUAL - ANTIGUO SEGUNDO INGRESO", "periodo": "202610", "detalle": "PREGRADO VIRTUAL PREGRADO C PREGRADO VIRTUAL - ANTIGUO SEGUNDO INGRESO", "ingreso": "Segundo ingreso", "semestre": "Todos", "aviso": "", "fechas": ["2026-02-10", "2026-01-20", "2026-02-15", "2026-02-22", "2026-03-01", "2026-03-03"]}, {"id": "24", "modalidad": "Virtual", "nivel": "Pregrado", "grupo": "Pregrado segundo bloque", "ciclo": "2026-1", "cohorte": "UGV-00-A-B", "nombreCohorte": "PREGRADO VIRTUAL - ANTIGUO SEGUNDO INGRESO", "periodo": "202610", "detalle": "PREGRADO VIRTUAL PREGRADO SB PREGRADO VIRTUAL - ANTIGUO SEGUNDO INGRESO", "ingreso": "Segundo ingreso", "semestre": "Todos", "aviso": "", "fechas": ["2025-12-09", null, "2026-04-19", "2026-04-26", "2026-05-03", "2026-05-06"]}, {"id": "25", "modalidad": "Presencial", "nivel": "Especialización", "grupo": "", "ciclo": "2026-2", "cohorte": "PGP-2S-A-1", "nombreCohorte": "POSGRADO PRESENCIAL SEGUNDO SEMESTRE - ANTIGUO PRIMER INGRESO", "periodo": "202680", "detalle": "POSGRADO PRESENCIAL ESPECIALIZACIÓN POSGRADO PRESENCIAL SEGUNDO SEMESTRE - ANTIGUO PRIMER INGRESO", "ingreso": "Primer ingreso", "semestre": "Segundo", "aviso": "", "fechas": ["2026-07-11", "2026-06-25", "2026-07-19", "2026-07-26", "2026-08-02", "2026-08-03"]}, {"id": "26", "modalidad": "Presencial", "nivel": "Especialización", "grupo": "", "ciclo": "2026-2", "cohorte": "PGP-2S-A-2", "nombreCohorte": "POSGRADO PRESENCIAL SEGUNDO SEMESTRE - ANTIGUO SEGUNDO INGRESO", "periodo": "202680", "detalle": "POSGRADO PRESENCIAL ESPECIALIZACIÓN POSGRADO PRESENCIAL SEGUNDO SEMESTRE - ANTIGUO SEGUNDO INGRESO", "ingreso": "Segundo ingreso", "semestre": "Segundo", "aviso": "", "fechas": ["2026-09-12", "2026-08-27", "2026-09-20", "2026-09-27", "2026-10-04", "2026-10-05"]}, {"id": "27", "modalidad": "Presencial", "nivel": "Maestría", "grupo": "", "ciclo": "2026-2", "cohorte": "PGP-2S-A-1", "nombreCohorte": "POSGRADO PRESENCIAL SEGUNDO SEMESTRE - ANTIGUO PRIMER INGRESO", "periodo": "202680", "detalle": "POSGRADO PRESENCIAL MAESTRIA POSGRADO PRESENCIAL SEGUNDO SEMESTRE - ANTIGUO PRIMER INGRESO", "ingreso": "Primer ingreso", "semestre": "Segundo", "aviso": "", "fechas": ["2026-07-25", "2026-06-25", "2026-07-19", "2026-07-26", "2026-08-02", "2026-08-03"]}, {"id": "28", "modalidad": "Presencial", "nivel": "Maestría", "grupo": "", "ciclo": "2026-2", "cohorte": "PGP-2S-A-2", "nombreCohorte": "POSGRADO PRESENCIAL SEGUNDO SEMESTRE - ANTIGUO SEGUNDO INGRESO", "periodo": "202680", "detalle": "POSGRADO PRESENCIAL MAESTRIA POSGRADO PRESENCIAL SEGUNDO SEMESTRE - ANTIGUO SEGUNDO INGRESO", "ingreso": "Segundo ingreso", "semestre": "Segundo", "aviso": "", "fechas": ["2026-07-25", "2026-06-25", "2026-07-19", "2026-07-26", "2026-08-02", "2026-08-03"]}, {"id": "29", "modalidad": "Presencial", "nivel": "Maestría", "grupo": "", "ciclo": "2026-2", "cohorte": "PGP-3S-A-1", "nombreCohorte": "POSGRADO PRESENCIAL TERCER SEMESTRE - ANTIGUO PRIMER INGRESO", "periodo": "202680", "detalle": "POSGRADO PRESENCIAL MAESTRIA POSGRADO PRESENCIAL TERCER SEMESTRE - ANTIGUO PRIMER INGRESO", "ingreso": "Primer ingreso", "semestre": "Tercero", "aviso": "", "fechas": ["2026-07-25", "2026-06-25", "2026-07-19", "2026-07-26", "2026-08-02", "2026-08-03"]}, {"id": "30", "modalidad": "Presencial", "nivel": "Maestría", "grupo": "", "ciclo": "2026-2", "cohorte": "PGP-3S-A-2", "nombreCohorte": "POSGRADO PRESENCIAL TERCER SEMESTRE - ANTIGUO SEGUNDO INGRESO", "periodo": "202680", "detalle": "POSGRADO PRESENCIAL MAESTRIA POSGRADO PRESENCIAL TERCER SEMESTRE - ANTIGUO SEGUNDO INGRESO", "ingreso": "Segundo ingreso", "semestre": "Tercero", "aviso": "", "fechas": ["2026-07-25", "2026-06-25", "2026-07-19", "2026-07-26", "2026-08-02", "2026-08-03"]}, {"id": "31", "modalidad": "Presencial", "nivel": "Maestría", "grupo": "", "ciclo": "2026-2", "cohorte": "PGP-4S-A-1", "nombreCohorte": "POSGRADO PRESENCIAL CUARTO SEMESTRE - ANTIGUO PRIMER INGRESO", "periodo": "202680", "detalle": "POSGRADO PRESENCIAL MAESTRIA POSGRADO PRESENCIAL CUARTO SEMESTRE - ANTIGUO PRIMER INGRESO", "ingreso": "Primer ingreso", "semestre": "Cuarto", "aviso": "", "fechas": ["2026-07-25", "2026-06-25", "2026-07-19", "2026-07-26", "2026-08-02", "2026-08-03"]}, {"id": "32", "modalidad": "Presencial", "nivel": "Maestría", "grupo": "", "ciclo": "2026-2", "cohorte": "PGP-4S-A-2", "nombreCohorte": "POSGRADO PRESENCIAL CUARTO SEMESTRE - ANTIGUO SEGUNDO INGRESO", "periodo": "202680", "detalle": "POSGRADO PRESENCIAL MAESTRIA POSGRADO PRESENCIAL CUARTO SEMESTRE - ANTIGUO SEGUNDO INGRESO", "ingreso": "Segundo ingreso", "semestre": "Cuarto", "aviso": "", "fechas": ["2026-07-25", "2026-06-25", "2026-07-19", "2026-07-26", "2026-08-02", "2026-08-03"]}, {"id": "33", "modalidad": "Virtual", "nivel": "Especialización", "grupo": "", "ciclo": "2026-2", "cohorte": "PGV-2S-A-1", "nombreCohorte": "POSGRADO VIRTUAL SEGUNDO SEMESTRE - ANTIGUO PRIMER INGRESO", "periodo": "202680", "detalle": "POSGRADO VIRTUAL ESPECIALIZACIÓN POSGRADO VIRTUAL SEGUNDO SEMESTRE - ANTIGUO PRIMER INGRESO", "ingreso": "Primer ingreso", "semestre": "Segundo", "aviso": "", "fechas": ["2026-06-30", "2026-06-25", "2026-07-12", "2026-07-19", "2026-07-26", "2026-07-29"]}, {"id": "34", "modalidad": "Virtual", "nivel": "Especialización", "grupo": "", "ciclo": "2026-2", "cohorte": "PGV-2S-A-2", "nombreCohorte": "POSGRADO VIRTUAL SEGUNDO SEMESTRE - ANTIGUO SEGUNDO INGRESO", "periodo": "202680", "detalle": "POSGRADO VIRTUAL ESPECIALIZACIÓN POSGRADO VIRTUAL SEGUNDO SEMESTRE - ANTIGUO SEGUNDO INGRESO", "ingreso": "Segundo ingreso", "semestre": "Segundo", "aviso": "", "fechas": ["2026-08-25", "2026-06-18", "2026-09-06", "2026-09-13", "2026-09-20", "2026-09-23"]}, {"id": "35", "modalidad": "Virtual", "nivel": "Maestría", "grupo": "", "ciclo": "2026-2", "cohorte": "PGV-3S-A-1", "nombreCohorte": "POSGRADO VIRTUAL TERCER SEMESTRE - ANTIGUO PRIMER INGRESO", "periodo": "202680", "detalle": "POSGRADO VIRTUAL MAESTRIA POSGRADO VIRTUAL TERCER SEMESTRE - ANTIGUO PRIMER INGRESO", "ingreso": "Primer ingreso", "semestre": "Tercero", "aviso": "", "fechas": ["2026-03-31", "2026-03-18", "2026-04-19", "2026-04-26", "2026-05-03", "2026-05-06"]}, {"id": "36", "modalidad": "Virtual", "nivel": "Maestría", "grupo": "", "ciclo": "2026-2", "cohorte": "PGV-3S-A-2", "nombreCohorte": "POSGRADO VIRTUAL TERCER SEMESTRE - ANTIGUO SEGUNDO INGRESO", "periodo": "202680", "detalle": "POSGRADO VIRTUAL MAESTRIA POSGRADO VIRTUAL TERCER SEMESTRE - ANTIGUO SEGUNDO INGRESO", "ingreso": "Segundo ingreso", "semestre": "Tercero", "aviso": "", "fechas": ["2026-06-02", "2026-05-14", "2026-06-14", "2026-06-21", "2026-06-28", "2026-07-01"]}, {"id": "37", "modalidad": "Virtual", "nivel": "Maestría", "grupo": "", "ciclo": "2026-2", "cohorte": "PGV-3S-A-3", "nombreCohorte": "POSGRADO VIRTUAL TERCER SEMESTRE - ANTIGUO TERCER INGRESO", "periodo": "202680", "detalle": "POSGRADO VIRTUAL MAESTRIA POSGRADO VIRTUAL TERCER SEMESTRE - ANTIGUO TERCER INGRESO", "ingreso": "Tercer ingreso", "semestre": "Tercero", "aviso": "", "fechas": ["2026-07-28", "2026-07-09", "2026-08-09", "2026-08-16", "2026-08-23", "2026-08-26"]}, {"id": "38", "modalidad": "Virtual", "nivel": "Maestría", "grupo": "", "ciclo": "2026-2", "cohorte": "PGV-2S-A-1", "nombreCohorte": "POSGRADO VIRTUAL SEGUNDO SEMESTRE - ANTIGUO PRIMER INGRESO", "periodo": "202680", "detalle": "POSGRADO VIRTUAL MAESTRIA POSGRADO VIRTUAL SEGUNDO SEMESTRE - ANTIGUO PRIMER INGRESO", "ingreso": "Primer ingreso", "semestre": "Segundo", "aviso": "", "fechas": ["2026-06-30", "2026-06-18", "2026-07-12", "2026-07-19", "2026-07-26", "2026-07-29"]}, {"id": "39", "modalidad": "Virtual", "nivel": "Maestría", "grupo": "", "ciclo": "2026-2", "cohorte": "PGV-2S-A-2", "nombreCohorte": "POSGRADO VIRTUAL SEGUNDO SEMESTRE - ANTIGUO SEGUNDO INGRESO", "periodo": "202680", "detalle": "POSGRADO VIRTUAL MAESTRIA POSGRADO VIRTUAL SEGUNDO SEMESTRE - ANTIGUO SEGUNDO INGRESO", "ingreso": "Segundo ingreso", "semestre": "Segundo", "aviso": "", "fechas": ["2026-08-25", "2026-08-12", "2026-09-06", "2026-09-13", "2026-09-20", "2026-09-23"]}, {"id": "40", "modalidad": "Presencial", "nivel": "Pregrado", "grupo": "Bogotá–Medellín", "ciclo": "2026-2", "cohorte": "UGP-00-A-1", "nombreCohorte": "PREGRADO PRESENCIAL - ANTIGUO PRIMER INGRESO", "periodo": "202660", "detalle": "PREGRADO PRESENCIAL BOGOTÁ/MEDELLÍN PREGRADO PRESENCIAL - ANTIGUO PRIMER INGRESO", "ingreso": "Unico", "semestre": "Todos", "aviso": "", "fechas": ["2026-05-31", "2026-05-27", "2026-07-19", "2026-07-26", "2026-08-02", "2026-08-03"]}, {"id": "41", "modalidad": "Presencial", "nivel": "Pregrado", "grupo": "Policía sábados · 22 semanas", "ciclo": "2026-2", "cohorte": "UGP-00-A-1", "nombreCohorte": "PREGRADO PRESENCIAL - ANTIGUO PRIMER INGRESO", "periodo": "202660", "detalle": "PREGRADO PRESENCIAL POLICIA SABADOS (22 semanas)  PREGRADO PRESENCIAL - ANTIGUO PRIMER INGRESO", "ingreso": "Unico", "semestre": "Todos", "aviso": "", "fechas": ["2026-06-27", "2026-05-27", "2026-07-19", "2026-07-26", "2026-08-02", "2026-08-08"]}, {"id": "42", "modalidad": "Presencial", "nivel": "Pregrado", "grupo": "Policía martes · 22 semanas", "ciclo": "2026-2", "cohorte": "UGP-00-A-1", "nombreCohorte": "PREGRADO PRESENCIAL - ANTIGUO PRIMER INGRESO", "periodo": "202660", "detalle": "PREGRADO PRESENCIAL POLICIA MARTES(22 semanas) PREGRADO PRESENCIAL - ANTIGUO PRIMER INGRESO", "ingreso": "Unico", "semestre": "Todos", "aviso": "", "fechas": ["2026-06-30", "2026-05-27", "2026-07-19", "2026-07-26", "2026-08-02", "2026-08-04"]}, {"id": "43", "modalidad": "Virtual", "nivel": "Pregrado", "grupo": "Pregrado A", "ciclo": "2026-2", "cohorte": "UGV-00-A-B", "nombreCohorte": "PREGRADO VIRTUAL - ANTIGUO SEGUNDO INGRESO", "periodo": "202660", "detalle": "PREGRADO VIRTUAL PREGRADO A PREGRADO VIRTUAL - ANTIGUO SEGUNDO INGRESO", "ingreso": "Segundo ingreso", "semestre": "Todos", "aviso": "", "fechas": ["2026-06-02", "2026-05-28", "2026-08-09", "2026-08-16", "2026-08-23", "2026-08-25"]}, {"id": "44", "modalidad": "Virtual", "nivel": "Pregrado", "grupo": "Pregrado B", "ciclo": "2026-2", "cohorte": "UGV-00-A-B", "nombreCohorte": "PREGRADO VIRTUAL - ANTIGUO SEGUNDO INGRESO", "periodo": "202660", "detalle": "PREGRADO VIRTUAL PREGRADO B PREGRADO VIRTUAL - ANTIGUO SEGUNDO INGRESO", "ingreso": "Segundo ingreso", "semestre": "Todos", "aviso": "", "fechas": ["2026-06-30", "2026-05-28", "2026-08-09", "2026-08-16", "2026-08-23", "2026-08-25"]}, {"id": "45", "modalidad": "Virtual", "nivel": "Pregrado", "grupo": "Pregrado C", "ciclo": "2026-2", "cohorte": "UGV-00-A-B", "nombreCohorte": "PREGRADO VIRTUAL - ANTIGUO SEGUNDO INGRESO", "periodo": "202660", "detalle": "PREGRADO VIRTUAL PREGRADO C PREGRADO VIRTUAL - ANTIGUO SEGUNDO INGRESO", "ingreso": "Segundo ingreso", "semestre": "Todos", "aviso": "", "fechas": ["2026-08-04", "2026-07-15", "2026-08-09", "2026-08-16", "2026-08-23", "2026-08-25"]}, {"id": "46", "modalidad": "Virtual", "nivel": "Pregrado", "grupo": "Pregrado segundo bloque", "ciclo": "2026-2", "cohorte": "UGV-00-A-B", "nombreCohorte": "PREGRADO VIRTUAL - ANTIGUO SEGUNDO INGRESO", "periodo": "202660", "detalle": "PREGRADO VIRTUAL PREGRADO SB PREGRADO VIRTUAL - ANTIGUO SEGUNDO INGRESO", "ingreso": "Segundo ingreso", "semestre": "Todos", "aviso": "", "fechas": ["2026-06-30", null, "2026-10-04", "2026-10-11", "2026-10-18", "2026-10-21"]}, {"id": "47", "modalidad": "Presencial", "nivel": "Especialización", "grupo": "", "ciclo": "2027-1", "cohorte": "PGP-2S-A-1", "nombreCohorte": "POSGRADO PRESENCIAL SEGUNDO SEMESTRE ANTIGUO PRIMER INGRESO", "periodo": "202730", "detalle": "POSGRADO PRESENCIAL ESPECIALIZACIÓN POSGRADO PRESENCIAL SEGUNDO SEMESTRE ANTIGUO PRIMER INGRESO ", "ingreso": "Primer ingreso", "semestre": "Segundo", "aviso": "", "fechas": ["2026-12-05", "2026-11-27", "2027-01-03", "2027-01-10", "2027-01-17", "2027-01-18", "2027-05-29"]}, {"id": "48", "modalidad": "Presencial", "nivel": "Especialización", "grupo": "", "ciclo": "2027-1", "cohorte": "PGP-2S-A-2", "nombreCohorte": "POSGRADO PRESENCIAL SEGUNDO SEMESTRE ANTIGUO SEGUNDO INGRESO", "periodo": "202730", "detalle": "POSGRADO PRESENCIAL ESPECIALIZACIÓN POSGRADO PRESENCIAL SEGUNDO SEMESTRE ANTIGUO SEGUNDO INGRESO ", "ingreso": "Segundo ingreso", "semestre": "Segundo", "aviso": "", "fechas": ["2027-02-27", "2027-02-04", "2027-03-21", "2027-03-28", "2027-04-04", "2027-04-05", "2027-08-07"]}, {"id": "49", "modalidad": "Presencial", "nivel": "Maestría", "grupo": "", "ciclo": "2027-1", "cohorte": "PGP-2S-A-1", "nombreCohorte": "POSGRADO PRESENCIAL SEGUNDO SEMESTRE ANTIGUO PRIMER INGRESO", "periodo": "202730", "detalle": "POSGRADO PRESENCIAL MAESTRIA POSGRADO PRESENCIAL SEGUNDO SEMESTRE ANTIGUO PRIMER INGRESO ", "ingreso": "Primer ingreso", "semestre": "Segundo", "aviso": "", "fechas": ["2026-12-19", "2026-11-27", "2027-02-14", "2027-02-21", "2027-02-28", "2027-03-01", "2027-06-26"]}, {"id": "50", "modalidad": "Presencial", "nivel": "Maestría", "grupo": "", "ciclo": "2027-1", "cohorte": "PGP-2S-A-2", "nombreCohorte": "POSGRADO PRESENCIAL SEGUNDO SEMESTRE ANTIGUO SEGUNDO INGRESO", "periodo": "202730", "detalle": "POSGRADO PRESENCIAL MAESTRIA POSGRADO PRESENCIAL SEGUNDO SEMESTRE ANTIGUO SEGUNDO INGRESO ", "ingreso": "Segundo ingreso", "semestre": "Segundo", "aviso": "", "fechas": ["2026-12-19", "2026-11-27", "2027-02-14", "2027-02-21", "2027-02-28", "2027-03-01", "2027-06-26"]}, {"id": "51", "modalidad": "Presencial", "nivel": "Maestría", "grupo": "", "ciclo": "2027-1", "cohorte": "PGP-3S-A-1", "nombreCohorte": "POSGRADO PRESENCIAL TERCER SEMESTRE ANTIGUO PRIMER INGRESO", "periodo": "202730", "detalle": "POSGRADO PRESENCIAL MAESTRIA POSGRADO PRESENCIAL TERCER SEMESTRE ANTIGUO PRIMER INGRESO", "ingreso": "Primer ingreso", "semestre": "Tercero", "aviso": "", "fechas": ["2026-12-19", "2026-11-27", "2027-02-14", "2027-02-21", "2027-02-28", "2027-03-01", "2027-06-26"]}, {"id": "52", "modalidad": "Presencial", "nivel": "Maestría", "grupo": "", "ciclo": "2027-1", "cohorte": "PGP-3S-A-2", "nombreCohorte": "POSGRADO PRESENCIAL TERCER SEMESTRE ANTIGUO SEGUNDO INGRESO", "periodo": "202730", "detalle": "POSGRADO PRESENCIAL MAESTRIA POSGRADO PRESENCIAL TERCER SEMESTRE ANTIGUO SEGUNDO INGRESO", "ingreso": "Segundo ingreso", "semestre": "Tercero", "aviso": "", "fechas": ["2026-12-19", "2026-11-27", "2027-02-14", "2027-02-21", "2027-02-28", "2027-03-01", "2027-06-26"]}, {"id": "53", "modalidad": "Presencial", "nivel": "Maestría", "grupo": "", "ciclo": "2027-1", "cohorte": "PGP-4S-A-1", "nombreCohorte": "POSGRADO PRESENCIAL CUARTO SEMESTRE ANTIGUO PRIMER INGRESO", "periodo": "202730", "detalle": "POSGRADO PRESENCIAL MAESTRIA POSGRADO PRESENCIAL CUARTO SEMESTRE ANTIGUO PRIMER INGRESO", "ingreso": "Primer ingreso", "semestre": "Cuarto", "aviso": "", "fechas": ["2026-12-19", "2026-11-27", "2027-02-14", "2027-02-21", "2027-02-28", "2027-03-01", "2027-06-26"]}, {"id": "54", "modalidad": "Presencial", "nivel": "Maestría", "grupo": "", "ciclo": "2027-1", "cohorte": "PGP-4S-A-2", "nombreCohorte": "POSGRADO PRESENCIAL CUARTO SEMESTRE ANTIGUO SEGUNDO INGRESO", "periodo": "202730", "detalle": "POSGRADO PRESENCIAL MAESTRIA POSGRADO PRESENCIAL CUARTO SEMESTRE ANTIGUO SEGUNDO INGRESO", "ingreso": "Segundo ingreso", "semestre": "Cuarto", "aviso": "", "fechas": ["2026-12-19", "2026-11-27", "2027-02-14", "2027-02-21", "2027-02-28", "2027-03-01", "2027-06-26"]}, {"id":"55","modalidad":"Virtual","nivel":"Especialización","grupo":"","ciclo":"2027-1","cohorte":"PGV-2S-A-1","nombreCohorte":"POSGRADO VIRTUAL SEGUNDO SEMESTRE - ANTIGUO PRIMER INGRESO","periodo":"202730","detalle":"POSGRADO VIRTUAL ESPECIALIZACIÓN POSGRADO VIRTUAL SEGUNDO SEMESTRE - ANTIGUO PRIMER INGRESO","ingreso":"Primer ingreso","semestre":"Segundo","aviso":"","fechas":["2026-10-20","2026-10-01","2026-11-01","2026-11-08","2026-11-15","2026-11-18","2027-04-06"]}, {"id":"56","modalidad":"Virtual","nivel":"Especialización","grupo":"","ciclo":"2027-1","cohorte":"PGV-2S-A-2","nombreCohorte":"POSGRADO VIRTUAL SEGUNDO SEMESTRE - ANTIGUO SEGUNDO INGRESO","periodo":"202730","detalle":"POSGRADO VIRTUAL ESPECIALIZACIÓN POSGRADO VIRTUAL SEGUNDO SEMESTRE - ANTIGUO SEGUNDO INGRESO","ingreso":"Segundo ingreso","semestre":"Segundo","aviso":"","fechas":["2026-12-15","2026-11-27","2027-01-17","2027-01-24","2027-01-31","2027-02-03","2027-06-01"]}, {"id":"57","modalidad":"Virtual","nivel":"Especialización","grupo":"","ciclo":"2027-1","cohorte":"PGV-2S-A-3","nombreCohorte":"POSGRADO VIRTUAL SEGUNDO SEMESTRE - ANTIGUO TERCER INGRESO","periodo":"202730","detalle":"POSGRADO VIRTUAL ESPECIALIZACIÓN POSGRADO VIRTUAL SEGUNDO SEMESTRE - ANTIGUO TERCER INGRESO","ingreso":"Tercer ingreso","semestre":"Segundo","aviso":"","fechas":["2027-03-09","2027-02-18","2027-03-21","2027-03-28","2027-04-04","2027-04-07","2027-07-27"]}, {"id": "58", "modalidad": "Virtual", "nivel": "Maestría", "grupo": "", "ciclo": "2027-1", "cohorte": "PGV-3S-A-1", "nombreCohorte": "POSGRADO VIRTUAL TERCER SEMESTRE ANTIGUO PRIMER INGRESO", "periodo": "202730", "detalle": "POSGRADO VIRTUAL MAESTRIA POSGRADO VIRTUAL TERCER SEMESTRE ANTIGUO PRIMER INGRESO ", "ingreso": "Primer ingreso", "semestre": "Tercero", "aviso": "", "fechas": ["2026-11-17", "2026-11-27", "2026-12-27", "2027-01-03", "2027-01-10", "2027-01-13", "2027-05-11"]}, {"id": "59", "modalidad": "Virtual", "nivel": "Maestría", "grupo": "", "ciclo": "2027-1", "cohorte": "PGV-2S-A-1", "nombreCohorte": "POSGRADO VIRTUAL SEGUNDO SEMESTRE ANTIGUO PRIMER INGRESO", "periodo": "202730", "detalle": "POSGRADO VIRTUAL MAESTRIA POSGRADO VIRTUAL SEGUNDO SEMESTRE ANTIGUO PRIMER INGRESO ", "ingreso": "Primer ingreso", "semestre": "Segundo", "aviso": "", "fechas": ["2026-10-20", "2026-10-01", "2026-11-01", "2026-11-08", "2026-11-15", "2026-11-18", "2027-04-06"]}, {"id": "60", "modalidad": "Virtual", "nivel": "Maestría", "grupo": "", "ciclo": "2027-1", "cohorte": "PGV-3S-A-2", "nombreCohorte": "POSGRADO VIRTUAL TERCER SEMESTRE ANTIGUO SEGUNDO INGRESO", "periodo": "202730", "detalle": "POSGRADO VIRTUAL MAESTRIA POSGRADO VIRTUAL TERCER SEMESTRE ANTIGUO SEGUNDO INGRESO ", "ingreso": "Segundo ingreso", "semestre": "Tercero", "aviso": "", "fechas": ["2027-02-02", "2027-01-14", "2027-02-21", "2027-02-28", "2027-03-07", "2027-03-10", "2027-07-06"]}, {"id": "61", "modalidad": "Virtual", "nivel": "Maestría", "grupo": "", "ciclo": "2027-1", "cohorte": "PGV-2S-A-2", "nombreCohorte": "POSGRADO VIRTUAL SEGUNDO SEMESTRE ANTIGUO SEGUNDO INGRESO", "periodo": "202730", "detalle": "POSGRADO VIRTUAL MAESTRIA POSGRADO VIRTUAL SEGUNDO SEMESTRE ANTIGUO SEGUNDO INGRESO ", "ingreso": "Segundo ingreso", "semestre": "Segundo", "aviso": "", "fechas": ["2026-12-15", "2026-11-27", "2027-01-17", "2027-01-24", "2027-01-31", "2027-02-03", "2027-06-01"]}, {"id": "62", "modalidad": "Virtual", "nivel": "Maestría", "grupo": "", "ciclo": "2027-1", "cohorte": "PGV-2S-A-1", "nombreCohorte": "POSGRADO VIRTUAL SEGUNDO SEMESTRE ANTIGUO PRIMER INGRESO", "periodo": "202730", "detalle": "POSGRADO VIRTUAL SEGUNDO SEMESTRE ANTIGUO PRIMER INGRESO ", "ingreso": "Primer ingreso", "semestre": "Segundo", "aviso": "", "fechas": ["2027-03-09", "2027-02-18", "2027-03-21", "2027-03-28", "2027-04-04", "2027-04-07", "2027-07-27"]}, {"id": "63", "modalidad": "Presencial", "nivel": "Pregrado", "grupo": "Bogotá–Medellín", "ciclo": "2027-1", "cohorte": "UGP-00-A-1", "nombreCohorte": "PREGRADO PRESENCIAL ANTIGUO PRIMER INGRESO", "periodo": "202710", "detalle": "PREGRADO PRESENCIAL BOGOTÁ/MEDELLÍN PREGRADO PRESENCIAL ANTIGUO PRIMER INGRESO ", "ingreso": "Unico", "semestre": "Todos", "aviso": "", "fechas": ["2026-11-29", "2026-11-24", "2027-01-17", "2027-01-24", "2027-01-31", "2027-02-01", "2027-05-29"]}, {"id": "64", "modalidad": "Presencial", "nivel": "Pregrado", "grupo": "Policía martes · 16 semanas", "ciclo": "2027-1", "cohorte": "UGP-00-A-1", "nombreCohorte": "PREGRADO PRESENCIAL ANTIGUO PRIMER INGRESO", "periodo": "202710", "detalle": "PREGRADO PRESENCIAL POLICIA MARTES(16 semanas) PREGRADO PRESENCIAL ANTIGUO PRIMER INGRESO ", "ingreso": "Unico", "semestre": "Todos", "aviso": "", "fechas": ["2026-11-24", "2026-11-24", "2027-01-17", "2027-01-24", "2027-01-31", "2027-02-02", "2027-05-25"]}, {"id": "65", "modalidad": "Presencial", "nivel": "Pregrado", "grupo": "Policía martes · 22 semanas", "ciclo": "2027-1", "cohorte": "UGP-00-A-1", "nombreCohorte": "PREGRADO PRESENCIAL ANTIGUO PRIMER INGRESO", "periodo": "202710", "detalle": "PREGRADO PRESENCIAL POLICIA MARTES(22 semanas) PREGRADO PRESENCIAL ANTIGUO PRIMER INGRESO ", "ingreso": "Unico", "semestre": "Todos", "aviso": "", "fechas": ["2026-12-15", "2026-11-24", "2027-01-10", "2027-01-17", "2027-01-24", "2027-01-26", "2027-06-29"]}, {"id": "66", "modalidad": "Presencial", "nivel": "Pregrado", "grupo": "Policía sábados · 16 semanas", "ciclo": "2027-1", "cohorte": "UGP-00-A-1", "nombreCohorte": "PREGRADO PRESENCIAL ANTIGUO PRIMER INGRESO", "periodo": "202710", "detalle": "PREGRADO PRESENCIAL POLICIA SABADOS (16 semanas)  PREGRADO PRESENCIAL ANTIGUO PRIMER INGRESO ", "ingreso": "Unico", "semestre": "Todos", "aviso": "", "fechas": ["2026-11-28", "2026-11-24", "2027-01-17", "2027-01-24", "2027-01-31", "2027-02-06", "2027-05-29"]}, {"id": "67", "modalidad": "Presencial", "nivel": "Pregrado", "grupo": "Policía sábados · 22 semanas", "ciclo": "2027-1", "cohorte": "UGP-00-A-1", "nombreCohorte": "PREGRADO PRESENCIAL ANTIGUO PRIMER INGRESO", "periodo": "202710", "detalle": "PREGRADO PRESENCIAL POLICIA SABADOS  (22 semanas) PREGRADO PRESENCIAL ANTIGUO PRIMER INGRESO ", "ingreso": "Unico", "semestre": "Todos", "aviso": "", "fechas": ["2026-12-12", "2026-11-24", "2027-01-03", "2027-01-10", "2027-01-17", "2027-01-23", "2027-06-26"]}, {"id": "68", "modalidad": "Virtual", "nivel": "Pregrado", "grupo": "Pregrado A", "ciclo": "2027-1", "cohorte": "UGV-00-A-B", "nombreCohorte": "PREGRADO VIRTUAL ANTIGUO SEGUNDO INGRESO", "periodo": "202710", "detalle": "PREGRADO VIRTUAL PREGRADO A PREGRADO VIRTUAL ANTIGUO SEGUNDO INGRESO ", "ingreso": "Segundo ingreso", "semestre": "Todos", "aviso": "", "fechas": ["2026-10-27", "2026-11-25", "2027-02-14", "2027-02-21", "2027-02-28", "2027-03-02", "2027-06-29"]}, {"id": "69", "modalidad": "Virtual", "nivel": "Pregrado", "grupo": "Pregrado B", "ciclo": "2027-1", "cohorte": "UGV-00-A-B", "nombreCohorte": "PREGRADO VIRTUAL ANTIGUO SEGUNDO INGRESO", "periodo": "202710", "detalle": "PREGRADO VIRTUAL PREGRADO B PREGRADO VIRTUAL ANTIGUO SEGUNDO INGRESO ", "ingreso": "Segundo ingreso", "semestre": "Todos", "aviso": "", "fechas": ["2026-12-15", "2026-11-25", "2027-02-14", "2027-02-21", "2027-02-28", "2027-03-02", "2027-06-29"]}, {"id": "70", "modalidad": "Virtual", "nivel": "Pregrado", "grupo": "Pregrado C", "ciclo": "2027-1", "cohorte": "UGV-00-A-B", "nombreCohorte": "PREGRADO VIRTUAL ANTIGUO SEGUNDO INGRESO", "periodo": "202710", "detalle": "PREGRADO VIRTUAL PREGRADO C PREGRADO VIRTUAL ANTIGUO SEGUNDO INGRESO ", "ingreso": "Segundo ingreso", "semestre": "Todos", "aviso": "", "fechas": ["2027-02-09", "2027-01-14", "2027-02-14", "2027-02-21", "2027-02-28", "2027-03-02", "2027-06-29"]}, {"id": "71", "modalidad": "Virtual", "nivel": "Pregrado", "grupo": "Pregrado segundo bloque", "ciclo": "2027-1", "cohorte": "UGV-00-A-B", "nombreCohorte": "PREGRADO VIRTUAL ANTIGUO SEGUNDO INGRESO", "periodo": "202710", "detalle": "PREGRADO VIRTUAL PREGRADO SB PREGRADO VIRTUAL ANTIGUO SEGUNDO INGRESO ", "ingreso": "Segundo ingreso", "semestre": "Todos", "aviso": "", "fechas": ["2026-12-15", null, "2027-04-18", "2027-04-25", "2027-05-02", "2027-05-05", "2027-06-29"]}, {"id": "72", "modalidad": "Presencial", "nivel": "Especialización", "grupo": "", "ciclo": "2027-2", "cohorte": "PGP-2S-A-1", "nombreCohorte": "POSGRADO PRESENCIAL SEGUNDO SEMESTRE ANTIGUO PRIMER INGRESO", "periodo": "202780", "detalle": "POSGRADO PRESENCIAL ESPECIALIZACIÓN POSGRADO PRESENCIAL SEGUNDO SEMESTRE ANTIGUO PRIMER INGRESO ", "ingreso": "Primer ingreso", "semestre": "Segundo", "aviso": "", "fechas": ["2027-06-26", "2027-06-15", "2027-07-18", "2027-07-25", "2027-08-01", "2027-08-02", "2027-11-20"]}, {"id": "73", "modalidad": "Presencial", "nivel": "Especialización", "grupo": "", "ciclo": "2027-2", "cohorte": "PGP-2S-A-2", "nombreCohorte": "POSGRADO PRESENCIAL SEGUNDO SEMESTRE ANTIGUO SEGUNDO INGRESO", "periodo": "202780", "detalle": "POSGRADO PRESENCIAL ESPECIALIZACIÓN POSGRADO PRESENCIAL SEGUNDO SEMESTRE ANTIGUO SEGUNDO INGRESO ", "ingreso": "Segundo ingreso", "semestre": "Segundo", "aviso": "", "fechas": ["2027-08-28", "2027-08-17", "2027-09-19", "2027-09-26", "2027-10-03", "2027-10-04", "2028-02-12"]}, {"id": "74", "modalidad": "Presencial", "nivel": "Maestría", "grupo": "", "ciclo": "2027-2", "cohorte": "PGP-2S-A-1", "nombreCohorte": "POSGRADO PRESENCIAL SEGUNDO SEMESTRE ANTIGUO PRIMER INGRESO", "periodo": "202780", "detalle": "POSGRADO PRESENCIAL MAESTRIA POSGRADO PRESENCIAL SEGUNDO SEMESTRE ANTIGUO PRIMER INGRESO ", "ingreso": "Primer ingreso", "semestre": "Segundo", "aviso": "", "fechas": ["2027-06-26", "2027-06-15", "2027-07-18", "2027-07-25", "2027-08-01", "2027-08-02", "2027-11-20"]}, {"id": "75", "modalidad": "Presencial", "nivel": "Maestría", "grupo": "", "ciclo": "2027-2", "cohorte": "PGP-2S-A-2", "nombreCohorte": "POSGRADO PRESENCIAL SEGUNDO SEMESTRE ANTIGUO SEGUNDO INGRESO", "periodo": "202780", "detalle": "POSGRADO PRESENCIAL MAESTRIA POSGRADO PRESENCIAL SEGUNDO SEMESTRE ANTIGUO SEGUNDO INGRESO ", "ingreso": "Segundo ingreso", "semestre": "Segundo", "aviso": "", "fechas": ["2027-06-26", "2027-06-15", "2027-07-18", "2027-07-25", "2027-08-01", "2027-08-02", "2027-11-20"]}, {"id": "76", "modalidad": "Presencial", "nivel": "Maestría", "grupo": "", "ciclo": "2027-2", "cohorte": "PGP-3S-A-1", "nombreCohorte": "POSGRADO PRESENCIAL TERCER SEMESTRE ANTIGUO PRIMER INGRESO", "periodo": "202780", "detalle": "POSGRADO PRESENCIAL MAESTRIA POSGRADO PRESENCIAL TERCER SEMESTRE ANTIGUO PRIMER INGRESO", "ingreso": "Primer ingreso", "semestre": "Tercero", "aviso": "", "fechas": ["2027-06-26", "2027-06-15", "2027-07-18", "2027-07-25", "2027-08-01", "2027-08-02", "2027-11-20"]}, {"id": "77", "modalidad": "Presencial", "nivel": "Maestría", "grupo": "", "ciclo": "2027-2", "cohorte": "PGP-3S-A-2", "nombreCohorte": "POSGRADO PRESENCIAL TERCER SEMESTRE ANTIGUO SEGUNDO INGRESO", "periodo": "202780", "detalle": "POSGRADO PRESENCIAL MAESTRIA POSGRADO PRESENCIAL TERCER SEMESTRE ANTIGUO SEGUNDO INGRESO", "ingreso": "Segundo ingreso", "semestre": "Tercero", "aviso": "", "fechas": ["2027-06-26", "2027-06-15", "2027-07-18", "2027-07-25", "2027-08-01", "2027-08-02", "2027-11-20"]}, {"id": "78", "modalidad": "Presencial", "nivel": "Maestría", "grupo": "", "ciclo": "2027-2", "cohorte": "PGP-4S-A-1", "nombreCohorte": "POSGRADO PRESENCIAL CUARTO SEMESTRE ANTIGUO PRIMER INGRESO", "periodo": "202780", "detalle": "POSGRADO PRESENCIAL MAESTRIA POSGRADO PRESENCIAL CUARTO SEMESTRE ANTIGUO PRIMER INGRESO", "ingreso": "Primer ingreso", "semestre": "Cuarto", "aviso": "", "fechas": ["2027-06-26", "2027-06-15", "2027-07-18", "2027-07-25", "2027-08-01", "2027-08-02", "2027-11-20"]}, {"id": "79", "modalidad": "Presencial", "nivel": "Maestría", "grupo": "", "ciclo": "2027-2", "cohorte": "PGP-4S-A-2", "nombreCohorte": "POSGRADO PRESENCIAL CUARTO SEMESTRE ANTIGUO SEGUNDO INGRESO", "periodo": "202780", "detalle": "POSGRADO PRESENCIAL MAESTRIA POSGRADO PRESENCIAL CUARTO SEMESTRE ANTIGUO SEGUNDO INGRESO", "ingreso": "Segundo ingreso", "semestre": "Cuarto", "aviso": "", "fechas": ["2027-06-26", "2027-06-15", "2027-07-18", "2027-07-25", "2027-08-01", "2027-08-02", "2027-11-20"]}, {"id": "80", "modalidad": "Virtual", "nivel": "Especialización", "grupo": "", "ciclo": "2027-2", "cohorte": "PGV-2S-A-1", "nombreCohorte": "POSGRADO VIRTUAL SEGUNDO SEMESTRE ANTIGUO PRIMER INGRESO", "periodo": "202780", "detalle": "POSGRADO VIRTUAL ESPECIALIZACIÓN POSGRADO VIRTUAL SEGUNDO SEMESTRE ANTIGUO PRIMER INGRESO ", "ingreso": "Primer ingreso", "semestre": "Segundo", "aviso": "", "fechas": ["2027-07-06", "2027-06-15", "2027-07-11", "2027-07-18", "2027-07-25", "2027-07-28", "2027-11-16"]}, {"id": "81", "modalidad": "Virtual", "nivel": "Especialización", "grupo": "", "ciclo": "2027-2", "cohorte": "PGV-2S-A-2", "nombreCohorte": "POSGRADO VIRTUAL SEGUNDO SEMESTRE ANTIGUO SEGUNDO INGRESO", "periodo": "202780", "detalle": "POSGRADO VIRTUAL ESPECIALIZACIÓN POSGRADO VIRTUAL SEGUNDO SEMESTRE ANTIGUO SEGUNDO INGRESO ", "ingreso": "Segundo ingreso", "semestre": "Segundo", "aviso": "", "fechas": ["2027-08-31", "2027-08-17", "2027-09-05", "2027-09-12", "2027-09-19", "2027-09-22", "2028-02-01"]}, {"id": "82", "modalidad": "Virtual", "nivel": "Maestría", "grupo": "", "ciclo": "2027-2", "cohorte": "PGV-3S-A-1", "nombreCohorte": "POSGRADO VIRTUAL TERCER SEMESTRE ANTIGUO PRIMER INGRESO", "periodo": "202780", "detalle": "POSGRADO VIRTUAL MAESTRIA POSGRADO VIRTUAL TERCER SEMESTRE ANTIGUO PRIMER INGRESO ", "ingreso": "Primer ingreso", "semestre": "Tercero", "aviso": "", "fechas": ["2027-04-06", "2027-03-17", "2027-04-25", "2027-05-02", "2027-05-09", "2027-05-12", "2027-08-31"]}, {"id": "83", "modalidad": "Virtual", "nivel": "Maestría", "grupo": "", "ciclo": "2027-2", "cohorte": "PGV-3S-A-2", "nombreCohorte": "POSGRADO VIRTUAL TERCER SEMESTRE ANTIGUO SEGUNDO INGRESO", "periodo": "202780", "detalle": "POSGRADO VIRTUAL MAESTRIA POSGRADO VIRTUAL TERCER SEMESTRE ANTIGUO SEGUNDO INGRESO ", "ingreso": "Segundo ingreso", "semestre": "Tercero", "aviso": "", "fechas": ["2027-06-01", "2027-05-27", "2027-06-20", "2027-06-27", "2027-07-04", "2027-07-07", "2027-10-26"]}, {"id": "84", "modalidad": "Virtual", "nivel": "Maestría", "grupo": "", "ciclo": "2027-2", "cohorte": "PGV-2S-A-1", "nombreCohorte": "POSGRADO VIRTUAL SEGUNDO SEMESTRE ANTIGUO PRIMER INGRESO", "periodo": "202780", "detalle": "POSGRADO VIRTUAL MAESTRIA POSGRADO VIRTUAL SEGUNDO SEMESTRE ANTIGUO PRIMER INGRESO ", "ingreso": "Primer ingreso", "semestre": "segundo", "aviso": "", "fechas": ["2027-07-06", "2027-06-15", "2027-07-11", "2027-07-18", "2027-07-25", "2027-07-28", "2027-11-16"]}, {"id": "85", "modalidad": "Virtual", "nivel": "Maestría", "grupo": "", "ciclo": "2027-2", "cohorte": "PGV-2S-A-2", "nombreCohorte": "POSGRADO VIRTUAL SEGUNDO SEMESTRE ANTIGUO SEGUNDO INGRESO", "periodo": "202780", "detalle": "POSGRADO VIRTUAL MAESTRIA POSGRADO VIRTUAL SEGUNDO SEMESTRE ANTIGUO SEGUNDO INGRESO ", "ingreso": "Segundo ingreso", "semestre": "Segundo", "aviso": "", "fechas": ["2027-08-31", "2027-08-17", "2027-09-05", "2027-09-12", "2027-09-19", "2027-09-22", "2028-02-01"]}, {"id": "86", "modalidad": "Presencial", "nivel": "Pregrado", "grupo": "Bogotá–Medellín", "ciclo": "2027-2", "cohorte": "UGP-00-A-1", "nombreCohorte": "PREGRADO PRESENCIAL ANTIGUO PRIMER INGRESO", "periodo": "202760", "detalle": "PREGRADO PRESENCIAL BOGOTÁ/MEDELLÍN PREGRADO PRESENCIAL ANTIGUO PRIMER INGRESO ", "ingreso": "Unico", "semestre": "Todos", "aviso": "", "fechas": ["2027-05-29", "2027-05-25", "2027-07-18", "2027-07-25", "2027-08-01", "2027-08-02", "2027-11-27"]}, {"id": "87", "modalidad": "Presencial", "nivel": "Pregrado", "grupo": "Policía martes · 16 semanas", "ciclo": "2027-2", "cohorte": "UGP-00-A-1", "nombreCohorte": "PREGRADO PRESENCIAL ANTIGUO PRIMER INGRESO", "periodo": "202760", "detalle": "PREGRADO PRESENCIAL POLICIA MARTES(16 semanas) PREGRADO PRESENCIAL ANTIGUO PRIMER INGRESO ", "ingreso": "Unico", "semestre": "Todos", "aviso": "", "fechas": ["2027-05-25", "2027-05-25", "2027-07-18", "2027-07-25", "2027-08-01", "2027-08-03", "2027-11-23"]}, {"id": "88", "modalidad": "Presencial", "nivel": "Pregrado", "grupo": "Policía martes · 22 semanas", "ciclo": "2027-2", "cohorte": "UGP-00-A-1", "nombreCohorte": "PREGRADO PRESENCIAL ANTIGUO PRIMER INGRESO", "periodo": "202760", "detalle": "PREGRADO PRESENCIAL POLICIA MARTES(22 semanas) PREGRADO PRESENCIAL ANTIGUO PRIMER INGRESO ", "ingreso": "Unico", "semestre": "Todos", "aviso": "", "fechas": ["2027-06-29", "2027-05-25", "2027-06-27", "2027-07-04", "2027-07-11", "2027-07-13", "2027-12-07"]}, {"id": "89", "modalidad": "Presencial", "nivel": "Pregrado", "grupo": "Policía sábados · 16 semanas", "ciclo": "2027-2", "cohorte": "UGP-00-A-1", "nombreCohorte": "PREGRADO PRESENCIAL ANTIGUO PRIMER INGRESO", "periodo": "202760", "detalle": "PREGRADO PRESENCIAL POLICIA SABADOS (16 semanas)  PREGRADO PRESENCIAL ANTIGUO PRIMER INGRESO ", "ingreso": "Unico", "semestre": "Todos", "aviso": "", "fechas": ["2027-05-29", "2027-05-25", "2027-07-25", "2027-08-01", "2027-08-08", "2027-08-14", "2027-12-04"]}, {"id": "90", "modalidad": "Presencial", "nivel": "Pregrado", "grupo": "Policía sábados · 22 semanas", "ciclo": "2027-2", "cohorte": "UGP-00-A-1", "nombreCohorte": "PREGRADO PRESENCIAL ANTIGUO PRIMER INGRESO", "periodo": "202760", "detalle": "PREGRADO PRESENCIAL POLICIA SABADOS  (22 semanas) PREGRADO PRESENCIAL ANTIGUO PRIMER INGRESO ", "ingreso": "Unico", "semestre": "Todos", "aviso": "", "fechas": ["2027-06-26", "2027-05-25", "2027-06-27", "2027-07-04", "2027-07-11", "2027-07-17", "2027-12-11"]}, {"id": "91", "modalidad": "Virtual", "nivel": "Pregrado", "grupo": "Pregrado A", "ciclo": "2027-2", "cohorte": "UGV-00-A-B", "nombreCohorte": "PREGRADO VIRTUAL ANTIGUO SEGUNDO INGRESO", "periodo": "202760", "detalle": "PREGRADO VIRTUAL PREGRADO A PREGRADO VIRTUAL ANTIGUO SEGUNDO INGRESO ", "ingreso": "Segundo ingreso", "semestre": "Todos", "aviso": "", "fechas": ["2027-06-01", "2027-05-26", "2027-08-08", "2027-08-15", "2027-08-22", "2027-08-24", "2027-12-14"]}, {"id": "92", "modalidad": "Virtual", "nivel": "Pregrado", "grupo": "Pregrado B", "ciclo": "2027-2", "cohorte": "UGV-00-A-B", "nombreCohorte": "PREGRADO VIRTUAL ANTIGUO SEGUNDO INGRESO", "periodo": "202760", "detalle": "PREGRADO VIRTUAL PREGRADO B PREGRADO VIRTUAL ANTIGUO SEGUNDO INGRESO ", "ingreso": "Segundo ingreso", "semestre": "Todos", "aviso": "", "fechas": ["2027-06-29", "2027-05-26", "2027-08-08", "2027-08-15", "2027-08-22", "2027-08-24", "2027-12-14"]}, {"id": "93", "modalidad": "Virtual", "nivel": "Pregrado", "grupo": "Pregrado C", "ciclo": "2027-2", "cohorte": "UGV-00-A-B", "nombreCohorte": "PREGRADO VIRTUAL ANTIGUO SEGUNDO INGRESO", "periodo": "202760", "detalle": "PREGRADO VIRTUAL PREGRADO C PREGRADO VIRTUAL ANTIGUO SEGUNDO INGRESO ", "ingreso": "Segundo ingreso", "semestre": "Todos", "aviso": "", "fechas": ["2027-08-03", "2027-07-14", "2027-08-08", "2027-08-15", "2027-08-22", "2027-08-24", "2027-12-14"]}, {"id": "94", "modalidad": "Virtual", "nivel": "Pregrado", "grupo": "Pregrado segundo bloque", "ciclo": "2027-2", "cohorte": "UGV-00-A-B", "nombreCohorte": "PREGRADO VIRTUAL ANTIGUO SEGUNDO INGRESO", "periodo": "202760", "detalle": "PREGRADO VIRTUAL PREGRADO SB PREGRADO VIRTUAL ANTIGUO SEGUNDO INGRESO ", "ingreso": "Segundo ingreso", "semestre": "Todos", "aviso": "", "fechas": ["2027-06-29", null, "2027-10-03", "2027-10-10", "2027-10-17", "2027-10-20", "2027-12-14"]}];
+const $=id=>document.getElementById(id);
+const clean=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+const escapeHtml=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const date=s=>new Date(s+'T12:00:00');
+const pretty=s=>s===null?'No aplica':date(s).toLocaleDateString('es-CO',{day:'numeric',month:'long'});
+const short=s=>s===null?'No aplica':date(s).toLocaleDateString('es-CO',{day:'2-digit',month:'2-digit',year:'numeric'});
+const labels=['Fin de clases del período anterior','Inicio de pago de matrícula','Fin de pago ordinario','Fin de pago extraordinario','Fin de pago extemporáneo','Inicio de clases','Fin de clases del semestre'];
+const colors=['#08234c','#00734c','#00734c','#637f00','#007cba','#08234c','#10385a'];
+const icons=['▤','$','✓','☆','◷','▤','✓'];
+const ingresoOrder={'Primer ingreso':1,'Segundo ingreso':2,'Tercer ingreso':3};
+const byIngreso=(a,b)=>(ingresoOrder[a.ingreso]??99)-(ingresoOrder[b.ingreso]??99);
+let filtered=[...data].sort(byIngreso),selected=null,view='timeline';
+for(const [id,key] of [['mode','modalidad'],['level','nivel'],['period','periodo']]){
+ [...new Set(data.map(r=>r[key]))].sort((a,b)=>id==='period'?b.localeCompare(a):a.localeCompare(b)).forEach(v=>$(id).add(new Option(v,v)));
+ $(id).addEventListener('change',filter);
+}
+function ingress(r){return r.ingreso}
+function title(r){return r.grupo?r.grupo+' · '+r.modalidad:r.nivel+' '+r.modalidad.toLowerCase()}
+function subtitle(r){return r.ingreso+(r.semestre==='Todos'?'':' · '+r.semestre+' semestre')}
+function updateOptions(id,key,records,placeholder){
+ const field=$(id),previous=field.value;
+ const values=[...new Set(records.map(r=>r[key]))].sort((a,b)=>id==='period'?b.localeCompare(a):a.localeCompare(b));
+ field.replaceChildren(new Option(placeholder,''),...values.map(v=>new Option(v,v)));
+ field.value=values.includes(previous)?previous:'';
+}
+function syncFilters(){
+ const inMode=data.filter(r=>!$('mode').value||r.modalidad===$('mode').value);
+ updateOptions('level','nivel',inMode,'Todos los niveles');
+ const inLevel=inMode.filter(r=>!$('level').value||r.nivel===$('level').value);
+ updateOptions('period','periodo',inLevel,'Todos los períodos');
+}
+function filter(){
+ syncFilters();
+ const q=clean($('search').value.trim());
+ filtered=data.filter(r=>(!$('period').value||r.periodo===$('period').value)&&(!$('mode').value||r.modalidad===$('mode').value)&&(!$('level').value||r.nivel===$('level').value)&&clean([r.detalle,r.cohorte,r.periodo,r.nivel,r.grupo].join(' ')).includes(q));
+ filtered.sort(byIngreso);
+ selected=filtered.length===1?filtered[0].id:null;
+ if(filtered.length===1)view='timeline';
+ $('feedback').textContent='';render();
+}
+function render(){
+ $('empty').hidden=filtered.length>0;$('timelineView').hidden=view!=='timeline'||!filtered.length;$('tableView').hidden=view!=='table'||!filtered.length;
+ $('timelineTab').setAttribute('aria-pressed',view==='timeline');$('tableTab').setAttribute('aria-pressed',view==='table');
+ $('groups').innerHTML=filtered.map(r=>`<button class="group" type="button" data-id="${r.id}" data-modalidad="${r.modalidad}" aria-pressed="${r.id===selected}"><strong>${title(r)}</strong><span>${subtitle(r)}</span><small>${r.cohorte} · ${r.periodo}</small></button>`).join('');
+ $('groups').querySelectorAll('button').forEach(b=>b.onclick=()=>{selected=b.dataset.id;$('feedback').textContent='';render()});
+ $('rows').innerHTML=filtered.map(r=>`<tr><td><strong>${title(r)}</strong><small>${subtitle(r)} · ${r.periodo}</small><small>${r.cohorte}</small></td>${r.fechas.map(d=>'<td>'+short(d)+'</td>').join('')}${r.fechas.length===6?'<td>No registrado</td>':''}<td><button type="button" class="row-link" data-id="${r.id}" aria-label="Ver línea de tiempo de ${r.nivel} ${r.cohorte}">Ver línea →</button></td></tr>`).join('');
+ $('rows').querySelectorAll('button').forEach(b=>b.onclick=()=>{selected=b.dataset.id;view='timeline';render()});
+ const r=filtered.find(r=>r.id===selected);if(!r){$('detail').innerHTML='<div class="choose-cohort"><h2>Elige la cohorte que deseas consultar</h2><p class="muted">Usa los filtros y selecciona un calendario de la lista para ver sus fechas de pago y clases.</p></div>';return;}
+ const today=new Intl.DateTimeFormat('sv-SE',{timeZone:'America/Bogota',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+ const milestones=r.fechas.map((d,i)=>({d,i}));
+ const next=milestones.filter(e=>e.d!==null).sort((a,b)=>a.d.localeCompare(b.d)||a.i-b.i).find(e=>e.d>=today);
+ const message=next?`${next.d===today?'Hoy':'Próxima fecha'}: ${labels[next.i].toLowerCase()} · ${pretty(next.d)} de ${next.d.slice(0,4)}`:'Todas las fechas de este calendario han finalizado';
+ $('detail').innerHTML=`<div class="detail-top"><div class="eyebrow">Tu calendario seleccionado</div><h2>${title(r)}</h2><div class="meta">Cohorte ${r.cohorte} · ${escapeHtml(r.nombreCohorte)}</div>${r.aviso?'<p class="meta">'+r.aviso+'</p>':''}</div><div class="notice"><span class="notice-dot"></span><div>${message}<small>Consulta al ${pretty(today)} de ${today.slice(0,4)} · Hora de Colombia</small></div></div><ol class="timeline" style="--events:${milestones.length}">${milestones.map(e=>`<li class="event" style="--event-color:${colors[e.i]}"><div class="event-icon" aria-hidden="true">${icons[e.i]}</div><div class="event-label">${labels[e.i]}</div><div class="event-date">${pretty(e.d)}<small>${e.d?e.d.slice(0,4):''}</small></div></li>`).join('')}</ol><p class="timeline-note">Hitos en el orden del calendario institucional. La separación entre ellos no representa la duración.</p><div class="actions"><button type="button" class="primary" id="copy">Copiar resumen</button><button type="button" id="print">Imprimir / guardar PDF</button></div>`;
+ $('copy').onclick=()=>copySummary(r);$('print').onclick=()=>window.print();
+}
+async function copySummary(r){
+ const text=`CALENDARIO DE REMATRÍCULA ${r.ciclo}\n${title(r)} · ${subtitle(r)}\nCohorte: ${r.cohorte} · Período: ${r.periodo}\n\n`+r.fechas.map((d,i)=>({d,i})).map(e=>`${labels[e.i]}: ${e.d?pretty(e.d)+' de '+e.d.slice(0,4):'No aplica'}`).join('\n')+'\n\nFuente: CALENDARIO 2026.xlsx y CALENDARIO 2027.xlsx. Actualización: 8 de octubre de 2026.';
+ try{await navigator.clipboard.writeText(text);$('feedback').textContent='Resumen copiado. Ya puedes pegarlo en tu respuesta.'}catch(e){$('copyText').value=text;$('copyDialog').showModal();$('copyText').select()}
+}
+$('search').addEventListener('input',filter);
+$('reset').onclick=()=>{selected=null;for(const id of ['period','mode','level','search'])$(id).value='';filter()};
+$('timelineTab').onclick=()=>{view='timeline';render()};$('tableTab').onclick=()=>{view='table';render()};$('closeDialog').onclick=()=>$('copyDialog').close();
+render();
+
+// Datos historicos de tramites academicos (2026-2, 2027-1 y 2027-2).
+const academicData=[
+  {
+    "periodo": "2026-2",
+    "codigo": "SVREIN",
+    "servicio": "SOLICITUD DE REINTEGRO",
+    "modalidad": "GENERAL",
+    "inicio": "2026-05-20",
+    "fin": "2026-10-30"
+  },
+  {
+    "periodo": "2026-2",
+    "codigo": "SVJORN",
+    "servicio": "SOLICITUD DE CAMBIO DE JORNADA",
+    "modalidad": "GENERAL",
+    "inicio": "2026-05-20",
+    "fin": "2026-08-22"
+  },
+  {
+    "periodo": "2026-2",
+    "codigo": "SVENFA",
+    "servicio": "SOLICITUD ENFASIS",
+    "modalidad": "GENERAL",
+    "inicio": "2026-05-20",
+    "fin": "2026-10-30"
+  },
+  {
+    "periodo": "2026-2",
+    "codigo": "SVSEDE",
+    "servicio": "SOLICITUD DE CAMBIO DE SEDE",
+    "modalidad": "GENERAL",
+    "inicio": "2026-06-22",
+    "fin": "2026-08-22"
+  },
+  {
+    "periodo": "2026-2",
+    "codigo": "SVMOD",
+    "servicio": "SOLICITUD CAMBIO DE MODALIDAD",
+    "modalidad": "VIRTUAL",
+    "inicio": "2026-07-27",
+    "fin": "2026-08-22"
+  },
+  {
+    "periodo": "2026-2",
+    "codigo": "SVMOD",
+    "servicio": "SOLICITUD CAMBIO DE MODALIDAD",
+    "modalidad": "PRESENCIAL",
+    "inicio": "2026-06-22",
+    "fin": "2026-10-30"
+  },
+  {
+    "periodo": "2026-2",
+    "codigo": "SVDOPR",
+    "servicio": "SOLICITUD DE DOBLE PROGRAMA",
+    "modalidad": "VIRTUAL",
+    "inicio": "2026-05-20",
+    "fin": "2026-10-30"
+  },
+  {
+    "periodo": "2026-2",
+    "codigo": "SVDOPR",
+    "servicio": "SOLICITUD DE DOBLE PROGRAMA",
+    "modalidad": "PRESENCIAL",
+    "inicio": "2026-05-20",
+    "fin": "2026-08-22"
+  },
+  {
+    "periodo": "2026-2",
+    "codigo": "SVPROG",
+    "servicio": "SOLICITUD CAMBIO DE PROGRAMA",
+    "modalidad": "VIRTUAL",
+    "inicio": "2026-07-27",
+    "fin": "2026-10-30"
+  },
+  {
+    "periodo": "2026-2",
+    "codigo": "SVPROG",
+    "servicio": "SOLICITUD CAMBIO DE PROGRAMA",
+    "modalidad": "PRESENCIAL",
+    "inicio": "2026-06-22",
+    "fin": "2026-08-22"
+  },
+  {
+    "periodo": "2026-2",
+    "codigo": "SVSEGC",
+    "servicio": "SOLICITUD SEGUNDO CICLO",
+    "modalidad": "VIRTUAL",
+    "inicio": "2026-05-20",
+    "fin": "2026-10-30"
+  },
+  {
+    "periodo": "2026-2",
+    "codigo": "SVSEGC",
+    "servicio": "SOLICITUD SEGUNDO CICLO",
+    "modalidad": "PRESENCIAL",
+    "inicio": "2026-05-20",
+    "fin": "2026-08-22"
+  },
+  {
+    "periodo": "2027-1",
+    "codigo": "SVREIN",
+    "servicio": "SOLICITUD DE REINTEGRO",
+    "modalidad": "GENERAL",
+    "inicio": "2026-11-17",
+    "fin": "2027-05-14"
+  },
+  {
+    "periodo": "2027-1",
+    "codigo": "SVJORN",
+    "servicio": "SOLICITUD DE CAMBIO DE JORNADA",
+    "modalidad": "GENERAL",
+    "inicio": "2026-11-17",
+    "fin": "2027-02-12"
+  },
+  {
+    "periodo": "2027-1",
+    "codigo": "SVENFA",
+    "servicio": "SOLICITUD ENFASIS",
+    "modalidad": "GENERAL",
+    "inicio": "2026-11-17",
+    "fin": "2027-05-14"
+  },
+  {
+    "periodo": "2027-1",
+    "codigo": "SVSEDE",
+    "servicio": "SOLICITUD DE CAMBIO DE SEDE",
+    "modalidad": "GENERAL",
+    "inicio": "2027-01-11",
+    "fin": "2027-02-12"
+  },
+  {
+    "periodo": "2027-1",
+    "codigo": "SVMOD",
+    "servicio": "SOLICITUD CAMBIO DE MODALIDAD",
+    "modalidad": "VIRTUAL",
+    "inicio": "2027-01-11",
+    "fin": "2027-02-12"
+  },
+  {
+    "periodo": "2027-1",
+    "codigo": "SVMOD",
+    "servicio": "SOLICITUD CAMBIO DE MODALIDAD",
+    "modalidad": "PRESENCIAL",
+    "inicio": "2026-12-21",
+    "fin": "2027-05-14"
+  },
+  {
+    "periodo": "2027-1",
+    "codigo": "SVDOPR",
+    "servicio": "SOLICITUD DE DOBLE PROGRAMA",
+    "modalidad": "VIRTUAL",
+    "inicio": "2026-11-17",
+    "fin": "2027-02-12"
+  },
+  {
+    "periodo": "2027-1",
+    "codigo": "SVDOPR",
+    "servicio": "SOLICITUD DE DOBLE PROGRAMA",
+    "modalidad": "PRESENCIAL",
+    "inicio": "2026-11-17",
+    "fin": "2027-02-12"
+  },
+  {
+    "periodo": "2027-1",
+    "codigo": "SVPROG",
+    "servicio": "SOLICITUD CAMBIO DE PROGRAMA",
+    "modalidad": "VIRTUAL",
+    "inicio": "2027-01-11",
+    "fin": "2027-05-14"
+  },
+  {
+    "periodo": "2027-1",
+    "codigo": "SVPROG",
+    "servicio": "SOLICITUD CAMBIO DE PROGRAMA",
+    "modalidad": "PRESENCIAL",
+    "inicio": "2026-12-21",
+    "fin": "2027-02-12"
+  },
+  {
+    "periodo": "2027-1",
+    "codigo": "SVSEGC",
+    "servicio": "SOLICITUD SEGUNDO CICLO",
+    "modalidad": "VIRTUAL",
+    "inicio": "2026-11-17",
+    "fin": "2027-05-14"
+  },
+  {
+    "periodo": "2027-1",
+    "codigo": "SVSEGC",
+    "servicio": "SOLICITUD SEGUNDO CICLO",
+    "modalidad": "PRESENCIAL",
+    "inicio": "2026-11-17",
+    "fin": "2027-02-12"
+  },
+  {
+    "periodo": "2027-2",
+    "codigo": "SVREIN",
+    "servicio": "SOLICITUD DE REINTEGRO",
+    "modalidad": "GENERAL",
+    "inicio": "2027-05-20",
+    "fin": "2027-10-31"
+  },
+  {
+    "periodo": "2027-2",
+    "codigo": "SVJORN",
+    "servicio": "SOLICITUD DE CAMBIO DE JORNADA",
+    "modalidad": "GENERAL",
+    "inicio": "2027-05-20",
+    "fin": "2027-08-22"
+  },
+  {
+    "periodo": "2027-2",
+    "codigo": "SVENFA",
+    "servicio": "SOLICITUD ENFASIS",
+    "modalidad": "GENERAL",
+    "inicio": "2027-05-20",
+    "fin": "2027-10-31"
+  },
+  {
+    "periodo": "2027-2",
+    "codigo": "SVSEDE",
+    "servicio": "SOLICITUD DE CAMBIO DE SEDE",
+    "modalidad": "GENERAL",
+    "inicio": "2027-06-21",
+    "fin": "2027-08-22"
+  },
+  {
+    "periodo": "2027-2",
+    "codigo": "SVMOD",
+    "servicio": "SOLICITUD CAMBIO DE MODALIDAD",
+    "modalidad": "VIRTUAL",
+    "inicio": "2027-07-26",
+    "fin": "2027-08-22"
+  },
+  {
+    "periodo": "2027-2",
+    "codigo": "SVMOD",
+    "servicio": "SOLICITUD CAMBIO DE MODALIDAD",
+    "modalidad": "PRESENCIAL",
+    "inicio": "2027-06-21",
+    "fin": "2027-10-31"
+  },
+  {
+    "periodo": "2027-2",
+    "codigo": "SVDOPR",
+    "servicio": "SOLICITUD DE DOBLE PROGRAMA",
+    "modalidad": "VIRTUAL",
+    "inicio": "2027-05-20",
+    "fin": "2027-10-31"
+  },
+  {
+    "periodo": "2027-2",
+    "codigo": "SVDOPR",
+    "servicio": "SOLICITUD DE DOBLE PROGRAMA",
+    "modalidad": "PRESENCIAL",
+    "inicio": "2027-05-20",
+    "fin": "2027-08-22"
+  },
+  {
+    "periodo": "2027-2",
+    "codigo": "SVPROG",
+    "servicio": "SOLICITUD CAMBIO DE PROGRAMA",
+    "modalidad": "VIRTUAL",
+    "inicio": "2027-07-26",
+    "fin": "2027-10-31"
+  },
+  {
+    "periodo": "2027-2",
+    "codigo": "SVPROG",
+    "servicio": "SOLICITUD CAMBIO DE PROGRAMA",
+    "modalidad": "PRESENCIAL",
+    "inicio": "2027-06-21",
+    "fin": "2027-08-22"
+  },
+  {
+    "periodo": "2027-2",
+    "codigo": "SVSEGC",
+    "servicio": "SOLICITUD SEGUNDO CICLO",
+    "modalidad": "VIRTUAL",
+    "inicio": "2027-05-20",
+    "fin": "2027-10-31"
+  },
+  {
+    "periodo": "2027-2",
+    "codigo": "SVSEGC",
+    "servicio": "SOLICITUD SEGUNDO CICLO",
+    "modalidad": "PRESENCIAL",
+    "inicio": "2027-05-20",
+    "fin": "2027-08-22"
+  }
+];
+
+function showCalendarSection(section){
+ $('homeView').hidden=section!=='home';
+ $('rematriculaView').hidden=section!=='rematricula';
+ $('academicView').hidden=section!=='academic';
+ $('appHeading').textContent=section==='home'?'Calendarios de rematrícula y trámites académicos':section==='rematricula'?'Calendario de rematrícula':'Calendario de trámites académicos';
+ if(section==='home'){$('academicPeriod').value='';renderAcademic();}
+ window.scrollTo(0,0);
+}
+function renderAcademic(){
+ const periodo=$('academicPeriod').value;
+ $('academicPlaceholder').hidden=!!periodo;
+ $('academicResults').hidden=!periodo;
+ if(!periodo){$('academicRows').replaceChildren();return;}
+ const records=academicData.filter(r=>r.periodo===periodo);
+ $('academicCount').textContent=`${records.length} trámites registrados · Período ${periodo}`;
+ $('academicRows').innerHTML=records.map(r=>`<tr><td>${escapeHtml(r.periodo)}</td><td>${escapeHtml(r.codigo)}</td><td>${escapeHtml(r.servicio)}</td><td>${escapeHtml(r.modalidad)}</td><td>${short(r.inicio)}</td><td>${short(r.fin)}</td></tr>`).join('');
+}
+$('openRematricula').addEventListener('click',()=>showCalendarSection('rematricula'));
+$('openAcademic').addEventListener('click',()=>showCalendarSection('academic'));
+document.querySelectorAll('[data-back-home]').forEach(b=>b.addEventListener('click',()=>showCalendarSection('home')));
+$('academicPeriod').addEventListener('change',renderAcademic);
+showCalendarSection('home');
+</script>
+</body></html>
