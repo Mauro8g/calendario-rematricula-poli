@@ -350,8 +350,8 @@ main{width:100%;max-width:none;margin:0;padding:12px clamp(14px,2vw,28px) 20px;m
 <section class="filters" aria-label="Filtros del calendario">
 <label>Modalidad<select id="mode"><option value="">Todas las modalidades</option></select></label>
 <label>Nivel<select id="level"><option value="">Todos los niveles</option></select></label>
-<label>Semestre<select id="cycle"><option value="">Todos los semestres</option></select></label>
 <label>Período<select id="period"><option value="">Todos los períodos</option></select></label>
+<label>Cohorte actual<select id="currentCohort"><option value="">Todas las cohortes actuales</option></select></label>
 <label class="search-field">Buscar cohorte o descripción<input id="search" type="search" placeholder="Ej. PGV-2S-A-2 o maestría" autocomplete="off"></label>
 <button id="reset" type="button">Limpiar filtros</button>
 </section>
@@ -389,15 +389,16 @@ const colors=['#08234c','#00734c','#00734c','#637f00','#007cba','#08234c','#1038
 const icons=['▤','$','✓','☆','◷','▤','✓'];
 const ingresoOrder={'Primer ingreso':1,'Segundo ingreso':2,'Tercer ingreso':3};
 const byIngreso=(a,b)=>(ingresoOrder[a.ingreso]??99)-(ingresoOrder[b.ingreso]??99);
-let filtered=[...data].sort(byIngreso),selected=null,view='timeline';
-const filterFields=[['mode','modalidad','Todas las modalidades'],['level','nivel','Todos los niveles'],['cycle','ciclo','Todos los semestres'],['period','periodo','Todos los períodos']];
+const byStartDate=(a,b)=>{const da=a.fechas[5],db=b.fechas[5];return Number(!da)-Number(!db)||(da||'').localeCompare(db||'')||byIngreso(a,b);};
+let filtered=[...data].sort(byStartDate),selected=null,view='timeline';
+const filterFields=[['mode','modalidad','Todas las modalidades'],['level','nivel','Todos los niveles'],['period','periodo','Todos los períodos'],['currentCohort','cohorte','Todas las cohortes actuales']];
 for(const [id] of filterFields)$(id).addEventListener('change',filter);
 function ingress(r){return r.ingreso}
 function title(r){return r.grupo?r.grupo+' · '+r.modalidad:r.nivel+' '+r.modalidad.toLowerCase()}
 function subtitle(r){return r.ingreso+(r.semestre==='Todos'?'':' · '+r.semestre+' semestre')}
 function updateOptions(id,key,records,placeholder){
  const field=$(id),previous=field.value;
- const values=[...new Set(records.map(r=>r[key]))].sort((a,b)=>['period','cycle'].includes(id)?b.localeCompare(a):a.localeCompare(b));
+ const values=[...new Set(records.map(r=>r[key]))].sort((a,b)=>id==='period'?b.localeCompare(a):a.localeCompare(b));
  field.replaceChildren(new Option(placeholder,''),...values.map(v=>new Option(v,v)));
  field.value=values.includes(previous)?previous:'';
 }
@@ -411,8 +412,8 @@ function syncFilters(){
 function filter(){
  syncFilters();
  const q=clean($('search').value.trim());
- filtered=data.filter(r=>(!$('cycle').value||r.ciclo===$('cycle').value)&&(!$('period').value||r.periodo===$('period').value)&&(!$('mode').value||r.modalidad===$('mode').value)&&(!$('level').value||r.nivel===$('level').value)&&clean([r.detalle,r.cohorte,r.cohorteAnterior,r.ciclo,r.periodo,r.nivel,r.grupo,r.ingreso,r.semestre].join(' ')).includes(q));
- filtered.sort(byIngreso);
+ filtered=data.filter(r=>(!$('currentCohort').value||r.cohorte===$('currentCohort').value)&&(!$('period').value||r.periodo===$('period').value)&&(!$('mode').value||r.modalidad===$('mode').value)&&(!$('level').value||r.nivel===$('level').value)&&clean([r.detalle,r.cohorte,r.cohorteAnterior,r.ciclo,r.periodo,r.nivel,r.grupo,r.ingreso,r.semestre].join(' ')).includes(q));
+ filtered.sort(byStartDate);
  selected=filtered.length===1?filtered[0].id:null;
  if(filtered.length===1)view='timeline';
  $('feedback').textContent='';render();
@@ -434,7 +435,7 @@ async function copySummary(r){
  try{await navigator.clipboard.writeText(text);$('feedback').textContent='Resumen copiado. Ya puedes pegarlo en tu respuesta.'}catch(e){$('copyText').value=text;$('copyDialog').showModal();$('copyText').select()}
 }
 $('search').addEventListener('input',filter);
-$('reset').onclick=()=>{selected=null;for(const id of ['period','cycle','mode','level','search'])$(id).value='';filter()};
+$('reset').onclick=()=>{selected=null;for(const id of ['period','currentCohort','mode','level','search'])$(id).value='';filter()};
 $('timelineTab').onclick=()=>{view='timeline';render()};$('tableTab').onclick=()=>{view='table';render()};$('closeDialog').onclick=()=>$('copyDialog').close();
 // La hoja CALENDARIO es la única fuente de los calendarios de rematrícula.
 const columns=['CICLO','NIVEL MODALIDAD','DETALLE NIVEL','FIN DE CLASES PERIODO ANTERIOR','inicio pago ordinario','fin pago ordinario','fin pago extraordinario','fin pago extemporaneo','INICIO DE CLASES','FIN DE CLASES','Periodo','Semestre','INGRESO','Cohorte Actual','Cohorte Anterior','Descripcion cohorte','DESCRIPCIÓN DETALLADA COHORTE'];
