@@ -317,6 +317,23 @@ main{width:100%;max-width:none;margin:0;padding:12px clamp(14px,2vw,28px) 20px;m
 }
 @media print{.load-status{display:none!important}}
 
+
+@media screen {
+ .cohort-filter{position:relative;min-width:0}
+ #cohortToggle{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;text-align:left;font-weight:400;margin-top:6px;padding:9px 11px;border-color:#acbdce}
+ #cohortSelected{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+ .cohort-popup{position:absolute;top:100%;left:0;z-index:50;width:max(100%,260px);max-width:calc(100vw - 32px);margin-top:4px;padding:10px;background:white;border:1px solid #acbdce;border-radius:8px;box-shadow:0 8px 24px #10385a33}
+ .cohort-query-label{font-size:12px;color:var(--muted)}
+ #cohortQuery{margin:4px 0 8px;font-size:14px}
+ #cohortOptions{max-height:min(240px,35dvh);overflow:auto}
+ #cohortOptions .cohort-option{display:block;width:100%;text-align:left;border:0;min-height:36px;border-radius:4px;padding:7px 9px;font-size:14px;font-weight:400}
+ #cohortOptions .cohort-option.is-active{background:#eaf3fa}
+ #cohortOptions .cohort-option[aria-selected=true]{font-weight:700;color:var(--blue)}
+ #cohortNoMatch{font-size:13px;margin:8px 2px;color:var(--muted)}
+ @media(min-width:901px) and (min-height:480px){#rematriculaView #cohortToggle{min-height:36px;margin-top:4px;padding:6px 8px;font-size:14px}}
+ @media(max-width:900px){.cohort-popup{width:100%;min-width:0}}
+}
+
 </style>
 </head>
 <body>
@@ -351,7 +368,7 @@ main{width:100%;max-width:none;margin:0;padding:12px clamp(14px,2vw,28px) 20px;m
 <label>Modalidad<select id="mode"><option value="">Todas las modalidades</option></select></label>
 <label>Nivel<select id="level"><option value="">Todos los niveles</option></select></label>
 <label>Período<select id="period"><option value="">Todos los períodos</option></select></label>
-<label>Cohorte actual<select id="currentCohort"><option value="">Todas las cohortes actuales</option></select></label>
+<div class="cohort-filter" id="cohortPicker"><label id="cohortLabel">Cohorte actual</label><select id="currentCohort" hidden aria-hidden="true" tabindex="-1"><option value="">Todas las cohortes actuales</option></select><button type="button" id="cohortToggle" aria-labelledby="cohortLabel cohortSelected" aria-haspopup="listbox" aria-expanded="false" aria-controls="cohortOptions"><span id="cohortSelected">Todas las cohortes actuales</span><span aria-hidden="true">▾</span></button><div class="cohort-popup" id="cohortPopup" hidden><label class="cohort-query-label" for="cohortQuery">Buscar cohorte actual</label><input id="cohortQuery" type="search" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="cohortOptions" placeholder="Ej. PGV-2S-A-2" autocomplete="off"><div id="cohortOptions" role="listbox" aria-label="Cohortes actuales"></div><p id="cohortNoMatch" hidden>No hay cohortes actuales que coincidan.</p></div></div>
 <label class="search-field">Buscar cohorte o descripción<input id="search" type="search" placeholder="Ej. PGV-2S-A-2 o maestría" autocomplete="off"></label>
 <button id="reset" type="button">Limpiar filtros</button>
 </section>
@@ -401,6 +418,7 @@ function updateOptions(id,key,records,placeholder){
  const values=[...new Set(records.map(r=>r[key]))].sort((a,b)=>id==='period'?b.localeCompare(a):a.localeCompare(b));
  field.replaceChildren(new Option(placeholder,''),...values.map(v=>new Option(v,v)));
  field.value=values.includes(previous)?previous:'';
+ if(id==='currentCohort')renderCohortOptions();
 }
 function syncFilters(){
  let records=data;
@@ -435,7 +453,7 @@ async function copySummary(r){
  try{await navigator.clipboard.writeText(text);$('feedback').textContent='Resumen copiado. Ya puedes pegarlo en tu respuesta.'}catch(e){$('copyText').value=text;$('copyDialog').showModal();$('copyText').select()}
 }
 $('search').addEventListener('input',filter);
-$('reset').onclick=()=>{selected=null;for(const id of ['period','currentCohort','mode','level','search'])$(id).value='';filter()};
+$('reset').onclick=()=>{closeCohortPicker();$('cohortQuery').value='';selected=null;for(const id of ['period','currentCohort','mode','level','search'])$(id).value='';filter()};
 $('timelineTab').onclick=()=>{view='timeline';render()};$('tableTab').onclick=()=>{view='table';render()};$('closeDialog').onclick=()=>$('copyDialog').close();
 // La hoja CALENDARIO es la única fuente de los calendarios de rematrícula.
 const columns=['CICLO','NIVEL MODALIDAD','DETALLE NIVEL','FIN DE CLASES PERIODO ANTERIOR','inicio pago ordinario','fin pago ordinario','fin pago extraordinario','fin pago extemporaneo','INICIO DE CLASES','FIN DE CLASES','Periodo','Semestre','INGRESO','Cohorte Actual','Cohorte Anterior','Descripcion cohorte','DESCRIPCIÓN DETALLADA COHORTE'];
@@ -517,8 +535,60 @@ function parseCalendarDate(cell,date1904,fail){
  if(y<1901||y>9999||!m||dt.getUTCFullYear()!==y||dt.getUTCMonth()+1!==m||dt.getUTCDate()!==d)return fail('fecha inválida: '+String(value)+'.');
  return String(y).padStart(4,'0')+'-'+String(m).padStart(2,'0')+'-'+String(d).padStart(2,'0');
 }
+// Buscar en las opciones no cambia el filtro hasta seleccionar una cohorte.
+let cohortActive=0;
+function cohortChoices(){
+ const q=clean($('cohortQuery').value.trim());
+ return Array.from($('currentCohort').options).filter(o=>q?o.value&&clean(o.text).includes(q):true);
+}
+function renderCohortOptions(){
+ const field=$('currentCohort');
+ $('cohortSelected').textContent=field.selectedOptions[0]?.text||'Todas las cohortes actuales';
+ const choices=cohortChoices();
+ cohortActive=Math.max(0,Math.min(cohortActive,choices.length-1));
+ $('cohortOptions').innerHTML=choices.map((o,i)=>`<button type="button" role="option" tabindex="-1" id="cohortOption${i}" data-value="${escapeHtml(o.value)}" aria-selected="${field.value===o.value}" class="cohort-option ${i===cohortActive?'is-active':''}">${escapeHtml(o.text)}</button>`).join('');
+ $('cohortNoMatch').hidden=choices.length>0;
+ if(choices.length)$('cohortQuery').setAttribute('aria-activedescendant','cohortOption'+cohortActive);
+ else $('cohortQuery').removeAttribute('aria-activedescendant');
+ $('cohortOptions').querySelectorAll('button').forEach(b=>b.onclick=()=>chooseCurrentCohort(b.dataset.value));
+}
+function openCohortPicker(){
+ if($('cohortToggle').disabled)return;
+ $('cohortQuery').value='';
+ cohortActive=Math.max(0,Array.from($('currentCohort').options).findIndex(o=>o.value===$('currentCohort').value));
+ $('cohortPopup').hidden=false;
+ $('cohortToggle').setAttribute('aria-expanded','true');
+ $('cohortQuery').setAttribute('aria-expanded','true');
+ renderCohortOptions();$('cohortQuery').focus();
+ $('cohortOptions').children[cohortActive]?.scrollIntoView({block:'nearest'});
+}
+function closeCohortPicker(restoreFocus=false){
+ $('cohortPopup').hidden=true;
+ $('cohortToggle').setAttribute('aria-expanded','false');
+ $('cohortQuery').setAttribute('aria-expanded','false');
+ $('cohortQuery').removeAttribute('aria-activedescendant');
+ if(restoreFocus)$('cohortToggle').focus();
+}
+function chooseCurrentCohort(value){
+ $('currentCohort').value=value;closeCohortPicker(true);
+ $('currentCohort').dispatchEvent(new Event('change',{bubbles:true}));
+}
+$('cohortToggle').onclick=()=>$('cohortPopup').hidden?openCohortPicker():closeCohortPicker(true);
+$('cohortToggle').onkeydown=e=>{if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();openCohortPicker();}};
+$('cohortQuery').oninput=()=>{cohortActive=0;renderCohortOptions();$('cohortOptions').scrollTop=0;};
+$('cohortQuery').onkeydown=e=>{
+ if(e.key==='Escape'){e.preventDefault();closeCohortPicker(true);return;}
+ const choices=cohortChoices();
+ if(e.key==='ArrowDown'||e.key==='ArrowUp'){
+  e.preventDefault();cohortActive=Math.max(0,Math.min(choices.length-1,cohortActive+(e.key==='ArrowDown'?1:-1)));renderCohortOptions();$('cohortOptions').children[cohortActive]?.scrollIntoView({block:'nearest'});
+ }else if(e.key==='Enter'){e.preventDefault();if(choices[cohortActive])chooseCurrentCohort(choices[cohortActive].value);}
+};
+document.addEventListener('pointerdown',e=>{if(!$('cohortPicker').contains(e.target))closeCohortPicker();});
+$('cohortPicker').addEventListener('focusout',e=>{if(!e.relatedTarget||!$('cohortPicker').contains(e.relatedTarget))closeCohortPicker();});
+
 let loadState='loading';
 function setLoadState(state,message){
+ closeCohortPicker();
  loadState=state;
  $('loadStatus').hidden=state==='ready';
  $('loadMessage').textContent=message;
@@ -845,6 +915,7 @@ const academicData=[
 ];
 
 function showCalendarSection(section){
+ closeCohortPicker();
  $('homeView').hidden=section!=='home';
  $('rematriculaView').hidden=section!=='rematricula';
  $('academicView').hidden=section!=='academic';
