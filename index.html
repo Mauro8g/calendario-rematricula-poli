@@ -334,6 +334,7 @@ main{width:100%;max-width:none;margin:0;padding:12px clamp(14px,2vw,28px) 20px;m
  @media(max-width:900px){.cohort-popup{width:100%;min-width:0}}
 }
 
+@media screen and (min-width:901px) and (min-height:480px){#academicLoadStatus{grid-row:3 / 5}}
 </style>
 </head>
 <body>
@@ -386,8 +387,8 @@ main{width:100%;max-width:none;margin:0;padding:12px clamp(14px,2vw,28px) 20px;m
     <button type="button" class="back-home" data-back-home>← Volver al inicio</button>
     <p class="muted">Consulta las fechas de apertura y cierre de los trámites académicos según el período.</p>
   </div>
-  <div class="academic-filter"><label for="academicPeriod">Período académico</label><select id="academicPeriod" required><option value="">Selecciona un período</option><option value="2026-2">2026-2</option><option value="2027-1">2027-1</option><option value="2027-2">2027-2</option></select></div>
-  <div id="academicPlaceholder" class="academic-placeholder">Selecciona un período para visualizar el calendario de trámites académicos.</div>
+  <div class="academic-filter"><label for="academicPeriod">Período académico</label><select id="academicPeriod" required><option value="">Selecciona un período</option></select></div>
+  <div id="academicLoadStatus" class="load-status" role="status"><p id="academicLoadMessage">Cargando trámites académicos…</p><button type="button" id="academicRetryLoad" hidden>Intentar nuevamente</button><label id="academicLocalFileLabel" hidden>Seleccionar Excel<input type="file" id="academicLocalWorkbook" accept=".xlsx"></label></div><div id="academicPlaceholder" class="academic-placeholder">Selecciona un período para visualizar el calendario de trámites académicos.</div>
   <div id="academicResults" hidden><p id="academicCount" class="academic-count"></p><div class="table-panel"><div class="table-scroll"><table class="academic-table"><thead><tr><th>Período</th><th>Código</th><th>Servicio</th><th>Modalidad</th><th>Inicio</th><th>Fin</th></tr></thead><tbody id="academicRows"></tbody></table></div></div></div>
 </section>
 </main>
@@ -458,9 +459,9 @@ $('timelineTab').onclick=()=>{view='timeline';render()};$('tableTab').onclick=()
 // La hoja CALENDARIO es la única fuente de los calendarios de rematrícula.
 const columns=['CICLO','NIVEL MODALIDAD','DETALLE NIVEL','FIN DE CLASES PERIODO ANTERIOR','inicio pago ordinario','fin pago ordinario','fin pago extraordinario','fin pago extemporaneo','INICIO DE CLASES','FIN DE CLASES','Periodo','Semestre','INGRESO','Cohorte Actual','Cohorte Anterior','Descripcion cohorte','DESCRIPCIÓN DETALLADA COHORTE'];
 const normalizeHeader=s=>clean(String(s??'')).replace(/\s+/g,' ').trim();
-function readCalendar(buffer){
+function readCalendar(buffer,workbook){
  if(typeof XLSX==='undefined')throw new Error('Falta el archivo xlsx.full.min.js junto al HTML.');
- const wb=XLSX.read(buffer,{type:'array',cellDates:false,cellFormula:true});
+ const wb=workbook||XLSX.read(buffer,{type:'array',cellDates:false,cellFormula:true});
  const sheetName=wb.SheetNames.find(n=>normalizeHeader(n)==='calendario');
  if(!sheetName)throw new Error('El Excel debe contener una hoja llamada CALENDARIO.');
  const ws=wb.Sheets[sheetName];
@@ -587,6 +588,7 @@ document.addEventListener('pointerdown',e=>{if(!$('cohortPicker').contains(e.tar
 $('cohortPicker').addEventListener('focusout',e=>{if(!e.relatedTarget||!$('cohortPicker').contains(e.relatedTarget))closeCohortPicker();});
 
 let loadState='loading';
+let workbookLoadId=0;
 function setLoadState(state,message){
  closeCohortPicker();
  loadState=state;
@@ -598,9 +600,15 @@ function setLoadState(state,message){
  render();
 }
 async function loadCalendar(file){
+ const requestId=++workbookLoadId;
  data=[];filtered=[];selected=null;
+ academicData=[];syncAcademicPeriods();
  setLoadState('loading','Cargando calendarios…');
- if(!file&&location.protocol==='file:'){setLoadState('local','Para revisar el calendario en tu equipo, selecciona rematricula.xlsx. En GitHub se cargará automáticamente.');return;}
+ setAcademicLoadState('loading','Cargando trámites académicos…');
+ if(!file&&location.protocol==='file:'){
+  const message='Para revisar los calendarios en tu equipo, selecciona rematricula.xlsx. En GitHub se cargará automáticamente.';
+  setLoadState('local',message);setAcademicLoadState('local',message);return;
+ }
  try{
   let buffer;
   if(file)buffer=await file.arrayBuffer();
@@ -612,307 +620,95 @@ async function loadCalendar(file){
     buffer=await response.arrayBuffer();
    }finally{clearTimeout(timer);}
   }
-  data=readCalendar(buffer);
-  for(const [id,key,label] of filterFields)updateOptions(id,key,data,label);
-  setLoadState('ready','');filter();
- }catch(e){setLoadState('error','No se pudo cargar el calendario. '+(e.name==='AbortError'?'La descarga tardó demasiado. Intenta nuevamente.':e.message));}
+  if(requestId!==workbookLoadId)return;
+  if(typeof XLSX==='undefined')throw new Error('Falta el archivo xlsx.full.min.js junto al HTML.');
+  const wb=XLSX.read(buffer,{type:'array',cellDates:false,cellFormula:true});
+  // Cada hoja se valida por separado: un error en trámites no bloquea rematrícula.
+  try{
+   data=readCalendar(null,wb);
+   for(const [id,key,label] of filterFields)updateOptions(id,key,data,label);
+   setLoadState('ready','');filter();
+  }catch(e){data=[];filtered=[];setLoadState('error','No se pudo cargar rematrícula. '+e.message);}
+  try{
+   academicData=readAcademicCalendar(wb);syncAcademicPeriods();setAcademicLoadState('ready','');
+  }catch(e){academicData=[];syncAcademicPeriods();setAcademicLoadState('error','No se pudieron cargar los trámites académicos. '+e.message);}
+ }catch(e){
+  if(requestId!==workbookLoadId)return;
+  const message=e.name==='AbortError'?'La descarga tardó demasiado. Intenta nuevamente.':e.message;
+  setLoadState('error','No se pudo cargar el calendario. '+message);
+  setAcademicLoadState('error','No se pudieron cargar los trámites académicos. '+message);
+ }
 }
 $('retryLoad').onclick=()=>loadCalendar();
 $('localWorkbook').onchange=e=>{if(e.target.files[0])loadCalendar(e.target.files[0]);};
 
 render();
 
-// Datos historicos de tramites academicos (2026-2, 2027-1 y 2027-2).
-const academicData=[
-  {
-    "periodo": "2026-2",
-    "codigo": "SVREIN",
-    "servicio": "SOLICITUD DE REINTEGRO",
-    "modalidad": "GENERAL",
-    "inicio": "2026-05-20",
-    "fin": "2026-10-30"
-  },
-  {
-    "periodo": "2026-2",
-    "codigo": "SVJORN",
-    "servicio": "SOLICITUD DE CAMBIO DE JORNADA",
-    "modalidad": "GENERAL",
-    "inicio": "2026-05-20",
-    "fin": "2026-08-22"
-  },
-  {
-    "periodo": "2026-2",
-    "codigo": "SVENFA",
-    "servicio": "SOLICITUD ENFASIS",
-    "modalidad": "GENERAL",
-    "inicio": "2026-05-20",
-    "fin": "2026-10-30"
-  },
-  {
-    "periodo": "2026-2",
-    "codigo": "SVSEDE",
-    "servicio": "SOLICITUD DE CAMBIO DE SEDE",
-    "modalidad": "GENERAL",
-    "inicio": "2026-06-22",
-    "fin": "2026-08-22"
-  },
-  {
-    "periodo": "2026-2",
-    "codigo": "SVMOD",
-    "servicio": "SOLICITUD CAMBIO DE MODALIDAD",
-    "modalidad": "VIRTUAL",
-    "inicio": "2026-07-27",
-    "fin": "2026-08-22"
-  },
-  {
-    "periodo": "2026-2",
-    "codigo": "SVMOD",
-    "servicio": "SOLICITUD CAMBIO DE MODALIDAD",
-    "modalidad": "PRESENCIAL",
-    "inicio": "2026-06-22",
-    "fin": "2026-10-30"
-  },
-  {
-    "periodo": "2026-2",
-    "codigo": "SVDOPR",
-    "servicio": "SOLICITUD DE DOBLE PROGRAMA",
-    "modalidad": "VIRTUAL",
-    "inicio": "2026-05-20",
-    "fin": "2026-10-30"
-  },
-  {
-    "periodo": "2026-2",
-    "codigo": "SVDOPR",
-    "servicio": "SOLICITUD DE DOBLE PROGRAMA",
-    "modalidad": "PRESENCIAL",
-    "inicio": "2026-05-20",
-    "fin": "2026-08-22"
-  },
-  {
-    "periodo": "2026-2",
-    "codigo": "SVPROG",
-    "servicio": "SOLICITUD CAMBIO DE PROGRAMA",
-    "modalidad": "VIRTUAL",
-    "inicio": "2026-07-27",
-    "fin": "2026-10-30"
-  },
-  {
-    "periodo": "2026-2",
-    "codigo": "SVPROG",
-    "servicio": "SOLICITUD CAMBIO DE PROGRAMA",
-    "modalidad": "PRESENCIAL",
-    "inicio": "2026-06-22",
-    "fin": "2026-08-22"
-  },
-  {
-    "periodo": "2026-2",
-    "codigo": "SVSEGC",
-    "servicio": "SOLICITUD SEGUNDO CICLO",
-    "modalidad": "VIRTUAL",
-    "inicio": "2026-05-20",
-    "fin": "2026-10-30"
-  },
-  {
-    "periodo": "2026-2",
-    "codigo": "SVSEGC",
-    "servicio": "SOLICITUD SEGUNDO CICLO",
-    "modalidad": "PRESENCIAL",
-    "inicio": "2026-05-20",
-    "fin": "2026-08-22"
-  },
-  {
-    "periodo": "2027-1",
-    "codigo": "SVREIN",
-    "servicio": "SOLICITUD DE REINTEGRO",
-    "modalidad": "GENERAL",
-    "inicio": "2026-11-17",
-    "fin": "2027-05-14"
-  },
-  {
-    "periodo": "2027-1",
-    "codigo": "SVJORN",
-    "servicio": "SOLICITUD DE CAMBIO DE JORNADA",
-    "modalidad": "GENERAL",
-    "inicio": "2026-11-17",
-    "fin": "2027-02-12"
-  },
-  {
-    "periodo": "2027-1",
-    "codigo": "SVENFA",
-    "servicio": "SOLICITUD ENFASIS",
-    "modalidad": "GENERAL",
-    "inicio": "2026-11-17",
-    "fin": "2027-05-14"
-  },
-  {
-    "periodo": "2027-1",
-    "codigo": "SVSEDE",
-    "servicio": "SOLICITUD DE CAMBIO DE SEDE",
-    "modalidad": "GENERAL",
-    "inicio": "2027-01-11",
-    "fin": "2027-02-12"
-  },
-  {
-    "periodo": "2027-1",
-    "codigo": "SVMOD",
-    "servicio": "SOLICITUD CAMBIO DE MODALIDAD",
-    "modalidad": "VIRTUAL",
-    "inicio": "2027-01-11",
-    "fin": "2027-02-12"
-  },
-  {
-    "periodo": "2027-1",
-    "codigo": "SVMOD",
-    "servicio": "SOLICITUD CAMBIO DE MODALIDAD",
-    "modalidad": "PRESENCIAL",
-    "inicio": "2026-12-21",
-    "fin": "2027-05-14"
-  },
-  {
-    "periodo": "2027-1",
-    "codigo": "SVDOPR",
-    "servicio": "SOLICITUD DE DOBLE PROGRAMA",
-    "modalidad": "VIRTUAL",
-    "inicio": "2026-11-17",
-    "fin": "2027-02-12"
-  },
-  {
-    "periodo": "2027-1",
-    "codigo": "SVDOPR",
-    "servicio": "SOLICITUD DE DOBLE PROGRAMA",
-    "modalidad": "PRESENCIAL",
-    "inicio": "2026-11-17",
-    "fin": "2027-02-12"
-  },
-  {
-    "periodo": "2027-1",
-    "codigo": "SVPROG",
-    "servicio": "SOLICITUD CAMBIO DE PROGRAMA",
-    "modalidad": "VIRTUAL",
-    "inicio": "2027-01-11",
-    "fin": "2027-05-14"
-  },
-  {
-    "periodo": "2027-1",
-    "codigo": "SVPROG",
-    "servicio": "SOLICITUD CAMBIO DE PROGRAMA",
-    "modalidad": "PRESENCIAL",
-    "inicio": "2026-12-21",
-    "fin": "2027-02-12"
-  },
-  {
-    "periodo": "2027-1",
-    "codigo": "SVSEGC",
-    "servicio": "SOLICITUD SEGUNDO CICLO",
-    "modalidad": "VIRTUAL",
-    "inicio": "2026-11-17",
-    "fin": "2027-05-14"
-  },
-  {
-    "periodo": "2027-1",
-    "codigo": "SVSEGC",
-    "servicio": "SOLICITUD SEGUNDO CICLO",
-    "modalidad": "PRESENCIAL",
-    "inicio": "2026-11-17",
-    "fin": "2027-02-12"
-  },
-  {
-    "periodo": "2027-2",
-    "codigo": "SVREIN",
-    "servicio": "SOLICITUD DE REINTEGRO",
-    "modalidad": "GENERAL",
-    "inicio": "2027-05-20",
-    "fin": "2027-10-31"
-  },
-  {
-    "periodo": "2027-2",
-    "codigo": "SVJORN",
-    "servicio": "SOLICITUD DE CAMBIO DE JORNADA",
-    "modalidad": "GENERAL",
-    "inicio": "2027-05-20",
-    "fin": "2027-08-22"
-  },
-  {
-    "periodo": "2027-2",
-    "codigo": "SVENFA",
-    "servicio": "SOLICITUD ENFASIS",
-    "modalidad": "GENERAL",
-    "inicio": "2027-05-20",
-    "fin": "2027-10-31"
-  },
-  {
-    "periodo": "2027-2",
-    "codigo": "SVSEDE",
-    "servicio": "SOLICITUD DE CAMBIO DE SEDE",
-    "modalidad": "GENERAL",
-    "inicio": "2027-06-21",
-    "fin": "2027-08-22"
-  },
-  {
-    "periodo": "2027-2",
-    "codigo": "SVMOD",
-    "servicio": "SOLICITUD CAMBIO DE MODALIDAD",
-    "modalidad": "VIRTUAL",
-    "inicio": "2027-07-26",
-    "fin": "2027-08-22"
-  },
-  {
-    "periodo": "2027-2",
-    "codigo": "SVMOD",
-    "servicio": "SOLICITUD CAMBIO DE MODALIDAD",
-    "modalidad": "PRESENCIAL",
-    "inicio": "2027-06-21",
-    "fin": "2027-10-31"
-  },
-  {
-    "periodo": "2027-2",
-    "codigo": "SVDOPR",
-    "servicio": "SOLICITUD DE DOBLE PROGRAMA",
-    "modalidad": "VIRTUAL",
-    "inicio": "2027-05-20",
-    "fin": "2027-10-31"
-  },
-  {
-    "periodo": "2027-2",
-    "codigo": "SVDOPR",
-    "servicio": "SOLICITUD DE DOBLE PROGRAMA",
-    "modalidad": "PRESENCIAL",
-    "inicio": "2027-05-20",
-    "fin": "2027-08-22"
-  },
-  {
-    "periodo": "2027-2",
-    "codigo": "SVPROG",
-    "servicio": "SOLICITUD CAMBIO DE PROGRAMA",
-    "modalidad": "VIRTUAL",
-    "inicio": "2027-07-26",
-    "fin": "2027-10-31"
-  },
-  {
-    "periodo": "2027-2",
-    "codigo": "SVPROG",
-    "servicio": "SOLICITUD CAMBIO DE PROGRAMA",
-    "modalidad": "PRESENCIAL",
-    "inicio": "2027-06-21",
-    "fin": "2027-08-22"
-  },
-  {
-    "periodo": "2027-2",
-    "codigo": "SVSEGC",
-    "servicio": "SOLICITUD SEGUNDO CICLO",
-    "modalidad": "VIRTUAL",
-    "inicio": "2027-05-20",
-    "fin": "2027-10-31"
-  },
-  {
-    "periodo": "2027-2",
-    "codigo": "SVSEGC",
-    "servicio": "SOLICITUD SEGUNDO CICLO",
-    "modalidad": "PRESENCIAL",
-    "inicio": "2027-05-20",
-    "fin": "2027-08-22"
-  }
-];
+let academicData=[];
+let academicLoadState='loading';
+function readAcademicCalendar(wb){
+ const name=wb.SheetNames.find(n=>normalizeHeader(n)==='tramites academicos');
+ if(!name)throw new Error('El Excel debe contener una hoja llamada TRAMITES ACADEMICOS.');
+ const ws=wb.Sheets[name];
+ if(!ws['!ref'])throw new Error('La hoja TRAMITES ACADEMICOS está vacía.');
+ const range=XLSX.utils.decode_range(ws['!ref']);
+ const headers=['PERIODO','CODIGO','SERVICIO','MODALIDAD','INICIO','FIN'];
+ const fields=['periodo','codigo','servicio','modalidad','inicio','fin'];
+ const map=new Map();
+ for(let c=range.s.c;c<=range.e.c;c++){
+  const h=normalizeHeader(ws[XLSX.utils.encode_cell({r:range.s.r,c})]?.v);
+  if(!h)continue;
+  if(map.has(h))throw new Error('TRAMITES ACADEMICOS: encabezado duplicado «'+h+'».');
+  map.set(h,c);
+ }
+ const missing=headers.filter(h=>!map.has(normalizeHeader(h)));
+ if(missing.length)throw new Error('TRAMITES ACADEMICOS: faltan columnas: '+missing.join(', ')+'.');
+ const result=[],ids=new Map();
+ for(let row=range.s.r+1;row<=range.e.r;row++){
+  const cells=headers.map(h=>ws[XLSX.utils.encode_cell({r:row,c:map.get(normalizeHeader(h))})]);
+  if(cells.every(c=>c?.v==null||String(c.v).trim()===''))continue;
+  const fail=(i,message)=>{throw new Error('TRAMITES ACADEMICOS, fila '+(row+1)+', columna «'+headers[i]+'»: '+message);};
+  cells.forEach((c,i)=>{if(c?.f)fail(i,'reemplaza la fórmula por su valor.');if(c?.t==='e')fail(i,'la celda contiene un error de Excel.');});
+  const values=cells.map(c=>String(c?.v??'').trim());
+  for(let i=0;i<4;i++)if(!values[i])fail(i,'falta el dato.');
+  if(!/^\d{4}-[12]$/.test(values[0]))fail(0,'usa el formato AAAA-1 o AAAA-2.');
+  for(let i=4;i<6;i++)values[i]=parseCalendarDate(cells[i],!!wb.Workbook?.WBProps?.date1904,m=>fail(i,m));
+  const key=JSON.stringify([values[0],normalizeHeader(values[1]),normalizeHeader(values[3])]);
+  if(ids.has(key))fail(1,'trámite duplicado para el mismo período y modalidad con la fila '+ids.get(key)+'.');
+  ids.set(key,row+1);
+  result.push(Object.fromEntries(fields.map((f,i)=>[f,values[i]])));
+ }
+ // Una hoja con solo encabezados puede representar el retiro de todos los períodos.
+ return result;
+}
+function syncAcademicPeriods(){
+ const field=$('academicPeriod'),previous=field.value;
+ const periods=[...new Set(academicData.map(r=>r.periodo))].sort((a,b)=>b.localeCompare(a));
+ field.replaceChildren(new Option('Selecciona un período',''),...periods.map(p=>new Option(p,p)));
+ field.value=periods.includes(previous)?previous:'';
+}
+function setAcademicLoadState(state,message){
+ academicLoadState=state;
+ $('academicLoadStatus').hidden=state==='ready';
+ $('academicLoadMessage').textContent=message;
+ $('academicPeriod').disabled=state!=='ready';
+ $('academicRetryLoad').hidden=state!=='error'||location.protocol==='file:';
+ $('academicLocalFileLabel').hidden=location.protocol!=='file:';
+ renderAcademic();
+}
+function renderAcademic(){
+ const ready=academicLoadState==='ready',periodo=$('academicPeriod').value;
+ $('academicPlaceholder').hidden=!ready||!!periodo;
+ $('academicPlaceholder').textContent=academicData.length?'Selecciona un período para visualizar el calendario de trámites académicos.':'No hay trámites académicos registrados en el Excel.';
+ $('academicResults').hidden=!ready||!periodo;
+ if(!ready||!periodo){$('academicRows').replaceChildren();$('academicCount').textContent='';return;}
+ const records=academicData.filter(r=>r.periodo===periodo);
+ $('academicCount').textContent=`${records.length} trámites registrados · Período ${periodo}`;
+ $('academicRows').innerHTML=records.map(r=>`<tr><td>${escapeHtml(r.periodo)}</td><td>${escapeHtml(r.codigo)}</td><td>${escapeHtml(r.servicio)}</td><td>${escapeHtml(r.modalidad)}</td><td>${short(r.inicio)}</td><td>${short(r.fin)}</td></tr>`).join('');
+}
+$('academicRetryLoad').onclick=()=>loadCalendar();
+$('academicLocalWorkbook').onchange=e=>{if(e.target.files[0])loadCalendar(e.target.files[0]);};
+
 
 function showCalendarSection(section){
  closeCohortPicker();
@@ -922,15 +718,6 @@ function showCalendarSection(section){
  $('appHeading').textContent=section==='home'?'Calendarios de rematrícula y trámites académicos':section==='rematricula'?'Calendario de rematrícula':'Calendario de trámites académicos';
  if(section==='home'){$('academicPeriod').value='';renderAcademic();}
  window.scrollTo(0,0);
-}
-function renderAcademic(){
- const periodo=$('academicPeriod').value;
- $('academicPlaceholder').hidden=!!periodo;
- $('academicResults').hidden=!periodo;
- if(!periodo){$('academicRows').replaceChildren();return;}
- const records=academicData.filter(r=>r.periodo===periodo);
- $('academicCount').textContent=`${records.length} trámites registrados · Período ${periodo}`;
- $('academicRows').innerHTML=records.map(r=>`<tr><td>${escapeHtml(r.periodo)}</td><td>${escapeHtml(r.codigo)}</td><td>${escapeHtml(r.servicio)}</td><td>${escapeHtml(r.modalidad)}</td><td>${short(r.inicio)}</td><td>${short(r.fin)}</td></tr>`).join('');
 }
 $('openRematricula').addEventListener('click',()=>showCalendarSection('rematricula'));
 $('openAcademic').addEventListener('click',()=>showCalendarSection('academic'));
