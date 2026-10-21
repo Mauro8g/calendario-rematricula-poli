@@ -311,7 +311,7 @@ main{width:100%;max-width:none;margin:0;padding:12px clamp(14px,2vw,28px) 20px;m
  .period-badge{white-space:nowrap;font-weight:600;color:var(--navy)}
  .group .cohort-pair{display:flex;flex-wrap:wrap;gap:1px 8px;line-height:1.35}
  .group .cohort-pair span{font-size:11px;margin:0;overflow-wrap:anywhere}
- #rematriculaView .filters{grid-template-columns:repeat(4,minmax(95px,1fr)) minmax(180px,1.8fr) auto}
+ #rematriculaView .filters{grid-template-columns:repeat(5,minmax(90px,1fr)) minmax(160px,1.8fr) auto}
  @media(max-width:900px){#rematriculaView .filters{grid-template-columns:repeat(2,minmax(0,1fr))}#rematriculaView .search-field,#rematriculaView .filters>button{grid-column:1/-1}}
  @media(max-width:420px){#rematriculaView .filters{grid-template-columns:1fr}}
 }
@@ -335,6 +335,23 @@ main{width:100%;max-width:none;margin:0;padding:12px clamp(14px,2vw,28px) 20px;m
 }
 
 @media screen and (min-width:901px) and (min-height:480px){#academicLoadStatus{grid-row:3 / 5}}
+
+@media screen {
+ .cohort-filter{position:relative;min-width:0}
+ #previousCohortToggle{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;text-align:left;font-weight:400;margin-top:6px;padding:9px 11px;border-color:#acbdce}
+ #previousCohortSelected{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+ .cohort-popup{position:absolute;top:100%;left:0;z-index:50;width:max(100%,260px);max-width:calc(100vw - 32px);margin-top:4px;padding:10px;background:white;border:1px solid #acbdce;border-radius:8px;box-shadow:0 8px 24px #10385a33}
+ .cohort-query-label{font-size:12px;color:var(--muted)}
+ #previousCohortQuery{margin:4px 0 8px;font-size:14px}
+ #previousCohortOptions{max-height:min(240px,35dvh);overflow:auto}
+ #previousCohortOptions .cohort-option{display:block;width:100%;text-align:left;border:0;min-height:36px;border-radius:4px;padding:7px 9px;font-size:14px;font-weight:400}
+ #previousCohortOptions .cohort-option.is-active{background:#eaf3fa}
+ #previousCohortOptions .cohort-option[aria-selected=true]{font-weight:700;color:var(--blue)}
+ #previousCohortNoMatch{font-size:13px;margin:8px 2px;color:var(--muted)}
+ @media(min-width:901px) and (min-height:480px){#rematriculaView #previousCohortToggle{min-height:36px;margin-top:4px;padding:6px 8px;font-size:14px}}
+ @media(max-width:900px){.cohort-popup{width:100%;min-width:0}}
+}
+
 </style>
 </head>
 <body>
@@ -369,6 +386,7 @@ main{width:100%;max-width:none;margin:0;padding:12px clamp(14px,2vw,28px) 20px;m
 <label>Modalidad<select id="mode"><option value="">Todas las modalidades</option></select></label>
 <label>Nivel<select id="level"><option value="">Todos los niveles</option></select></label>
 <label>Período<select id="period"><option value="">Todos los períodos</option></select></label>
+<div class="cohort-filter" id="previousCohortPicker"><label id="previousCohortLabel">Cohorte anterior</label><select id="previousCohort" hidden aria-hidden="true" tabindex="-1"><option value="">Todas las cohortes anteriores</option></select><button type="button" id="previousCohortToggle" aria-labelledby="previousCohortLabel previousCohortSelected" aria-haspopup="listbox" aria-expanded="false" aria-controls="previousCohortOptions"><span id="previousCohortSelected">Todas las cohortes anteriores</span><span aria-hidden="true">▾</span></button><div class="cohort-popup" id="previousCohortPopup" hidden><label class="cohort-query-label" for="previousCohortQuery">Buscar cohorte anterior</label><input id="previousCohortQuery" type="search" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="previousCohortOptions" placeholder="Ej. PGV-2S-A-2" autocomplete="off"><div id="previousCohortOptions" role="listbox" aria-label="Cohortes anteriores"></div><p id="previousCohortNoMatch" hidden>No hay cohortes anteriores que coincidan.</p></div></div>
 <div class="cohort-filter" id="cohortPicker"><label id="cohortLabel">Cohorte actual</label><select id="currentCohort" hidden aria-hidden="true" tabindex="-1"><option value="">Todas las cohortes actuales</option></select><button type="button" id="cohortToggle" aria-labelledby="cohortLabel cohortSelected" aria-haspopup="listbox" aria-expanded="false" aria-controls="cohortOptions"><span id="cohortSelected">Todas las cohortes actuales</span><span aria-hidden="true">▾</span></button><div class="cohort-popup" id="cohortPopup" hidden><label class="cohort-query-label" for="cohortQuery">Buscar cohorte actual</label><input id="cohortQuery" type="search" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="cohortOptions" placeholder="Ej. PGV-2S-A-2" autocomplete="off"><div id="cohortOptions" role="listbox" aria-label="Cohortes actuales"></div><p id="cohortNoMatch" hidden>No hay cohortes actuales que coincidan.</p></div></div>
 <label class="search-field">Buscar cohorte o descripción<input id="search" type="search" placeholder="Ej. PGV-2S-A-2 o maestría" autocomplete="off"></label>
 <button id="reset" type="button">Limpiar filtros</button>
@@ -409,17 +427,17 @@ const ingresoOrder={'Primer ingreso':1,'Segundo ingreso':2,'Tercer ingreso':3};
 const byIngreso=(a,b)=>(ingresoOrder[a.ingreso]??99)-(ingresoOrder[b.ingreso]??99);
 const byStartDate=(a,b)=>{const da=a.fechas[5],db=b.fechas[5];return Number(!da)-Number(!db)||(da||'').localeCompare(db||'')||byIngreso(a,b);};
 let filtered=[...data].sort(byStartDate),selected=null,view='timeline';
-const filterFields=[['mode','modalidad','Todas las modalidades'],['level','nivel','Todos los niveles'],['period','periodo','Todos los períodos'],['currentCohort','cohorte','Todas las cohortes actuales']];
+const filterFields=[['mode','modalidad','Todas las modalidades'],['level','nivel','Todos los niveles'],['period','periodo','Todos los períodos'],['previousCohort','cohorteAnterior','Todas las cohortes anteriores'],['currentCohort','cohorte','Todas las cohortes actuales']];
 for(const [id] of filterFields)$(id).addEventListener('change',filter);
 function ingress(r){return r.ingreso}
 function title(r){return r.grupo?r.grupo+' · '+r.modalidad:r.nivel+' '+r.modalidad.toLowerCase()}
 function subtitle(r){return r.ingreso+(r.semestre==='Todos'?'':' · '+r.semestre+' semestre')}
 function updateOptions(id,key,records,placeholder){
  const field=$(id),previous=field.value;
- const values=[...new Set(records.map(r=>r[key]))].sort((a,b)=>id==='period'?b.localeCompare(a):a.localeCompare(b));
+ const values=[...new Set(records.map(r=>r[key]).filter(v=>v))].sort((a,b)=>id==='period'?b.localeCompare(a):a.localeCompare(b));
  field.replaceChildren(new Option(placeholder,''),...values.map(v=>new Option(v,v)));
  field.value=values.includes(previous)?previous:'';
- if(id==='currentCohort')renderCohortOptions();
+ if(id==='currentCohort'||id==='previousCohort')renderCohortOptions(id);
 }
 function syncFilters(){
  let records=data;
@@ -431,7 +449,7 @@ function syncFilters(){
 function filter(){
  syncFilters();
  const q=clean($('search').value.trim());
- filtered=data.filter(r=>(!$('currentCohort').value||r.cohorte===$('currentCohort').value)&&(!$('period').value||r.periodo===$('period').value)&&(!$('mode').value||r.modalidad===$('mode').value)&&(!$('level').value||r.nivel===$('level').value)&&clean([r.detalle,r.cohorte,r.cohorteAnterior,r.ciclo,r.periodo,r.nivel,r.grupo,r.ingreso,r.semestre].join(' ')).includes(q));
+ filtered=data.filter(r=>(!$('previousCohort').value||r.cohorteAnterior===$('previousCohort').value)&&(!$('currentCohort').value||r.cohorte===$('currentCohort').value)&&(!$('period').value||r.periodo===$('period').value)&&(!$('mode').value||r.modalidad===$('mode').value)&&(!$('level').value||r.nivel===$('level').value)&&clean([r.detalle,r.cohorte,r.cohorteAnterior,r.ciclo,r.periodo,r.nivel,r.grupo,r.ingreso,r.semestre].join(' ')).includes(q));
  filtered.sort(byStartDate);
  selected=filtered.length===1?filtered[0].id:null;
  if(filtered.length===1)view='timeline';
@@ -454,7 +472,7 @@ async function copySummary(r){
  try{await navigator.clipboard.writeText(text);$('feedback').textContent='Resumen copiado. Ya puedes pegarlo en tu respuesta.'}catch(e){$('copyText').value=text;$('copyDialog').showModal();$('copyText').select()}
 }
 $('search').addEventListener('input',filter);
-$('reset').onclick=()=>{closeCohortPicker();$('cohortQuery').value='';selected=null;for(const id of ['period','currentCohort','mode','level','search'])$(id).value='';filter()};
+$('reset').onclick=()=>{closeCohortPicker();$('cohortQuery').value='';$('previousCohortQuery').value='';selected=null;for(const id of ['period','previousCohort','currentCohort','mode','level','search'])$(id).value='';filter()};
 $('timelineTab').onclick=()=>{view='timeline';render()};$('tableTab').onclick=()=>{view='table';render()};$('closeDialog').onclick=()=>$('copyDialog').close();
 // La hoja CALENDARIO es la única fuente de los calendarios de rematrícula.
 const columns=['CICLO','NIVEL MODALIDAD','DETALLE NIVEL','FIN DE CLASES PERIODO ANTERIOR','inicio pago ordinario','fin pago ordinario','fin pago extraordinario','fin pago extemporaneo','INICIO DE CLASES','FIN DE CLASES','Periodo','Semestre','INGRESO','Cohorte Actual','Cohorte Anterior','Descripcion cohorte','DESCRIPCIÓN DETALLADA COHORTE'];
@@ -536,56 +554,58 @@ function parseCalendarDate(cell,date1904,fail){
  if(y<1901||y>9999||!m||dt.getUTCFullYear()!==y||dt.getUTCMonth()+1!==m||dt.getUTCDate()!==d)return fail('fecha inválida: '+String(value)+'.');
  return String(y).padStart(4,'0')+'-'+String(m).padStart(2,'0')+'-'+String(d).padStart(2,'0');
 }
-// Buscar en las opciones no cambia el filtro hasta seleccionar una cohorte.
-let cohortActive=0;
-function cohortChoices(){
- const q=clean($('cohortQuery').value.trim());
- return Array.from($('currentCohort').options).filter(o=>q?o.value&&clean(o.text).includes(q):true);
+// La búsqueda reduce opciones; la selección aplica una coincidencia exacta.
+function createCohortPicker(fieldId,prefix,placeholder){
+ const el=suffix=>$(prefix+suffix);
+ let active=0;
+ function choices(){
+  const q=clean(el('Query').value.trim());
+  return Array.from($(fieldId).options).filter(o=>q?o.value&&clean(o.text).includes(q):true);
+ }
+ function render(){
+  const field=$(fieldId),items=choices();
+  el('Selected').textContent=field.selectedOptions[0]?.text||placeholder;
+  active=Math.max(0,Math.min(active,items.length-1));
+  el('Options').innerHTML=items.map((o,i)=>`<button type="button" role="option" tabindex="-1" id="${prefix}Option${i}" data-value="${escapeHtml(o.value)}" aria-selected="${field.value===o.value}" class="cohort-option ${i===active?'is-active':''}">${escapeHtml(o.text)}</button>`).join('');
+  el('NoMatch').hidden=items.length>0;
+  if(items.length&&!el('Popup').hidden)el('Query').setAttribute('aria-activedescendant',prefix+'Option'+active);
+  else el('Query').removeAttribute('aria-activedescendant');
+  el('Options').querySelectorAll('button').forEach(b=>b.onclick=()=>choose(b.dataset.value));
+ }
+ function close(restoreFocus=false){
+  el('Popup').hidden=true;el('Toggle').setAttribute('aria-expanded','false');el('Query').setAttribute('aria-expanded','false');el('Query').removeAttribute('aria-activedescendant');
+  if(restoreFocus)el('Toggle').focus();
+ }
+ function open(){
+  if(el('Toggle').disabled)return;
+  closeCohortPicker();el('Query').value='';
+  active=Math.max(0,Array.from($(fieldId).options).findIndex(o=>o.value===$(fieldId).value));
+  el('Popup').hidden=false;el('Toggle').setAttribute('aria-expanded','true');el('Query').setAttribute('aria-expanded','true');
+  render();el('Query').focus();el('Options').children[active]?.scrollIntoView({block:'nearest'});
+ }
+ function choose(value){
+  $(fieldId).value=value;close(true);$(fieldId).dispatchEvent(new Event('change',{bubbles:true}));
+ }
+ el('Toggle').onclick=()=>el('Popup').hidden?open():close(true);
+ el('Toggle').onkeydown=e=>{if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();open();}};
+ el('Query').oninput=()=>{active=0;render();el('Options').scrollTop=0;};
+ el('Query').onkeydown=e=>{
+  if(e.key==='Escape'){e.preventDefault();close(true);return;}
+  const items=choices();
+  if(e.key==='ArrowDown'||e.key==='ArrowUp'){
+   e.preventDefault();active=Math.max(0,Math.min(items.length-1,active+(e.key==='ArrowDown'?1:-1)));render();el('Options').children[active]?.scrollIntoView({block:'nearest'});
+  }else if(e.key==='Enter'){e.preventDefault();if(items[active])choose(items[active].value);}
+ };
+ document.addEventListener('pointerdown',e=>{if(!el('Picker').contains(e.target))close();});
+ el('Picker').addEventListener('focusout',e=>{if(!e.relatedTarget||!el('Picker').contains(e.relatedTarget))close();});
+ return {render,close};
 }
-function renderCohortOptions(){
- const field=$('currentCohort');
- $('cohortSelected').textContent=field.selectedOptions[0]?.text||'Todas las cohortes actuales';
- const choices=cohortChoices();
- cohortActive=Math.max(0,Math.min(cohortActive,choices.length-1));
- $('cohortOptions').innerHTML=choices.map((o,i)=>`<button type="button" role="option" tabindex="-1" id="cohortOption${i}" data-value="${escapeHtml(o.value)}" aria-selected="${field.value===o.value}" class="cohort-option ${i===cohortActive?'is-active':''}">${escapeHtml(o.text)}</button>`).join('');
- $('cohortNoMatch').hidden=choices.length>0;
- if(choices.length)$('cohortQuery').setAttribute('aria-activedescendant','cohortOption'+cohortActive);
- else $('cohortQuery').removeAttribute('aria-activedescendant');
- $('cohortOptions').querySelectorAll('button').forEach(b=>b.onclick=()=>chooseCurrentCohort(b.dataset.value));
+const currentCohortPicker=createCohortPicker('currentCohort','cohort','Todas las cohortes actuales');
+const previousCohortPicker=createCohortPicker('previousCohort','previousCohort','Todas las cohortes anteriores');
+function renderCohortOptions(id='currentCohort'){
+ (id==='previousCohort'?previousCohortPicker:currentCohortPicker).render();
 }
-function openCohortPicker(){
- if($('cohortToggle').disabled)return;
- $('cohortQuery').value='';
- cohortActive=Math.max(0,Array.from($('currentCohort').options).findIndex(o=>o.value===$('currentCohort').value));
- $('cohortPopup').hidden=false;
- $('cohortToggle').setAttribute('aria-expanded','true');
- $('cohortQuery').setAttribute('aria-expanded','true');
- renderCohortOptions();$('cohortQuery').focus();
- $('cohortOptions').children[cohortActive]?.scrollIntoView({block:'nearest'});
-}
-function closeCohortPicker(restoreFocus=false){
- $('cohortPopup').hidden=true;
- $('cohortToggle').setAttribute('aria-expanded','false');
- $('cohortQuery').setAttribute('aria-expanded','false');
- $('cohortQuery').removeAttribute('aria-activedescendant');
- if(restoreFocus)$('cohortToggle').focus();
-}
-function chooseCurrentCohort(value){
- $('currentCohort').value=value;closeCohortPicker(true);
- $('currentCohort').dispatchEvent(new Event('change',{bubbles:true}));
-}
-$('cohortToggle').onclick=()=>$('cohortPopup').hidden?openCohortPicker():closeCohortPicker(true);
-$('cohortToggle').onkeydown=e=>{if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();openCohortPicker();}};
-$('cohortQuery').oninput=()=>{cohortActive=0;renderCohortOptions();$('cohortOptions').scrollTop=0;};
-$('cohortQuery').onkeydown=e=>{
- if(e.key==='Escape'){e.preventDefault();closeCohortPicker(true);return;}
- const choices=cohortChoices();
- if(e.key==='ArrowDown'||e.key==='ArrowUp'){
-  e.preventDefault();cohortActive=Math.max(0,Math.min(choices.length-1,cohortActive+(e.key==='ArrowDown'?1:-1)));renderCohortOptions();$('cohortOptions').children[cohortActive]?.scrollIntoView({block:'nearest'});
- }else if(e.key==='Enter'){e.preventDefault();if(choices[cohortActive])chooseCurrentCohort(choices[cohortActive].value);}
-};
-document.addEventListener('pointerdown',e=>{if(!$('cohortPicker').contains(e.target))closeCohortPicker();});
-$('cohortPicker').addEventListener('focusout',e=>{if(!e.relatedTarget||!$('cohortPicker').contains(e.relatedTarget))closeCohortPicker();});
+function closeCohortPicker(){currentCohortPicker.close();previousCohortPicker.close();}
 
 let loadState='loading';
 let workbookLoadId=0;
