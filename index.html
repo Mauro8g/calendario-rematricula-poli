@@ -352,6 +352,15 @@ main{width:100%;max-width:none;margin:0;padding:12px clamp(14px,2vw,28px) 20px;m
  @media(max-width:900px){.cohort-popup{width:100%;min-width:0}}
 }
 
+
+@media screen {
+ #rematriculaView .filters{grid-template-columns:repeat(3,minmax(0,1fr)) minmax(60px,.5fr) repeat(2,minmax(0,1.05fr)) minmax(115px,1.7fr) auto;gap:8px}
+ #rematriculaView #reset{padding:6px 8px;font-size:12px;min-width:0;white-space:nowrap}
+ #studySemester:disabled{color:var(--muted);background:#f2f6fa;cursor:default}
+ @media(max-width:900px){#rematriculaView .filters{grid-template-columns:repeat(2,minmax(0,1fr))}}
+ @media(max-width:420px){#rematriculaView .filters{grid-template-columns:1fr}}
+}
+
 </style>
 </head>
 <body>
@@ -386,10 +395,11 @@ main{width:100%;max-width:none;margin:0;padding:12px clamp(14px,2vw,28px) 20px;m
 <label>Modalidad<select id="mode"><option value="">Todas las modalidades</option></select></label>
 <label>Nivel<select id="level"><option value="">Todos los niveles</option></select></label>
 <label>Período<select id="period"><option value="">Todos los períodos</option></select></label>
+<label class="semester-filter" title="Semestre de formación de la cohorte actual">Sem.<select id="studySemester" aria-label="Semestre de formación de la cohorte actual"><option value="">Todos</option><option value="1S">1S</option><option value="2S">2S</option><option value="3S">3S</option><option value="4S">4S</option></select></label>
 <div class="cohort-filter" id="previousCohortPicker"><label id="previousCohortLabel">Cohorte anterior</label><select id="previousCohort" hidden aria-hidden="true" tabindex="-1"><option value="">Todas las cohortes anteriores</option></select><button type="button" id="previousCohortToggle" aria-labelledby="previousCohortLabel previousCohortSelected" aria-haspopup="listbox" aria-expanded="false" aria-controls="previousCohortOptions"><span id="previousCohortSelected">Todas las cohortes anteriores</span><span aria-hidden="true">▾</span></button><div class="cohort-popup" id="previousCohortPopup" hidden><label class="cohort-query-label" for="previousCohortQuery">Buscar cohorte anterior</label><input id="previousCohortQuery" type="search" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="previousCohortOptions" placeholder="Ej. PGV-2S-A-2" autocomplete="off"><div id="previousCohortOptions" role="listbox" aria-label="Cohortes anteriores"></div><p id="previousCohortNoMatch" hidden>No hay cohortes anteriores que coincidan.</p></div></div>
 <div class="cohort-filter" id="cohortPicker"><label id="cohortLabel">Cohorte actual</label><select id="currentCohort" hidden aria-hidden="true" tabindex="-1"><option value="">Todas las cohortes actuales</option></select><button type="button" id="cohortToggle" aria-labelledby="cohortLabel cohortSelected" aria-haspopup="listbox" aria-expanded="false" aria-controls="cohortOptions"><span id="cohortSelected">Todas las cohortes actuales</span><span aria-hidden="true">▾</span></button><div class="cohort-popup" id="cohortPopup" hidden><label class="cohort-query-label" for="cohortQuery">Buscar cohorte actual</label><input id="cohortQuery" type="search" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="cohortOptions" placeholder="Ej. PGV-2S-A-2" autocomplete="off"><div id="cohortOptions" role="listbox" aria-label="Cohortes actuales"></div><p id="cohortNoMatch" hidden>No hay cohortes actuales que coincidan.</p></div></div>
 <label class="search-field">Buscar cohorte o descripción<input id="search" type="search" placeholder="Ej. PGV-2S-A-2 o maestría" autocomplete="off"></label>
-<button id="reset" type="button">Limpiar filtros</button>
+<button id="reset" type="button" aria-label="Limpiar filtros" title="Limpiar filtros">Limpiar</button>
 </section>
 <div id="loadStatus" class="load-status" role="status"><p id="loadMessage">Cargando calendarios…</p><button type="button" id="retryLoad" hidden>Intentar nuevamente</button><label id="localFileLabel" hidden>Seleccionar Excel<input type="file" id="localWorkbook" accept=".xlsx"></label></div>
 <div id="empty" class="empty" hidden><h2>No hay calendarios con estos filtros</h2><p class="muted">Prueba otra cohorte o limpia los filtros.</p></div>
@@ -439,9 +449,22 @@ function updateOptions(id,key,records,placeholder){
  field.value=values.includes(previous)?previous:'';
  if(id==='currentCohort'||id==='previousCohort')renderCohortOptions(id);
 }
+// Semestre de formación: segundo segmento del código de la cohorte actual.
+function cohortSemester(r){return String(r.cohorte||'').trim().toUpperCase().split('-')[1]||'';}
+function matchesStudySemester(r,value=$('studySemester').value){
+ return !value||r.nivel==='Pregrado'||cohortSemester(r)==='00'||cohortSemester(r)===value;
+}
+function syncStudySemester(records){
+ const field=$('studySemester');
+ field.disabled=loadState!=='ready'||!records.some(r=>r.nivel!=='Pregrado'&&cohortSemester(r)!=='00');
+ if(field.disabled)field.value='';
+}
+
+$('studySemester').addEventListener('change',filter);
 function syncFilters(){
  let records=data;
  for(const [id,key,label] of filterFields){
+  if(id==='previousCohort'){syncStudySemester(records);records=records.filter(r=>matchesStudySemester(r));}
   updateOptions(id,key,records,label);
   if($(id).value)records=records.filter(r=>r[key]===$(id).value);
  }
@@ -449,7 +472,7 @@ function syncFilters(){
 function filter(){
  syncFilters();
  const q=clean($('search').value.trim());
- filtered=data.filter(r=>(!$('previousCohort').value||r.cohorteAnterior===$('previousCohort').value)&&(!$('currentCohort').value||r.cohorte===$('currentCohort').value)&&(!$('period').value||r.periodo===$('period').value)&&(!$('mode').value||r.modalidad===$('mode').value)&&(!$('level').value||r.nivel===$('level').value)&&clean([r.detalle,r.cohorte,r.cohorteAnterior,r.ciclo,r.periodo,r.nivel,r.grupo,r.ingreso,r.semestre].join(' ')).includes(q));
+ filtered=data.filter(r=>matchesStudySemester(r)&&(!$('previousCohort').value||r.cohorteAnterior===$('previousCohort').value)&&(!$('currentCohort').value||r.cohorte===$('currentCohort').value)&&(!$('period').value||r.periodo===$('period').value)&&(!$('mode').value||r.modalidad===$('mode').value)&&(!$('level').value||r.nivel===$('level').value)&&clean([r.detalle,r.cohorte,r.cohorteAnterior,r.ciclo,r.periodo,r.nivel,r.grupo,r.ingreso,r.semestre].join(' ')).includes(q));
  filtered.sort(byStartDate);
  selected=filtered.length===1?filtered[0].id:null;
  if(filtered.length===1)view='timeline';
@@ -472,7 +495,7 @@ async function copySummary(r){
  try{await navigator.clipboard.writeText(text);$('feedback').textContent='Resumen copiado. Ya puedes pegarlo en tu respuesta.'}catch(e){$('copyText').value=text;$('copyDialog').showModal();$('copyText').select()}
 }
 $('search').addEventListener('input',filter);
-$('reset').onclick=()=>{closeCohortPicker();$('cohortQuery').value='';$('previousCohortQuery').value='';selected=null;for(const id of ['period','previousCohort','currentCohort','mode','level','search'])$(id).value='';filter()};
+$('reset').onclick=()=>{closeCohortPicker();$('cohortQuery').value='';$('previousCohortQuery').value='';selected=null;for(const id of ['period','studySemester','previousCohort','currentCohort','mode','level','search'])$(id).value='';filter()};
 $('timelineTab').onclick=()=>{view='timeline';render()};$('tableTab').onclick=()=>{view='table';render()};$('closeDialog').onclick=()=>$('copyDialog').close();
 // La hoja CALENDARIO es la única fuente de los calendarios de rematrícula.
 const columns=['CICLO','NIVEL MODALIDAD','DETALLE NIVEL','FIN DE CLASES PERIODO ANTERIOR','inicio pago ordinario','fin pago ordinario','fin pago extraordinario','fin pago extemporaneo','INICIO DE CLASES','FIN DE CLASES','Periodo','Semestre','INGRESO','Cohorte Actual','Cohorte Anterior','Descripcion cohorte','DESCRIPCIÓN DETALLADA COHORTE'];
