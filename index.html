@@ -354,7 +354,7 @@ main{width:100%;max-width:none;margin:0;padding:12px clamp(14px,2vw,28px) 20px;m
 
 
 @media screen {
- #rematriculaView .filters{grid-template-columns:repeat(3,minmax(0,1fr)) minmax(60px,.5fr) repeat(2,minmax(0,1.05fr)) minmax(115px,1.7fr) auto;gap:8px}
+ #rematriculaView .filters{grid-template-columns:repeat(3,minmax(0,1fr)) minmax(140px,1fr) repeat(2,minmax(0,1.05fr)) minmax(115px,1.7fr) auto;gap:8px}
  #rematriculaView #reset{padding:6px 8px;font-size:12px;min-width:0;white-space:nowrap}
  #studySemester:disabled{color:var(--muted);background:#f2f6fa;cursor:default}
  @media(max-width:900px){#rematriculaView .filters{grid-template-columns:repeat(2,minmax(0,1fr))}}
@@ -395,7 +395,7 @@ main{width:100%;max-width:none;margin:0;padding:12px clamp(14px,2vw,28px) 20px;m
 <label>Modalidad<select id="mode"><option value="">Todas las modalidades</option></select></label>
 <label>Nivel<select id="level"><option value="">Todos los niveles</option></select></label>
 <label>Período<select id="period"><option value="">Todos los períodos</option></select></label>
-<label class="semester-filter" title="Semestre de formación de la cohorte actual">Sem.<select id="studySemester" aria-label="Semestre de formación de la cohorte actual"><option value="">Todos</option><option value="1S">1S</option><option value="2S">2S</option><option value="3S">3S</option><option value="4S">4S</option></select></label>
+<label class="semester-filter" title="Semestre de formación de la cohorte actual">Semestre<select id="studySemester" aria-label="Semestre de formación de la cohorte actual"><option value="">Todos</option><option value="1S">1.er Semestre</option><option value="2S">2.do Semestre</option><option value="3S">3.er Semestre</option><option value="4S">4.to Semestre</option></select></label>
 <div class="cohort-filter" id="previousCohortPicker"><label id="previousCohortLabel">Cohorte anterior</label><select id="previousCohort" hidden aria-hidden="true" tabindex="-1"><option value="">Todas las cohortes anteriores</option></select><button type="button" id="previousCohortToggle" aria-labelledby="previousCohortLabel previousCohortSelected" aria-haspopup="listbox" aria-expanded="false" aria-controls="previousCohortOptions"><span id="previousCohortSelected">Todas las cohortes anteriores</span><span aria-hidden="true">▾</span></button><div class="cohort-popup" id="previousCohortPopup" hidden><label class="cohort-query-label" for="previousCohortQuery">Buscar cohorte anterior</label><input id="previousCohortQuery" type="search" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="previousCohortOptions" placeholder="Ej. PGV-2S-A-2" autocomplete="off"><div id="previousCohortOptions" role="listbox" aria-label="Cohortes anteriores"></div><p id="previousCohortNoMatch" hidden>No hay cohortes anteriores que coincidan.</p></div></div>
 <div class="cohort-filter" id="cohortPicker"><label id="cohortLabel">Cohorte actual</label><select id="currentCohort" hidden aria-hidden="true" tabindex="-1"><option value="">Todas las cohortes actuales</option></select><button type="button" id="cohortToggle" aria-labelledby="cohortLabel cohortSelected" aria-haspopup="listbox" aria-expanded="false" aria-controls="cohortOptions"><span id="cohortSelected">Todas las cohortes actuales</span><span aria-hidden="true">▾</span></button><div class="cohort-popup" id="cohortPopup" hidden><label class="cohort-query-label" for="cohortQuery">Buscar cohorte actual</label><input id="cohortQuery" type="search" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="cohortOptions" placeholder="Ej. PGV-2S-A-2" autocomplete="off"><div id="cohortOptions" role="listbox" aria-label="Cohortes actuales"></div><p id="cohortNoMatch" hidden>No hay cohortes actuales que coincidan.</p></div></div>
 <label class="search-field">Buscar cohorte o descripción<input id="search" type="search" placeholder="Ej. PGV-2S-A-2 o maestría" autocomplete="off"></label>
@@ -452,12 +452,11 @@ function updateOptions(id,key,records,placeholder){
 // Semestre de formación: segundo segmento del código de la cohorte actual.
 function cohortSemester(r){return String(r.cohorte||'').trim().toUpperCase().split('-')[1]||'';}
 function matchesStudySemester(r,value=$('studySemester').value){
- return !value||r.nivel==='Pregrado'||cohortSemester(r)==='00'||cohortSemester(r)===value;
+ return !value||cohortSemester(r)===value;
 }
 function syncStudySemester(records){
  const field=$('studySemester');
- field.disabled=loadState!=='ready'||!records.some(r=>r.nivel!=='Pregrado'&&cohortSemester(r)!=='00');
- if(field.disabled)field.value='';
+ field.disabled=loadState!=='ready';
 }
 
 $('studySemester').addEventListener('change',filter);
